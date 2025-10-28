@@ -1,0 +1,73 @@
+#root {
+  /* max-width: 1280px; */
+  /*margin: 0 auto;
+  padding: 2rem; */
+  /* text-align: center; */
+}
+
+body, html {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+}
+
+.nav-bar {
+  height: 8vh;
+  width: 100vw;
+  background-color: var(--background);
+  color: var(--title);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.8rem;
+  font-weight: bold;
+}
+
+.back-login {
+  position: relative; /* necessário para centralizar o conteúdo */
+  height: 92vh;
+  width: 100vw;
+  overflow: hidden;
+}
+
+/* Imagem */
+.login-image {
+  position: absolute;
+  inset: 0; /* ocupa tudo (top, right, bottom, left = 0) */
+  width: 100%;
+  height: 100%;
+  object-fit: cover; /* cobre o fundo sem distorcer */
+  z-index: 1;
+}
+
+.login-box {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 2; /* acima da imagem */
+  
+  background: rgba(255, 255, 255, 0.8); /* fundo translúcido */
+  padding: 2rem;
+  border-radius: 16px;
+  box-shadow: 0 0 20px rgba(0,0,0,0.3);
+  text-align: center;
+}
+
+@media (max-width: 768px) {
+  
+  
+  .nav-bar {
+    height: 6vh;
+    font-size: 1.6rem;
+  }
+
+  .back-login {
+    height: 94vh;
+  }
+
+  .login-box {
+    width: 80%;
+    padding: 1.5rem;
+  }
+}
