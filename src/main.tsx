@@ -7,12 +7,12 @@ import { NotificationProvider } from "./context/NotificationContext";
 import { BrowserRouter } from 'react-router-dom';
 
 createRoot(document.getElementById('root')!).render(
-  <StrictMode>
-    <BrowserRouter>
-      <NotificationProvider>
-        <App />
-      </NotificationProvider>
-    </BrowserRouter>
+    <StrictMode>
+        <BrowserRouter>
+            <NotificationProvider>
+                <App />
+            </NotificationProvider>
+        </BrowserRouter>
     
-  </StrictMode>,
+    </StrictMode>,
 )

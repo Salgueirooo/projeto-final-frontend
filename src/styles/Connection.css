@@ -1,10 +1,10 @@
 .connection {
-  position: fixed;
-  bottom: 0;
-  left: 0;
-  padding: 5px;
-  font-size: 0.6rem;
-  z-index: 2;
-  background-color: var(--black);
-  border-radius: 0 6px 0 0px;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    padding: 5px;
+    font-size: 0.6rem;
+    z-index: 2;
+    background-color: var(--black);
+    border-radius: 0 6px 0 0px;
 }
