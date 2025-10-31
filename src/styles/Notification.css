@@ -1,0 +1,62 @@
+.notification-sidebar {
+  position: fixed;
+  right: 0.5rem;
+  bottom: 0.5rem;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 1rem;
+  z-index: 999;
+  
+
+  max-height: calc(100vh - var(--bar-height, 8vh) - 1rem);
+  /* Se não tiveres --bar-height definida, fica equivalente a ~92% da viewport */
+
+  overflow-y: auto;          /* permite scroll vertical */
+  padding-right: 0.3rem; 
+
+}
+
+.notification-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem;
+}
+
+.notification-info {
+  background-color: var(--black);
+  border-radius: 10px;
+  padding: 1rem;
+  width: 260px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+}
+
+.notification-error {
+  background-color: var(--orange);
+  border-radius: 10px;
+  padding: 1rem;
+  width: 260px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+}
+
+.notification-error .notification-date {
+  font-size: 0.8rem;
+  color: var(--orange);
+  margin-bottom: 0.3rem;
+}
+
+.notification-error .notification-date {
+  font-size: 0.8rem;
+  color: var(--black);
+  margin-bottom: 0.3rem;
+}
+
+.notification-message {
+  font-size: 1rem;
+  font-weight: 500;
+  color: var(--white);
+
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  white-space: normal;
+}
