@@ -16,9 +16,11 @@ export const useNotification = () => {
 export const NotificationProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
     const [notifications, setNotifications] = useState<NotificationDTO[]>([]);
 
+    let nextId = 0;
+
     const addNotification = (message: string, isError: boolean) => {
         const newNotification: NotificationDTO = {
-            id: crypto.randomUUID(),
+            id: (nextId++).toString(),
             message,
             date: new Date().toLocaleTimeString(),
             isError
@@ -37,8 +39,8 @@ export const NotificationProvider: React.FC<{ children: React.ReactNode }> = ({ 
         <NotificationContext.Provider value={{ addNotification }}>
         {children}
         <div className="notification-sidebar">
-            {notifications.map((n, i) => (
-            <Notification key={i} notification={n} />
+            {notifications.map((n) => (
+                <Notification key={n.id} notification={n} />
             ))}
         </div>
         </NotificationContext.Provider>

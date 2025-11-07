@@ -1,9 +1,11 @@
 import axios from "axios";
 
+const BASE_URL = import.meta.env.VITE_API_BASE_URL;
+
 let isAlertShown = false;
 
 const api = axios.create({
-    baseURL: "http://192.168.1.66:8080/api",
+    baseURL: `${BASE_URL}/api`,
     headers: {
         "Content-Type": "application/json",
     },
@@ -28,7 +30,8 @@ api.interceptors.response.use(
 
     const isPublicEndpoint =
       url?.includes("/auth/login") ||
-      url?.includes("/auth/register-client");
+      url?.includes("/auth/register-client") ||
+      url?.includes("/initialize");
 
     if (status === 401 && !isAlertShown && !isPublicEndpoint) {
       isAlertShown = true;

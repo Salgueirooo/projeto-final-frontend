@@ -1,0 +1,73 @@
+.show-bakery {
+    height: 20rem;
+    width: 22rem;
+    
+    background-color: var(--black);
+    justify-items: center;
+    
+    align-content:center;
+    /* gap: 10px; */
+    /* display: flex; */
+    border-radius: 10px;
+    
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    white-space: normal;
+}
+
+.show-bakery h3 {
+    
+    font-size: 1.3rem;
+    /* flex: 1; */
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    width: 90%;
+    /* display: flex;
+    justify-content: center; */
+    text-align: center; 
+}
+
+.show-bakery img {
+    max-width: 100%;
+    height: 45%;
+    object-fit: cover;     
+    object-position: center;
+    border-radius: 8px;
+    display: flex;
+}
+
+.show-bakery .bots {
+    display: flex;
+    gap: 0.6rem;
+}
+
+.show-bakery button {
+    
+    /* height: 60%; */
+    /* padding-top: 0.4rem; */
+    padding-bottom: 0%;
+    align-items: center;
+    border: none;
+    border-radius: 8px;
+    background-color: var(--yellow);
+    color: var(--black);
+    font-size: 1rem;
+    font-weight:bold;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+    display: flex;
+    padding: 0.5rem;
+}
+
+button:hover {
+    background-color: var(--sec-yellow);
+}
+
+.bots .info {
+    background-color: var(--blue);
+}
+
+.bots .info:hover {
+    background-color: var(--sec-blue);
+}

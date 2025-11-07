@@ -1,8 +1,9 @@
 import { Routes, Route } from 'react-router-dom';
 import InitPage from './pages/InitPage';
-import RegisterForm from './components/registerForm';
+import RegisterForm from './components/RegisterForm';
 import Security from './context/SecurityContext';
-import SelectBakeryPage from './pages/SelectBakeryPage';
+import SelectBakeryPage from './pages/ChooseBakeryPage';
+import HomePage from './pages/HomePage';
 
 const App: React.FC = () => {
   
@@ -16,6 +17,12 @@ const App: React.FC = () => {
             <Route path="/select-bakery" element={
                 <Security allowedRoles={roles} >
                     <SelectBakeryPage />
+                </Security>
+            }/>
+
+            <Route path="/home" element={
+                <Security allowedRoles={roles} >
+                    <HomePage />
                 </Security>
             }/>
           

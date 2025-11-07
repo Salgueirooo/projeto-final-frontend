@@ -2,7 +2,7 @@ import api from "../services/api";
 import { useNotification } from '../context/NotificationContext'
 import loginImage from '/src/assets/login-image.jpg'
 import '/src/styles/LoginPage.css'
-import CheckConn from './checkConnection';
+import CheckConn from './CheckConnection';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 

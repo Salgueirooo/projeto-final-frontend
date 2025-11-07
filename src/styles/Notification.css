@@ -32,7 +32,7 @@
 }
 
 .notification-error {
-    background-color: var(--orange);
+    background-color: var(--yellow);
     border-radius: 10px;
     padding: 1rem;
     width: 260px;
@@ -41,7 +41,7 @@
 
 .notification-error .notification-date {
     font-size: 0.8rem;
-    color: var(--orange);
+    color: var(--yellow);
     margin-bottom: 0.3rem;
 }
 

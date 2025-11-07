@@ -1,6 +1,6 @@
 import '/src/styles/LoginPage.css'
-import LoginForm from "../components/loginForm";
-import RegisterForm from '../components/registerForm';
+import LoginForm from "../components/LoginForm";
+import RegisterForm from '../components/RegisterForm';
 import { useState } from 'react';
 
 type Mode = "login" | "register";

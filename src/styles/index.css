@@ -12,8 +12,33 @@
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
 
-    --orange: #ecac23;
+    --yellow: #ecac23;
+    --sec-yellow:#b58723;
     --black: #232323;
     --gray: #3b3b3b;
     --white: #F2F4F3;
+    --blue: rgb(102, 194, 194);
+    --sec-blue: rgb(81, 164, 164);
+
+    
+}
+
+*::-webkit-scrollbar {
+    width: 8px;
+}
+
+*::-webkit-scrollbar-track {
+    background: #2a2a2a;
+    border-radius: 10px;
+}
+
+*::-webkit-scrollbar-thumb {
+    background-color: var(--yellow);
+    border-radius: 10px;
+    border: 2px solid var(--yellow);
+}
+
+*::-webkit-scrollbar-thumb:hover {
+    background-color: var(--sec-yellow);
+    border: 2px solid var(--sec-yellow);
 }

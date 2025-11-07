@@ -1,0 +1,97 @@
+.back-modal {
+    position:absolute;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: calc(100vh - var(--bar-height));
+    z-index: 5;
+    background-color: rgba(0, 0, 0, 0.7);
+    justify-items: center;
+    align-content: center;
+    
+}
+
+.bakery button {
+    
+    position: absolute;
+    top: 25%;
+    right: 31%;
+    
+    display: flex;
+    align-items: center;
+    border: none;
+    border-radius: 8px;
+    background-color: var(--yellow);
+    color: var(--black);
+    font-size: 1.2rem;
+    font-weight:bold;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+    padding: 0.4rem;
+}
+
+.bakery {
+    height: 50%;
+    width: 38%;
+    background-color: var(--black);
+    border-radius: 8px;
+    
+    align-content:center;
+}
+
+.bakery .container {
+    max-height: 100%;
+    overflow-y: auto;
+    
+}
+
+.bakery .firstLine {
+    width: 90%;
+    height: calc(100% - 6.6rem - 20%);
+    justify-self: center;
+    display:flex;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 2rem;
+}
+
+.firstLine img {
+    max-width: 30%;
+    max-height: 100%;
+    object-fit: cover;     
+    object-position: center;
+    border-radius: 8px;
+
+}
+
+.bakery h3 {
+    margin: 0;
+    /* flex: 1;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;   */
+    font-size: 1.6rem;
+    color: var(--yellow);
+    
+    overflow-y: auto;
+}
+
+.bakery .lastLine {
+    margin-top: 0.6rem;
+    width: 90%;
+    height: 6rem;
+    
+    overflow-y: auto;
+    
+    justify-self: center;
+}
+
+.bakery h4 {
+    margin: 0.3rem;
+    /* flex: 1; */
+    /* text-overflow: ellipsis; */
+    /* white-space: nowrap; */
+    color: var(--white);
+    font-size: 1.1rem;
+}
+

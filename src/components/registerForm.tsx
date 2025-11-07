@@ -2,7 +2,6 @@ import api from "../services/api";
 import { useNotification } from '../context/NotificationContext'
 import loginImage from '/src/assets/login-image.jpg'
 import '/src/styles/LoginPage.css'
-import CheckConn from './checkConnection';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
@@ -31,9 +30,15 @@ const RegisterForm: React.FC<Props> = ({ onSwitch }) => {
             addNotification("Conta criada.", false);
             navigate("/");
 
-        } catch (err) {
-            console.error(err);
-            addNotification("Erro ao criar a conta.", true);
+        } catch (err: any) {
+            if(err.response) {
+                console.error(err.response.data);
+                addNotification(err.response.data, true);
+            }
+            else {
+                console.error(err);
+                addNotification("Erro ao criar a conta.", true);
+            }
         }
     };
 

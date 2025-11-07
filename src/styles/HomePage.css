@@ -1,0 +1,115 @@
+:root {
+    --home-bar-width: 15rem;
+}
+
+.notifications {
+    /* font-size: 1.5rem; */
+    font-size: 1.5rem;
+    right: calc(var(--bar-height) + 0.5rem) ;
+}
+
+.back-home {
+    /* position: relative; */
+    height: calc(100vh - var(--bar-height));
+    width: 100vw;
+    /* overflow: hidden; */
+    /* background-color: var(--gray); */
+    /* border-radius: 10px; */
+    /* justify-self: center; */
+    display: flex;
+}
+
+.home-bar {
+    height: 100%;
+    width: var(--home-bar-width);
+    background-color: var(--black);
+}
+
+.home-body {
+    width: calc(100vw - var(--home-bar-width) - 1rem);
+    height: calc(100% - 1rem);
+    background-color: var(--gray);
+    border-radius: 10px;
+}
+
+.home-bar button {
+    width: calc(100% - 1rem);
+    display: flex;
+    justify-self: center;
+    font-size: 1rem;
+    align-items: center;
+    padding: 0.6rem;
+    margin-bottom: 0.5rem;
+    border: none;
+    border-radius: 8px;
+    
+    /* height: calc(var(--bar-height) - 1rem); */
+    
+    font-weight:bold;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+    /* display: flex;
+    align-items: center;
+    justify-content: center; */
+
+    /* display: flex;
+    justify-content: space-between;  Utilizar noutros botoes*/ 
+}
+
+.home-bar .home-go-back {
+    background-color: var(--yellow);
+    color: var(--black);
+    gap: 0.5rem;
+    /* margin-bottom: 1rem; */
+    display: flex;
+}
+
+.home-bar .home-go-back:hover {
+    background-color: var(--sec-yellow);
+    color: var(--black);
+}
+
+.back-home .separators {
+    padding-top: 0.5rem;
+    margin-left: 0.5rem;
+    font-size: 0.8rem;
+    padding-bottom: 0.1rem;
+    font-weight: bolder;
+    color: var(--yellow);
+}
+
+
+
+.home-bar .text {
+    /* font-size: 1.1rem; */
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    max-width: 85%;
+}
+
+.home-bar .op {
+    display: flex;
+    justify-content: space-between;
+    background-color: var(--black);
+    color: var(--white);
+    font-weight: normal;
+}
+
+.home-bar .op-selected {
+    display: flex;
+    justify-content: space-between;
+    background-color: var(--black);
+    color: var(--black);
+}
+
+.home-bar .op:hover {
+    background-color: var(--yellow);
+    color: var(--black);
+}
+
+.home-bar .op-left {
+    display: flex;
+    gap: 0.5rem;
+    justify-content: center;
+}
