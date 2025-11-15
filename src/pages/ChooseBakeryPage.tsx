@@ -73,9 +73,13 @@ const SelectBakeryPage: React.FC = () => {
                     {loadingBakeries ? (
                         <div className="spinner"></div>
                     ) : (
-                        bakeries.map((bakery) => (
+                        bakeries.length === 0 ? (
+                            <h3>Nenhuma Pastelaria encontrada.</h3>
+                        ) : (
+                            bakeries.map((bakery) => (
                             <SelectBakery key={bakery.id} bakery={bakery} />
-                        ))
+                        )))
+                        
                     )}
                     
                 </div>

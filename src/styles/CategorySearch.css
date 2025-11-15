@@ -1,0 +1,26 @@
+.title {
+    height: 4rem;
+    justify-items: center;
+    align-content: center;
+}
+
+.title h2 {
+    font-size: 1.4rem;
+}
+
+.category-container {
+    /* background-color: aquamarine; */
+    display:flex;
+    
+    justify-self: center;
+    align-self: center;
+    width: 90%;
+    height: calc(100% - 4.5rem);
+    
+    overflow-y: auto;
+    gap: 1rem;
+    
+    flex-wrap: wrap;
+    justify-content: center;
+    align-content: flex-start;
+}

@@ -18,6 +18,10 @@ import { IoIosArchive, IoIosCart, IoIosStats } from "react-icons/io";
 import { GoGraph } from "react-icons/go";
 import { GrDocumentUser } from "react-icons/gr";
 import ProductSearch from "../components/ProductSearch";
+import CategorySelect from "../components/CategorySelect";
+import type { CategoryDTO } from "../dto/categoryDTO";
+import CategorySearch from "../components/CategorySearch";
+import ShoppingCart from "../components/ShoppingCart";
 
 interface BakeryInfoInterface {
     data: bakeryDTO
@@ -233,8 +237,9 @@ const HomePage: React.FC = () => {
                     </button>
                 </div>
                 <div className="home-body">
+                    {selected===1 && (<CategorySearch />)}
                     {selected===2 && (<ProductSearch />)}
-                    
+                    {selected===3 && (<ShoppingCart />)}
                 </div>
             </div>
         </>

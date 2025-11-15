@@ -56,7 +56,7 @@ const ProductSelect: React.FC<ProductInfoInterface> = ({product}) => {
                 )}
                 
                 <div className={product.discount > 0 ? "product-info" : "product-info-small"}>
-                    <img src={`${BASE_URL}${product.image}`} alt="Logotipo" />
+                    <img src={`${BASE_URL}${product.image}`} alt="imagem" />
                     <h3 title={product.name}>{product.name}</h3>
                     <div className="bots">
                         <div className="prices">
