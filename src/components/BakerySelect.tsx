@@ -10,10 +10,10 @@ import { useNavigate } from "react-router-dom"
 const BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
 interface BakeryInfoInterface {
-    data: bakeryDTO
+    bakery: bakeryDTO
 }
 
-const SelectBakery: React.FC<BakeryInfoInterface> = ({data}) => {
+const SelectBakery: React.FC<BakeryInfoInterface> = ({bakery}) => {
 
     const [modalInfo, setModalInfo] = useState<boolean>(false);
 
@@ -23,13 +23,13 @@ const SelectBakery: React.FC<BakeryInfoInterface> = ({data}) => {
         <>
             <div className="show-bakery" >
                 
-                <img src={`${BASE_URL}${data.logo}`} alt="Logotipo" />
-                <h3 title={data.name}>{data.name}</h3>
+                <img src={`${BASE_URL}${bakery.logo}`} alt="Logotipo" />
+                <h3 title={bakery.name}>{bakery.name}</h3>
                 <div className="bots">
                     <button className="info" onClick={() => setModalInfo(true)}>
                         <FaInfoCircle />&nbsp;Informação
                     </button>
-                    <button className="select" onClick={() => navigate("/home", { state: { bakery: data } })}>
+                    <button className="select" onClick={() => navigate("/home", { state: { bakery: bakery } })}>
                         Selecionar&nbsp;<FaArrowCircleRight />
                     </button>
                 </div>
@@ -38,7 +38,7 @@ const SelectBakery: React.FC<BakeryInfoInterface> = ({data}) => {
                 
             </div>
             {modalInfo && (
-                <BakeryInfo data={data} onSwitch={(b) => setModalInfo(b)}/>
+                <BakeryInfo bakery={bakery} onSwitch={(b) => setModalInfo(b)}/>
             )}
         </>
     )

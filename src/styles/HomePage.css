@@ -1,5 +1,5 @@
 :root {
-    --home-bar-width: 15rem;
+    --home-bar-width: 18rem;
 }
 
 .notifications {
@@ -20,9 +20,10 @@
 }
 
 .home-bar {
-    height: 100%;
+    height: calc(100% - 1rem);
     width: var(--home-bar-width);
     background-color: var(--black);
+    overflow-y: auto;
 }
 
 .home-body {
@@ -39,7 +40,7 @@
     font-size: 1rem;
     align-items: center;
     padding: 0.6rem;
-    margin-bottom: 0.5rem;
+    margin-bottom: 0.2rem;
     border: none;
     border-radius: 8px;
     
@@ -70,7 +71,7 @@
 }
 
 .back-home .separators {
-    padding-top: 0.5rem;
+    padding-top: 0.4rem;
     margin-left: 0.5rem;
     font-size: 0.8rem;
     padding-bottom: 0.1rem;
@@ -85,7 +86,7 @@
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
-    max-width: 85%;
+    max-width: 89%;
 }
 
 .home-bar .op {
@@ -99,8 +100,9 @@
 .home-bar .op-selected {
     display: flex;
     justify-content: space-between;
-    background-color: var(--black);
+    background-color: var(--yellow);
     color: var(--black);
+    font-weight: normal;
 }
 
 .home-bar .op:hover {

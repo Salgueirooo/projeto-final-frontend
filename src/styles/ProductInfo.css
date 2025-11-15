@@ -1,0 +1,177 @@
+.back-modal {
+    position:absolute;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100%;
+    z-index: 5;
+    background-color: rgba(0, 0, 0, 0.7);
+    justify-items: center;
+    align-content: center;
+    
+}
+
+.product button {
+    
+    /* position: absolute;
+    top: 25%;
+    right: 33%; */
+    justify-self: end;
+    display: flex;
+    align-items: center;
+    border: none;
+    border-radius: 8px;
+    background-color: var(--yellow);
+    color: var(--black);
+    font-size: 1.2rem;
+    font-weight:bold;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+    padding: 0.4rem;
+}
+
+.rating button {
+    /* font-weight: normal; */
+    font-size: 1rem;
+    margin-left: rem;
+}
+
+.product button:hover {
+    background-color: var(--sec-yellow);
+}
+
+.product {
+    /* height: 25rem; */
+    width: 30rem;
+    background-color: var(--black);
+    border-radius: 8px;
+    
+    /* align-content:center; */
+}
+
+.product .container {
+    max-height: 100%;
+    /* width: 60%; */
+    /* overflow-y: auto; */
+    /* width: 2%; */
+    overflow: hidden;
+    /* text-overflow: ellipsis;
+    white-space: nowrap;  */
+    flex: 1;
+    
+}
+
+.container .name {
+    margin-bottom: 1.5rem;
+    font-size: 1.6rem;
+    color: var(--yellow);
+}
+
+.product .firstLine {
+    /* padding-top: 8%; */
+    width: 90%;
+    height: 40%;
+    justify-self: center;
+    display:flex;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 1rem;
+}
+
+.firstLine img {
+    max-width: 40%;
+    max-height: 100%;
+    object-fit: cover;     
+    object-position: center;
+    border-radius: 8px;
+
+}
+
+.product h3 {
+    margin: 0;
+    flex: 1;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;  
+    font-size: 1.4rem;
+    color: var(--white);
+    /* width: 20%; */
+    /* overflow-y: auto; */
+}
+
+.product .no-discount {
+    /* color: var(--yellow); */
+    font-size: 1rem;
+    font-weight: normal;
+}
+
+.product .lastLine {
+    margin-top: 0.6rem;
+    padding-bottom: 1rem;
+    width: 90%;
+    /* height: 6rem; */
+    
+    /* overflow-y: auto; */
+    
+    justify-self: center;
+}
+
+.container h4 {
+    /* margin: 0rem; */
+    margin-bottom: 0.4rem;
+    
+    /* flex: 1; */
+    /* text-overflow: ellipsis; */
+    /* white-space: nowrap; */
+    /* color: var(--white); */
+    font-size: 1.1rem;
+    color: var(--yellow);
+}
+
+.lastLine h4 {
+    margin: 0rem;
+    margin-bottom: 0.4rem;
+    /* flex: 1; */
+    /* text-overflow: ellipsis; */
+    /* white-space: nowrap; */
+    color: var(--white);
+    font-size: 1.1rem;
+    /* color: var(--yellow); */
+    display: flex;
+    align-items: center;
+}
+
+.lastLine b {
+    color: var(--yellow)
+}
+
+.lastLine .description {
+    max-height: 3.2rem;
+    overflow-y: auto;
+}
+
+.lastLine .rating {
+    justify-content:space-between;
+}
+
+.rating .stars {
+    color: var(--yellow);
+}
+
+.comments {
+    padding-top: 1rem;
+}
+
+.comments .comments-container {
+    margin-top: 1rem;
+    max-height: 6rem;
+    overflow-y: auto;
+    width: calc(100% - 2rem);
+    justify-self: center;
+}
+
+.comments-container h5 {
+    color: var(--yellow);
+    margin: 0;
+    margin-top: 0.6rem;
+}

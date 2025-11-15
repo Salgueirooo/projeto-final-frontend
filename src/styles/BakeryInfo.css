@@ -14,8 +14,8 @@
 .bakery button {
     
     position: absolute;
-    top: 25%;
-    right: 31%;
+    top: 10.3rem;
+    right: 33rem;
     
     display: flex;
     align-items: center;
@@ -31,8 +31,8 @@
 }
 
 .bakery {
-    height: 50%;
-    width: 38%;
+    height: 20rem;
+    width: 30rem;
     background-color: var(--black);
     border-radius: 8px;
     

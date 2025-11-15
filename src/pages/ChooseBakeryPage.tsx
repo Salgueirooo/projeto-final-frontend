@@ -2,7 +2,7 @@ import type { bakeryDTO } from "../dto/bakeryDTO";
 import "../styles/ChooseBakery.css"
 
 import BakeryInfo from "../components/BakeryInfo"
-import SelectBakery from "../components/SelectBakery";
+import SelectBakery from "../components/BakerySelect";
 import { useEffect, useState } from "react";
 import api from "../services/api";
 import { useNotification } from "../context/NotificationContext";
@@ -36,14 +36,19 @@ const SelectBakeryPage: React.FC = () => {
 
     const [bakeries, setBakeries] = useState<bakeryDTO[]>([]);
 
+    const [loadingBakeries, setLoadingBakeries] = useState<boolean>(false);
+
     useEffect (() => {
         const getBakeries = async () => {
             try {
+                setLoadingBakeries(true);
                 const response = await api.get("/bakery/all");
                 setBakeries(response.data);
             } catch (err) {
                 console.error(err);
                 addNotification("Erro na comunicação com o Servidor.", true);
+            } finally {
+                setLoadingBakeries(false);
             }
         };
 
@@ -51,7 +56,6 @@ const SelectBakeryPage: React.FC = () => {
     }, []);
 
     const haddleLogout = useLogout();
-
 
     return (
         <>
@@ -66,9 +70,14 @@ const SelectBakeryPage: React.FC = () => {
             <div className="back-select">
                 <div className="select-header"><h2>Bem-vindo, {username}! Selecione uma Pastelaria.</h2></div>
                 <div className="bakery-container">
-                    {bakeries.map((bakery) => (
-                        <SelectBakery key={bakery.id} data={bakery} />
-                    ))}
+                    {loadingBakeries ? (
+                        <div className="spinner"></div>
+                    ) : (
+                        bakeries.map((bakery) => (
+                            <SelectBakery key={bakery.id} bakery={bakery} />
+                        ))
+                    )}
+                    
                 </div>
             </div>
         </>
