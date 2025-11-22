@@ -22,6 +22,8 @@ import CategorySelect from "../components/CategorySelect";
 import type { CategoryDTO } from "../dto/categoryDTO";
 import CategorySearch from "../components/CategorySearch";
 import ShoppingCart from "../components/ShoppingCart";
+import OrderShow from "../components/OrderShow";
+import SearchOrders from "../components/OrdersSearch";
 
 interface BakeryInfoInterface {
     data: bakeryDTO
@@ -108,7 +110,7 @@ const HomePage: React.FC = () => {
                     <button onClick={() => setSelected(4)} className={selected === 4? "op-selected" : "op"}>
                         <div className="op-left">
                             <FaRegCalendarCheck />
-                            <span className="text">Confirmadas</span>
+                            <span className="text">Acompanhar</span>
                         </div>
                         <FaArrowCircleRight />
                     </button>
@@ -239,7 +241,9 @@ const HomePage: React.FC = () => {
                 <div className="home-body">
                     {selected===1 && (<CategorySearch />)}
                     {selected===2 && (<ProductSearch />)}
-                    {selected===3 && (<ShoppingCart />)}
+                    {selected===3 && (<ShoppingCart onSwitch={(op) => setSelected(op)}/>)}
+                    
+                    {selected===5 && (<SearchOrders />)}
                 </div>
             </div>
         </>

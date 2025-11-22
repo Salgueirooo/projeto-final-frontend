@@ -1,3 +1,8 @@
+.back {
+    height: 100vh;
+    width: 100vw;
+}
+
 .top-bar {
     height: var(--bar-height);
     width: 100vw;
@@ -53,7 +58,7 @@
 }
 
 .back-select {
-    position: relative;
+    /* position: relative; */
     height: calc(100vh - var(--bar-height) - 1rem);
     width: calc(100vw - 2rem);
     overflow: hidden;
@@ -76,14 +81,13 @@
 
 .bakery-container {
     display:flex;
-    
+    /* background-color: aqua; */
     justify-self: center;
     align-self: center;
-    width: 80%;
+    width: calc(100% - 1rem);
     height: calc(100% - 5.5rem);
-    
     overflow-y: auto;
-    gap: 1rem;
+    gap: 0.6rem;
     
     flex-wrap: wrap;
     justify-content: center;

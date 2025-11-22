@@ -3,7 +3,7 @@
     top: 0;
     left: 0;
     width: 100vw;
-    height: calc(100vh - var(--bar-height));
+    height: 100%;
     z-index: 5;
     background-color: rgba(0, 0, 0, 0.7);
     justify-items: center;
@@ -14,8 +14,8 @@
 .bakery button {
     
     position: absolute;
-    top: 10.3rem;
-    right: 33rem;
+    top: calc(50% - 10rem);
+    right: calc(50% - 15rem);
     
     display: flex;
     align-items: center;

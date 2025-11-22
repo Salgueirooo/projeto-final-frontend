@@ -15,6 +15,8 @@ const ProductSearch: React.FC = () => {
 
     const { addNotification } = useNotification();
 
+    const [searched, setSearched] = useState<boolean>(false);
+
     const getProductsByName = async (name: string) => {
         try {
             setLoadingProducts(true);
@@ -42,7 +44,7 @@ const ProductSearch: React.FC = () => {
                         onChange={(e) => setProductName(e.target.value)}
                         required
                     />
-                    <button disabled={productName.trim().length === 0} onClick={() => getProductsByName(productName)}>
+                    <button disabled={productName.trim().length === 0} onClick={() => {getProductsByName(productName); setSearched(true)}}>
                         <IoSearch /></button>
                 </div>
             </div>
@@ -52,7 +54,13 @@ const ProductSearch: React.FC = () => {
                 ) : (
                     <>
                         {products.length === 0 ? (
-                            <h3>Nenhum produto encontrado.</h3>
+
+                            !searched ? (
+                                <h3>Indique o nome do produto que deseja encontrar.</h3>
+                            ) : (
+                                <h3>Nenhum produto encontrado.</h3>
+                            )
+                            
                         ) : (
                             products.map((product) => (
                                 <ProductSelect key={product.id} product={product} />

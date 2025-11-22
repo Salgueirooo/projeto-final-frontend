@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useState } from "react";
+import React, { createContext, useContext, useRef, useState } from "react";
 import Notification, { type NotificationDTO } from "../components/Notification";
 
 interface NotificationContextType {
@@ -16,11 +16,11 @@ export const useNotification = () => {
 export const NotificationProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
     const [notifications, setNotifications] = useState<NotificationDTO[]>([]);
 
-    let nextId = 0;
+    const nextId = useRef(0);
 
     const addNotification = (message: string, isError: boolean) => {
         const newNotification: NotificationDTO = {
-            id: (nextId++).toString(),
+            id: (nextId.current++).toString(),
             message,
             date: new Date().toLocaleTimeString(),
             isError
@@ -32,7 +32,7 @@ export const NotificationProvider: React.FC<{ children: React.ReactNode }> = ({ 
             setNotifications((prev) =>
             prev.filter((n) => n.id !== newNotification.id)
             );
-        }, 5000);
+        }, 3000);
     };
 
     return (

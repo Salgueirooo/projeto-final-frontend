@@ -15,7 +15,7 @@ api.interceptors.request.use(
     (config) => {
         const token = localStorage.getItem("token");
         if (token) {
-        config.headers["Authorization"] = `Bearer ${token}`;
+            config.headers["Authorization"] = `Bearer ${token}`;
         }
         return config;
     },
@@ -23,25 +23,25 @@ api.interceptors.request.use(
 );
 
 api.interceptors.response.use(
-  (response) => response,
-  (error) => {
-    const status = error.response?.status;
-    const url = error.config?.url;
+    (response) => response,
+    (error) => {
+        const status = error.response?.status;
+        const url = error.config?.url;
 
-    const isPublicEndpoint =
-      url?.includes("/auth/login") ||
-      url?.includes("/auth/register-client") ||
-      url?.includes("/initialize");
+        const isPublicEndpoint =
+            url?.includes("/auth/login") ||
+            url?.includes("/auth/register-client") ||
+            url?.includes("/initialize");
 
-    if (status === 401 && !isAlertShown && !isPublicEndpoint) {
-      isAlertShown = true;
-      alert("A sua sessão expirou. Irá ser redirecionado para a página de login.");
-      localStorage.removeItem("token");
-      window.location.href = "/";
+        if (status === 401 && !isAlertShown && !isPublicEndpoint) {
+            isAlertShown = true;
+            alert("A sua sessão expirou. Irá ser redirecionado para a página de login.");
+            localStorage.removeItem("token");
+            window.location.href = "/";
+        }
+
+        return Promise.reject(error);
     }
-
-    return Promise.reject(error);
-  }
 );
 
 export default api;

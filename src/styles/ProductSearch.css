@@ -101,7 +101,7 @@
     overflow-y: auto;
     justify-self: center;
     /* align-self: center; */
-    gap: 1rem;
+    gap: 0.6rem;
     
     /* border-radius: 0px 0px 10px 10px; */
     flex-wrap: wrap;

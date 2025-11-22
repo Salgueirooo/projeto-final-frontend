@@ -58,12 +58,12 @@ const SelectBakeryPage: React.FC = () => {
     const haddleLogout = useLogout();
 
     return (
-        <>
+        <>  
             <div className="top-bar">
                 <span className="top-short">BakeTec</span>
                 <span className="top-long">BakeTec - Sistema de Gestão de Pastelarias</span>
                 {isAdmin && (
-                   <button className="conf"><IoCog /></button> 
+                <button className="conf"><IoCog /></button> 
                 )}
                 <button className="logout" onClick={haddleLogout}><TbLogout /></button>
             </div>
@@ -84,6 +84,8 @@ const SelectBakeryPage: React.FC = () => {
                     
                 </div>
             </div>
+            
+            
         </>
     )
 }

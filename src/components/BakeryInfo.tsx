@@ -31,9 +31,9 @@ const BakeryInfo: React.FC<BakeryInfo> = ({bakery, onSwitch}) => {
                     </div>
                     <div className="lastLine">
                         
-                        <h4><b>Tel.:</b> {bakery.phone_number}</h4>
-                        <h4><b>Email:</b> {bakery.email}</h4>
-                        <h4><b>Morada:</b> {bakery.address}</h4>
+                        <h4><b>Tel.:</b>&nbsp;{bakery.phone_number}</h4>
+                        <h4><b>Email:</b>&nbsp;{bakery.email}</h4>
+                        <h4><b>Morada:</b>&nbsp;{bakery.address}</h4>
                         
                         
                     </div>
