@@ -1,0 +1,90 @@
+.space-search-order-bar {
+    width: 100%;
+    height: calc(var(--search-bar-height));
+    justify-content: center;
+    align-items: center;
+    display: flex;
+}
+
+.search-order-box {
+    height: 2.5rem;
+    background-color: var(--black);
+    width: 16rem;
+    display: flex;
+    justify-content:center;
+    align-items: center;
+    gap: 0.2rem;
+    border-radius: 22px;
+}
+
+.search-order-text {
+    /* margin-left: 1rem; */
+    padding: 0.3rem 0 0.3rem 0;
+    height: 1rem;
+    border-radius: 0px;
+    width: 14rem;
+    background-color: var(--black);
+}
+
+.search-order-box button {
+    
+    display: flex;
+    justify-self: center;
+    font-size: 1rem;
+    align-items: center;
+    padding: 0.6rem;
+    /* margin-right: 0.2rem; */
+    border: none;
+    border-radius: 50%;
+    /* width: 10%; */
+    /* height: calc(var(--bar-height) - 1rem); */
+    background-color: var(--yellow);
+    color: var(--black);
+    font-weight:bold;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+    /* display: flex;
+    align-items: center;
+    justify-content: center; */
+
+    /* display: flex;
+    justify-content: space-between;  Utilizar noutros botoes*/ 
+}
+
+.search-order-box button:hover {
+    background-color: var(--sec-yellow);
+}
+
+.orders-container {
+    height: calc(100% - var(--bar-height) - 0.5rem);
+    width: calc(100% - 2rem);
+    /* justify-content: center; */
+    overflow-y: auto;
+    justify-self: center;
+    
+    /* display: flex;
+    gap: 1rem;
+
+    flex-wrap: wrap;
+    justify-content: center;
+    align-content: flex-start; */
+    
+}
+
+.orders-container .orders-group {
+    /* justify-content: center; */
+    display: flex;
+    gap: 1rem;
+    margin-bottom: 1rem;
+    flex-wrap: wrap;
+    align-content: flex-start;
+
+}
+
+.orders-container h2 {
+    font-size: 1.2rem;
+    color: var(--white);
+    /* font-weight: bold; */
+    margin-bottom: 0.3rem;
+    /* margin-top: 1rem; */
+}

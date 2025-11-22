@@ -1,0 +1,173 @@
+.order button {
+    
+    /* position: absolute;
+    top: 25%;
+    right: 33%; */
+    justify-self: end;
+    display: flex;
+    align-items: center;
+    border: none;
+    border-radius: 8px;
+    background-color: var(--yellow);
+    color: var(--black);
+    font-size: 1.2rem;
+    font-weight:bold;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+    padding: 0.4rem;
+}
+
+.order button:hover {
+    background-color: var(--sec-yellow);
+}
+
+.order {
+    /* height: 25rem; */
+    width: 44rem;
+    background-color: var(--black);
+    border-radius: 8px;
+    
+    /* align-content:center; */
+}
+
+.order .order-container {
+    padding: 0.2rem 2rem 1rem 2rem;
+    
+}
+
+.order-container .cart-table {
+    overflow: hidden;
+    height: 2rem;
+}
+
+.order .inline {
+    display: flex;
+    justify-content: space-between;    
+}
+
+.requestDate {
+    font-weight: normal;
+    margin: 0;
+    margin-top: 1rem;
+}
+
+.inline b, .text-box b, .requestDate b {
+    color: var(--yellow);
+    font-weight: bolder;
+}
+
+.inline .username {
+    overflow: hidden;
+    width: 25rem;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.order-container .text-box {
+    margin-top: 0.8rem;
+    padding: 0.2rem 1rem 0.6rem 1rem;
+    text-align: justify;
+    border: 2px solid var(--gray);
+    border-radius: 8px;
+
+    max-height: 3rem;
+    overflow: auto;
+}
+
+.order-container table {
+    width: 100%;
+    /* text-align: left; */
+    /* border-radius: 10px; */
+    font-size: 1.1rem;
+
+    border-collapse: separate;   /* importante */
+    border-spacing: 0 0.3rem;
+}
+
+.order-container .table-header {
+    margin-top: 0.6rem;
+}
+
+.order-container thead {
+   
+    /* display: block; */
+    /* width: 100%; */
+    height: 2.5rem;
+    
+    background-color: var(--yellow);
+    color: var(--black);
+
+    
+}
+
+.order-container .t-body {
+    max-height: 10rem;
+    overflow-y: auto;
+}
+
+.order-container td {
+    /* padding-left: 1rem; */
+    background-color: var(--gray);
+    height: 2rem;
+}
+
+
+
+.order-container .price {
+    width: 6rem;
+    text-align: center;
+    /* background-color: aquamarine; */
+}
+
+.order-container .discount {
+    width: 6rem;
+    text-align: center;
+    /* background-color: rgb(54, 194, 41); */
+}
+
+.order-container .quantity {
+    width: 5rem;
+    text-align: center;
+    /* gap: 4rem; */
+    /* background-color: rgb(190, 146, 52); */
+}
+
+.quantity span {
+    background-color: var(--gray);
+    padding: 0.1rem 0.6rem 0.1rem 0.6rem;
+    margin: 0 0.5rem 0 0.5rem;
+    border-radius: 8px;
+}
+
+.order-container .price-unit {
+    width: 8rem;
+    text-align: center;
+    /* background-color: rgb(230, 68, 47); */
+}
+
+.order-container th.name {
+    /* display: inline-block; */
+    /* max-width: 12rem; */
+    text-align: left;
+    padding-left: 0.5rem;
+}
+
+.order-container .total-line {
+    font-weight: bold;
+}
+
+.order-container .total {
+    padding-left: 0.5rem;
+}
+
+.order-container td.name span {
+    display: inline-block;
+    max-width: 12rem;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    padding-left: 0.5rem;
+
+    /* text-align: left; */
+}

@@ -1,0 +1,98 @@
+.order-container {
+    /* margin-top: 1rem;
+    margin-left: 1rem; */
+    /* padding: 0.5rem 2rem 1rem 2rem; */
+    /* width: 18rem; */
+    background-color: var(--black);
+    border-radius: 10px;
+    /* display:contents; */
+    word-wrap:break-word;
+
+    display: flex;
+    flex-direction: column;
+    
+}
+
+
+
+.order-body h4 {
+    margin: 0;
+    font-size: 1.1rem;
+    margin-bottom: 0.2rem;
+}
+
+.order-container .order-body {
+    padding-left: 3rem;
+    padding-right: 3rem;
+    margin-top: 1rem;
+}
+
+.order-body b {
+    color: var(--yellow);
+}
+
+.order-container .hour {
+    text-align: center;
+    height: 2.2rem;
+    font-size: 1.1rem;
+    align-content: center;
+    border-radius: 10px 10px 0 0;
+    color: var(--black);
+    background-color: var(--yellow);
+    margin: 0;
+    margin-bottom: 0.2rem;
+}
+
+.order-body .title1 {
+    text-align: center;
+    margin-bottom: 0.8rem;
+    /* font-size: 1; */
+}
+
+.order-container .client {
+    padding: 1rem 3rem 1.2rem 3rem;
+    margin: 0;
+    margin-top: auto;
+    font-size: 1.1rem;
+
+    
+    
+
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.order-container .client b {
+    color: var(--yellow);
+}
+
+
+.order-container button {
+    
+    /* height: 60%; */
+    /* padding-top: 0.4rem; */
+    /* padding-bottom: 0%; */
+    align-items: center;
+    justify-content: center;
+    border: none;
+    border-radius: 0px 0px 10px 10px;
+    background-color: var(--yellow);
+    color: var(--black);
+    font-size: 1rem;
+    font-weight:bold;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+    display: flex;
+    padding: 0.5rem;
+    /* width: 80%; */
+    /* width: calc(100% - 4rem); */
+    
+
+}
+
+
+
+.order-container button:hover {
+    background-color: var(--sec-yellow);
+}
