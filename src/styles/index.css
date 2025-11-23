@@ -16,11 +16,16 @@
     --sec-yellow:#b58723;
     --black: #232323;
     --gray: #3b3b3b;
+    --sec-gray: #303030;
     --white: #F2F4F3;
-    --blue: rgb(102, 194, 194);
+    --blue: #66c2c2;
     --sec-blue: rgb(81, 164, 164);
 
     
+}
+
+input {
+    font-family:'Segoe UI';
 }
 
 *::-webkit-scrollbar {

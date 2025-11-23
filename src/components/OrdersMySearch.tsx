@@ -6,17 +6,15 @@ import { useEffect, useState } from "react"
 import { useSelectedBakery } from "../hooks/hookSelectBakery"
 import api from "../services/api"
 import { useNotification } from "../context/NotificationContext"
+import { groupOrdersByHour } from "../hooks/hookGroupOrdersByHour"
 import { getStringDay } from "../hooks/hookStringDay"
 import { getTodayDate } from "../hooks/hookTodayDate"
-import { groupOrdersByHour } from "../hooks/hookGroupOrdersByHour"
 
 
-const SearchAllOrders: React.FC = () => {
+const SearchMyOrders: React.FC = () => {
 
     const todayDate = getTodayDate();
-
     const [date, setDate] = useState<string>("");
-    const [email, setEmail] = useState<string>("");
     const [loadingOrder, setLoadingOrder] = useState<boolean>(false);
     const [dateSearched, setDateSearched] = useState<string>("");
 
@@ -41,8 +39,8 @@ const SearchAllOrders: React.FC = () => {
             try {
                 setLoadingOrder(true);
                 if(bakery !== null && date.length === 10) {
-                    const response = await api.get(`/order/search-email-day/${bakery.id}`,
-                        {params: {date, email}});
+                    const response = await api.get(`/order/search-day-by-user/${bakery.id}`,
+                        {params: {date}});
                     setOrders(response.data);
                     setDateSearched(date);
                 }
@@ -71,22 +69,14 @@ const SearchAllOrders: React.FC = () => {
     return (
         <>
             <div className="order-container-header">
-                <h2>{getStringDay(dateSearched, todayDate)}</h2> 
+                <h2>{getStringDay(dateSearched, todayDate)}</h2>
                 <form className="space-search-order-bar" onSubmit={refreshOrder}>
-                    <div className="search-order-box-ready">
+                    <div className="search-order-box">
                         <input className="search-order-text"
                             type="date"
                             id="date"
                             value={date}
                             onChange={(e) => setDate(e.target.value)}
-                            required
-                        />
-                        <input className="search-order-name"
-                            type="email"
-                            id="name"
-                            value={email}
-                            placeholder="Insira o email do cliente"
-                            onChange={(e) => setEmail(e.target.value)}
                             required
                         />
                     </div>
@@ -99,10 +89,10 @@ const SearchAllOrders: React.FC = () => {
                     <div className="spinner"></div>
                 ) : (
                     orders.length === 0 ? (
-                        dateSearched.length === 10 ? (
-                            <h3>Não foram encontradas encomendas para essa data.</h3>
+                        date.length < 10 || !reload ? (
+                            <h3>Indique a data da encomenda.</h3>
                         ) : (
-                            <h3>Indique a data e o nome do cliente relativos à encomenda.</h3>
+                            reload && (<h3>Não foram encontradas encomendas para essa data.</h3>)
                         )
                         
                     ) : (
@@ -113,7 +103,7 @@ const SearchAllOrders: React.FC = () => {
 
                                 <div className="orders-group">
                                     {orders.map((order) => (
-                                        <OrderShow key={order.id + order.date} order={order} myOrders={false} refreshOrders={() => refreshOrderNoArg()} mode="normal"/>
+                                        <OrderShow key={order.id + order.date} order={order} myOrders={true} refreshOrders={() => refreshOrderNoArg()} mode="normal"/>
                                     ))}
                                 </div>
                             </div>
@@ -126,4 +116,4 @@ const SearchAllOrders: React.FC = () => {
     )
 }
 
-export default SearchAllOrders
+export default SearchMyOrders

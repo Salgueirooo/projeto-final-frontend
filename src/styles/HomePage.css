@@ -28,7 +28,7 @@
 }
 
 .home-body {
-    width: calc(100vw - var(--home-bar-width) - 1rem);
+    width: calc(100vw - var(--home-bar-width) - 1.25rem);
     height: calc(100% - 1rem);
     background-color: var(--gray);
     border-radius: 10px;

@@ -45,6 +45,17 @@
     justify-content: space-between;    
 }
 
+.order .cancel {
+    padding: 0rem 0.8rem 0rem 0.8rem;
+    font-size: 1.1rem;
+    background-color: var(--gray);
+    color: var(--white);
+}
+
+.order .cancel:hover {
+    background-color: var(--sec-gray);
+}
+
 .requestDate {
     font-weight: normal;
     margin: 0;
@@ -71,7 +82,7 @@
     border: 2px solid var(--gray);
     border-radius: 8px;
 
-    max-height: 3rem;
+    max-height: 3.2rem;
     overflow: auto;
 }
 

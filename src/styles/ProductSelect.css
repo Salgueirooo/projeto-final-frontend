@@ -1,5 +1,5 @@
 .show-product {
-    height: 22.5rem;
+    height: 21rem;
     width: 20rem;
     /* display: flex; */
     background-color: var(--black);
@@ -68,7 +68,7 @@
 
 .product-info img, .product-info-small img {
     max-width: 80%;
-    height: 50%;
+    height: 45%;
     object-fit: cover;     
     object-position: center;
     border-radius: 8px;

@@ -145,7 +145,7 @@ const ShoppingCart: React.FC<Props> = ({onSwitch}) => {
                                         order.orderDetailsList.map(orderDetails => (
                                             <tr key={orderDetails.id}>
                                                 <td className="name" title={orderDetails.productName}>{orderDetails.productName}</td>
-                                                <td className="price-unit">{orderDetails.price.toFixed(2)}</td>
+                                                <td className="price-unit">{orderDetails.price.toFixed(2).replace(".", ",")}</td>
                                                 <td className="quantity">
                                                     <button onClick={() => bakery && removeOne(bakery.id, orderDetails.productId)}>
                                                         {orderDetails.quantity === 1 ? (<FaTrashAlt />) : (<FaMinus />)}
@@ -163,7 +163,7 @@ const ShoppingCart: React.FC<Props> = ({onSwitch}) => {
                                                 <td className="price">
                                                     {(
                                                         (orderDetails.price - (orderDetails.price * orderDetails.discount / 100)) * orderDetails.quantity
-                                                    ).toFixed(2)}
+                                                    ).toFixed(2).replace(".", ",")}
                                                 </td>
                                             </tr>
                                         ))
@@ -179,7 +179,7 @@ const ShoppingCart: React.FC<Props> = ({onSwitch}) => {
                     <button onClick={() => setModalFormOpen(true)}>Encomendar</button>
 
                     <div className="total-price">
-                        <b>Valor total:</b>&nbsp;&nbsp;€{total.toFixed(2)}
+                        <b>Valor total:</b>&nbsp;&nbsp;€{total.toFixed(2).replace(".", ",")}
                     </div>
                 </div>
             

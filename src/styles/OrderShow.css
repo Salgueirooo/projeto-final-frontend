@@ -55,9 +55,6 @@
     margin-top: auto;
     font-size: 1.1rem;
 
-    
-    
-
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
@@ -68,7 +65,7 @@
 }
 
 
-.order-container button {
+.order-container .info {
     
     /* height: 60%; */
     /* padding-top: 0.4rem; */
@@ -87,12 +84,79 @@
     padding: 0.5rem;
     /* width: 80%; */
     /* width: calc(100% - 4rem); */
-    
+    border: 2px solid var(--black);
 
+}
+
+.order-container .info-acceptance {
+    align-items: center;
+    justify-content: center;
+    border: none;
+    border-radius: 0px 0px 0px 0px;
+    background-color: var(--yellow);
+    color: var(--black);
+    font-size: 1rem;
+    font-weight:bold;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+    display: flex;
+    padding: 0.5rem;
+    background-color: var(--blue);
+    border: 2px solid var(--black);
+}
+
+.order-container .info:hover {
+    background-color: var(--sec-yellow);
 }
 
 
 
-.order-container button:hover {
-    background-color: var(--sec-yellow);
+.order-container .op-acceptance {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 0rem;
+    
+}
+
+.order-container .info-acceptance:hover {
+    background-color: var(--sec-blue);
+}
+
+.op-acceptance .recuse, .op-acceptance .accept {
+    align-items: center;
+    justify-content: center;
+    border: none;
+    border-radius: 0px 0px 0px 0px;
+    /* background-color: var(--yellow); */
+    color: var(--black);
+    font-size: 1rem;
+    font-weight:bold;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+    display: flex;
+    padding: 0.5rem;
+    width: calc(50%);
+    border: 2px solid var(--black);
+}
+
+.op-acceptance .recuse {
+    border-radius: 0 0 0 10px;
+    /* background-color: #DB2B39; */
+    background-color: var(--gray);
+    color: var(--white);
+}
+
+.op-acceptance .recuse:hover {
+
+    background-color: var(--sec-gray);
+
+}
+
+.op-acceptance .accept {
+    border-radius: 0 0 10px 0px;
+    background-color: var(--yellow); /*#04A777*/
+}
+
+.op-acceptance .accept:hover {
+    background-color: var(--sec-yellow); /*#04A777*/
 }

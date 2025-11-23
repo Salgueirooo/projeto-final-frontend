@@ -11,12 +11,12 @@ import { getTodayDate } from "../hooks/hookTodayDate"
 import { groupOrdersByHour } from "../hooks/hookGroupOrdersByHour"
 
 
-const SearchAllOrders: React.FC = () => {
+const SearchOrdersReady: React.FC = () => {
 
     const todayDate = getTodayDate();
 
-    const [date, setDate] = useState<string>("");
-    const [email, setEmail] = useState<string>("");
+    const [date, setDate] = useState<string>(todayDate);
+    const [username, setUsername] = useState<string>("");
     const [loadingOrder, setLoadingOrder] = useState<boolean>(false);
     const [dateSearched, setDateSearched] = useState<string>("");
 
@@ -41,8 +41,8 @@ const SearchAllOrders: React.FC = () => {
             try {
                 setLoadingOrder(true);
                 if(bakery !== null && date.length === 10) {
-                    const response = await api.get(`/order/search-email-day/${bakery.id}`,
-                        {params: {date, email}});
+                    const response = await api.get(`/order/get-ready-by-date/${bakery.id}`,
+                        {params: {date, username}});
                     setOrders(response.data);
                     setDateSearched(date);
                 }
@@ -82,12 +82,12 @@ const SearchAllOrders: React.FC = () => {
                             required
                         />
                         <input className="search-order-name"
-                            type="email"
+                            type="text"
                             id="name"
-                            value={email}
-                            placeholder="Insira o email do cliente"
-                            onChange={(e) => setEmail(e.target.value)}
-                            required
+                            value={username}
+                            placeholder="Insira o nome do cliente (opcional)"
+                            onChange={(e) => setUsername(e.target.value)}
+                            
                         />
                     </div>
                     <button type="submit" disabled={date.length !== 10}><IoSearch /></button>
@@ -99,11 +99,8 @@ const SearchAllOrders: React.FC = () => {
                     <div className="spinner"></div>
                 ) : (
                     orders.length === 0 ? (
-                        dateSearched.length === 10 ? (
-                            <h3>Não foram encontradas encomendas para essa data.</h3>
-                        ) : (
-                            <h3>Indique a data e o nome do cliente relativos à encomenda.</h3>
-                        )
+                        <h3>Não foram encontradas encomendas para essa data.</h3>
+                        
                         
                     ) : (
                         
@@ -113,7 +110,7 @@ const SearchAllOrders: React.FC = () => {
 
                                 <div className="orders-group">
                                     {orders.map((order) => (
-                                        <OrderShow key={order.id + order.date} order={order} myOrders={false} refreshOrders={() => refreshOrderNoArg()} mode="normal"/>
+                                        <OrderShow key={order.id + order.date} order={order} myOrders={false} refreshOrders={() => refreshOrderNoArg()} mode="ready"/>
                                     ))}
                                 </div>
                             </div>
@@ -126,4 +123,4 @@ const SearchAllOrders: React.FC = () => {
     )
 }
 
-export default SearchAllOrders
+export default SearchOrdersReady

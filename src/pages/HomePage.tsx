@@ -23,7 +23,12 @@ import type { CategoryDTO } from "../dto/categoryDTO";
 import CategorySearch from "../components/CategorySearch";
 import ShoppingCart from "../components/ShoppingCart";
 import OrderShow from "../components/OrderShow";
-import SearchOrders from "../components/OrdersSearch";
+import SearchMyOrders from "../components/OrdersMySearch";
+import FollowMyOrders from "../components/FollowMyOrders";
+import SearchOrdersReady from "../components/OrdersReadySearch";
+import OrdersPendent from "../components/OrdersPendent";
+import SearchOrdersAccepted from "../components/OrdersAcceptedSearch";
+import SearchAllOrders from "../components/OrdersSearch";
 
 interface BakeryInfoInterface {
     data: bakeryDTO
@@ -242,8 +247,12 @@ const HomePage: React.FC = () => {
                     {selected===1 && (<CategorySearch />)}
                     {selected===2 && (<ProductSearch />)}
                     {selected===3 && (<ShoppingCart onSwitch={(op) => setSelected(op)}/>)}
-                    
-                    {selected===5 && (<SearchOrders />)}
+                    {selected===4 && (<FollowMyOrders/>)}
+                    {selected===5 && (<SearchMyOrders />)}
+                    {selected===6 && (<SearchOrdersReady />)}
+                    {selected===7 && (<SearchOrdersAccepted />)}
+                    {selected===8 && (<OrdersPendent />)}
+                    {selected===9 && (<SearchAllOrders />)}
                 </div>
             </div>
         </>

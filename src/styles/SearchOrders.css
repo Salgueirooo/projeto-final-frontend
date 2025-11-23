@@ -1,15 +1,24 @@
+.order-container-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-left: 1rem;
+    padding-right: 1rem;
+}
+
 .space-search-order-bar {
-    width: 100%;
+    width: auto;
     height: calc(var(--search-bar-height));
     justify-content: center;
     align-items: center;
     display: flex;
+    gap: 0.25rem;
 }
 
 .search-order-box {
     height: 2.5rem;
     background-color: var(--black);
-    width: 16rem;
+    width: 9.5rem;
     display: flex;
     justify-content:center;
     align-items: center;
@@ -17,22 +26,46 @@
     border-radius: 22px;
 }
 
-.search-order-text {
-    /* margin-left: 1rem; */
-    padding: 0.3rem 0 0.3rem 0;
-    height: 1rem;
-    border-radius: 0px;
-    width: 14rem;
+.search-order-box-ready {
+    height: 2.5rem;
     background-color: var(--black);
+    width: 27.2rem;
+    display: flex;
+    justify-content:center;
+    align-items: center;
+    gap: 0.5rem;
+    border-radius: 22px;
 }
 
-.search-order-box button {
+.search-order-text {
+    /* margin-left: 1rem; */
+    padding: 0.5rem 0.5rem 0.5rem 0.5rem;
+    height: 1rem;
+    border-radius: 0px;
+    width: 8rem;
+    background-color: var(--black);
+    border-radius: 20px;
+    border: 2px solid var(--gray);
+}
+
+.search-order-name {
+    /* margin-left: 1rem; */
+    padding: 0.5rem 0.5rem 0.5rem 0.5rem;
+    height: 1rem;
+    border-radius: 0px;
+    width: 16rem;
+    background-color: var(--black);
+    border-radius: 20px;
+    border: 2px solid var(--gray);
+}
+
+.space-search-order-bar button {
     
     display: flex;
     justify-self: center;
     font-size: 1rem;
     align-items: center;
-    padding: 0.6rem;
+    padding: 0.5rem;
     /* margin-right: 0.2rem; */
     border: none;
     border-radius: 50%;
@@ -51,7 +84,7 @@
     justify-content: space-between;  Utilizar noutros botoes*/ 
 }
 
-.search-order-box button:hover {
+.space-search-order-bar button:hover {
     background-color: var(--sec-yellow);
 }
 
@@ -62,13 +95,10 @@
     overflow-y: auto;
     justify-self: center;
     
-    /* display: flex;
-    gap: 1rem;
+}
 
-    flex-wrap: wrap;
-    justify-content: center;
-    align-content: flex-start; */
-    
+.orders-container h3 {
+    text-align: center;
 }
 
 .orders-container .orders-group {
@@ -82,6 +112,36 @@
 }
 
 .orders-container h2 {
+    font-size: 1.2rem;
+    color: var(--white);
+    /* font-weight: bold; */
+    margin-bottom: 0.3rem;
+    /* margin-top: 1rem; */
+}
+
+
+/* FollowMyOrders */
+.all-orders-container {
+    margin-top: 1rem;
+    height: calc(100% - 2rem);
+    width: calc(100% - 2rem);
+    /* justify-content: center; */
+    overflow-y: auto;
+    justify-self: center;
+    
+}
+
+.all-orders-container .orders-group {
+    /* justify-content: center; */
+    display: flex;
+    gap: 1rem;
+    margin-bottom: 1rem;
+    flex-wrap: wrap;
+    align-content: flex-start;
+
+}
+
+.all-orders-container h2 {
     font-size: 1.2rem;
     color: var(--white);
     /* font-weight: bold; */

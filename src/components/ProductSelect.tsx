@@ -61,11 +61,11 @@ const ProductSelect: React.FC<ProductInfoInterface> = ({product}) => {
                     <div className="bots">
                         <div className="prices">
                             {product.discount === 0 ? (
-                                <h3 className="no-discount">€{product.price.toFixed(2)}</h3> 
+                                <h3 className="no-discount">€{product.price.toFixed(2).replace(".", ",")}</h3> 
                             ): (
                                 <>
-                                    <h4><s>€{product.price.toFixed(2)}</s></h4>
-                                    <h3>€{finalPrice}</h3>
+                                    <h4><s>€{product.price.toFixed(2).replace(".", ",")}</s></h4>
+                                    <h3>€{finalPrice.replace(".", ",")}</h3>
                                 </>
                             )}
                             

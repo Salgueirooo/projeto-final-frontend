@@ -78,7 +78,7 @@ const ProductInfo: React.FC<ProductInfoInt> = ({product, onSwitch}) => {
                                 </h4>
                             )}
                             
-                            <h3>€{finalPrice}</h3>
+                            <h3>€{finalPrice.replace(".", ",")}</h3>
                         </div>
                     </div>
                     <div className="lastLine">

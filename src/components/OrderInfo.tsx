@@ -2,13 +2,16 @@ import { RxCross2 } from "react-icons/rx";
 import { useNotification } from "../context/NotificationContext";
 import type { OrderDTO } from "../dto/orderDTO";
 import "../styles/OrderInfo.css"
+import api from "../services/api";
 
 interface Props {
     onSwitch: (modalOpen: boolean) => void;
     order: OrderDTO;
+    myOrder: boolean;
+    refreshOrders: () => void;
 }
 
-const OrderInfo: React.FC<Props> = ({onSwitch, order}) => {
+const OrderInfo: React.FC<Props> = ({onSwitch, order, myOrder, refreshOrders}) => {
 
     const { addNotification } = useNotification();
 
@@ -17,6 +20,27 @@ const OrderInfo: React.FC<Props> = ({onSwitch, order}) => {
         const priceWithDiscount = product.price - (product.price * product.discount / 100);
         return sum + (priceWithDiscount * product.quantity);
     }, 0);
+
+    const cancelOrder = async (orderId: number) => {
+        try {
+            await api.put(`/order/cancel/${orderId}`);
+            addNotification("A encomenda foi cancelada.", false);
+            onSwitch(false);
+            refreshOrders();
+       
+        } catch (err: any) {
+
+            if(err.response) {
+                console.error(err.response.data);
+                addNotification(err.response.data, true);
+            }
+            else {
+                console.error(err);
+                addNotification("Erro na comunicação com o Servidor.", true);
+
+            }
+        }
+    };
 
     return (
         <>
@@ -36,8 +60,12 @@ const OrderInfo: React.FC<Props> = ({onSwitch, order}) => {
                         </div>
                         <div className="inline">
                             <h2 className="username" title={order.userName}><b>N.º da Encomenda:</b>&nbsp;{order.id}</h2>
+                            {((order.orderState === "Pendente" && myOrder)  || (order.orderState === "Aceite" && myOrder)) && (
+                                <button className="cancel" onClick={() => cancelOrder(order.id)}>Cancelar encomenda</button>
+                            )}
+                            
                         </div>
-                        {!order.clientNotes && (
+                        {order.clientNotes && (
                             <h2 className="text-box"><b>Notas do cliente:</b>&nbsp;{order.clientNotes}</h2>
                         )}
                         <table className="table-header">
@@ -60,7 +88,7 @@ const OrderInfo: React.FC<Props> = ({onSwitch, order}) => {
                                             <td className="name" title={orderDetails.productName}>
                                                 <span>{orderDetails.productName}</span>
                                             </td>
-                                            <td className="price-unit">{orderDetails.price.toFixed(2)}</td>
+                                            <td className="price-unit">{orderDetails.price.toFixed(2).replace(".", ",")}</td>
                                             <td className="quantity">
                                                 <span>{orderDetails.quantity}</span>
                                             </td>
@@ -68,7 +96,7 @@ const OrderInfo: React.FC<Props> = ({onSwitch, order}) => {
                                             <td className="price">
                                                 {(
                                                     (orderDetails.price - (orderDetails.price * orderDetails.discount / 100)) * orderDetails.quantity
-                                                ).toFixed(2)}
+                                                ).toFixed(2).replace(".", ",")}
                                             </td>
                                         </tr>
                                     ))} 
@@ -77,14 +105,17 @@ const OrderInfo: React.FC<Props> = ({onSwitch, order}) => {
                             </table>
                         </div>
                         <table>
-                            <tr className="total-line">
-                                <td className="total">Total</td>
-                                <td className="price">{total.toFixed(2)}</td>
-                            </tr>
+                            <tbody>
+                                <tr className="total-line">
+                                    <td className="total">Total</td>
+                                    <td className="price">{total.toFixed(2).replace(".", ",")}</td>
+                                </tr>
+                            </tbody>
+                            
                         </table>
                         
-                        {!order.staffNotes && (
-                            <h2 className="text-box"><b>Notas do staff:</b>&nbsp;{order.clientNotes}</h2>
+                        {order.staffNotes && (
+                            <h2 className="text-box"><b>Notas do staff:</b>&nbsp;{order.staffNotes}</h2>
                         )}
                         <h4 className="requestDate"><b>Pedido feito a:</b> {order.requestedDate.replace("T", " - ").slice(0, 18)}</h4>
                         

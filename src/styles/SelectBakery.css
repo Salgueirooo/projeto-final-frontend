@@ -1,6 +1,6 @@
 .show-bakery {
-    height: 20rem;
-    width: 22rem;
+    height: 18rem;
+    width: 20rem;
     
     background-color: var(--black);
     justify-items: center;
@@ -31,7 +31,7 @@
 
 .show-bakery img {
     max-width: 100%;
-    height: 45%;
+    height: 50%;
     object-fit: cover;     
     object-position: center;
     border-radius: 8px;
@@ -40,7 +40,10 @@
 
 .show-bakery .bots {
     display: flex;
-    gap: 0.6rem;
+    width: calc(100% - 2rem);
+    /* padding: 0 1rem 0 1rem; */
+    /* gap: 0.6rem; */
+    justify-content: space-between;
 }
 
 .show-bakery button {
@@ -58,7 +61,7 @@
     cursor: pointer;
     transition: background-color 0.2s ease;
     display: flex;
-    padding: 0.5rem;
+    padding: 0.5rem 1rem 0.5rem 1rem;
 }
 
 button:hover {

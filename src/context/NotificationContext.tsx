@@ -32,7 +32,7 @@ export const NotificationProvider: React.FC<{ children: React.ReactNode }> = ({ 
             setNotifications((prev) =>
             prev.filter((n) => n.id !== newNotification.id)
             );
-        }, 3000);
+        }, 5000);
     };
 
     return (

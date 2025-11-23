@@ -10,9 +10,9 @@
     
 
     max-height: calc(100vh - var(--bar-height, 8vh) - 1rem);
-    /* Se não tiveres --bar-height definida, fica equivalente a ~92% da viewport */
+    
 
-    overflow-y: auto;          /* permite scroll vertical */
+    overflow-y: auto;
     padding-right: 0.3rem; 
 
 }
