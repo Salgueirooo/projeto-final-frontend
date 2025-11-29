@@ -63,14 +63,14 @@ const OrdersPendent: React.FC = () => {
                     <div className="spinner"></div>
                 ) : (
                     orders.length === 0 ? (
-                        <h3>Não foram encontradas encomendas para essa data.</h3>
+                        <h3>Não foram encontradas encomendas pendentes.</h3>
                         
                         
                     ) : (
                         
                         Object.entries(grouped).map(([day, orders]) => (
                             <div key={day}>
-                                <h2>{day}</h2>
+                                <h2 className="day">{day}</h2>
 
                                 <div className="orders-group">
                                     {orders.map((order) => (

@@ -3,6 +3,9 @@ import { useNotification } from "../context/NotificationContext";
 import type { OrderDTO } from "../dto/orderDTO";
 import "../styles/OrderInfo.css"
 import api from "../services/api";
+import { FaStar } from "react-icons/fa";
+import { useState } from "react";
+import ReviewForm from "./ReviewForm";
 
 interface Props {
     onSwitch: (modalOpen: boolean) => void;
@@ -14,6 +17,9 @@ interface Props {
 const OrderInfo: React.FC<Props> = ({onSwitch, order, myOrder, refreshOrders}) => {
 
     const { addNotification } = useNotification();
+
+    const [openModalForm, setOpenModalForm] = useState<boolean>(false);
+    const [orderDetailsIdSelected, setOrderDetailsIdSelected] = useState<number | null>(null);
 
     const date = order.date.replace("T", " - ").slice(0, 18);
     const total = order.orderDetails.reduce((sum, product) => {
@@ -41,6 +47,8 @@ const OrderInfo: React.FC<Props> = ({onSwitch, order, myOrder, refreshOrders}) =
             }
         }
     };
+
+    
 
     return (
         <>
@@ -72,6 +80,9 @@ const OrderInfo: React.FC<Props> = ({onSwitch, order, myOrder, refreshOrders}) =
                             <thead>
                                 <tr>
                                     <th className="name">Produto</th>
+                                    {order.orderState === "Entregue" && (
+                                        <th className="discount">Avaliar</th>
+                                    )}
                                     <th className="price-unit">Preço Unit. (€)</th>
                                     <th className="quantity">Quant.</th>
                                     <th className="discount">Desc. (%)</th>
@@ -88,6 +99,16 @@ const OrderInfo: React.FC<Props> = ({onSwitch, order, myOrder, refreshOrders}) =
                                             <td className="name" title={orderDetails.productName}>
                                                 <span>{orderDetails.productName}</span>
                                             </td>
+                                            {order.orderState === "Entregue" && (
+                                                <td className="discount">
+                                                    {orderDetails.wasReviewed ? (
+                                                        <button className="inactive"><FaStar /></button>
+                                                    ) : (
+                                                        <button onClick={() => {setOpenModalForm(true); setOrderDetailsIdSelected(orderDetails.id)}}><FaStar /></button>
+                                                    )}
+                                                </td>
+                                            )}
+                                            
                                             <td className="price-unit">{orderDetails.price.toFixed(2).replace(".", ",")}</td>
                                             <td className="quantity">
                                                 <span>{orderDetails.quantity}</span>
@@ -122,6 +143,9 @@ const OrderInfo: React.FC<Props> = ({onSwitch, order, myOrder, refreshOrders}) =
                     </div>
                 </div>
             </div>
+            {openModalForm && (
+                <ReviewForm onSwitch={(m) => setOpenModalForm(m)} orderDetailsId={orderDetailsIdSelected}/>
+            )}
         </>
     )
 }

@@ -29,6 +29,7 @@ import SearchOrdersReady from "../components/OrdersReadySearch";
 import OrdersPendent from "../components/OrdersPendent";
 import SearchOrdersAccepted from "../components/OrdersAcceptedSearch";
 import SearchAllOrders from "../components/OrdersSearch";
+import ShowRecipes from "../components/RecipeShow";
 
 interface BakeryInfoInterface {
     data: bakeryDTO
@@ -253,6 +254,7 @@ const HomePage: React.FC = () => {
                     {selected===7 && (<SearchOrdersAccepted />)}
                     {selected===8 && (<OrdersPendent />)}
                     {selected===9 && (<SearchAllOrders />)}
+                    {selected===10 && (<ShowRecipes />)}
                 </div>
             </div>
         </>

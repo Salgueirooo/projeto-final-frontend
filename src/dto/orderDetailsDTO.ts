@@ -5,4 +5,5 @@ export interface OrderDetailsDTO {
     quantity: number,
     price: number,
     discount: number
+    wasReviewed?: boolean
 }

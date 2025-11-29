@@ -141,7 +141,7 @@
 
 }
 
-.all-orders-container h2 {
+.all-orders-container .day {
     font-size: 1.2rem;
     color: var(--white);
     /* font-weight: bold; */

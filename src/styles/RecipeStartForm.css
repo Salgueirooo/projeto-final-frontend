@@ -1,0 +1,75 @@
+.recipe-start-form {
+    width: 26rem;
+    
+    background-color: var(--black);
+    border-radius: 8px;
+    align-content:center;
+    justify-items: center;
+}
+
+.recipe-start-form button {
+    
+    /* position: absolute;
+    top: 25%;
+    right: 33%; */
+    /* justify-self: end; */
+    display: flex;
+    align-items: center;
+    border: none;
+    border-radius: 8px;
+    background-color: var(--yellow);
+    color: var(--black);
+    font-size: 1.2rem;
+    font-weight:bold;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+    padding: 0.4rem;
+}
+
+.recipe-start-form .close-bot {
+    justify-self: end;
+}
+
+.option-container {
+    /* background-color: rgb(242, 255, 251); */
+    /* display: flex; */
+    gap: 0.4rem;
+    margin-bottom: 1.5rem;
+    margin-top: 0.8rem;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-content: flex-start;
+    display:flex;
+    width: 80%;
+    
+}
+
+.option-container button {
+    height: 2.6rem;
+    aspect-ratio: 4/3;
+    padding: 0.1rem 1rem 0.1rem 1rem;
+    text-align: center;
+    justify-content: center;
+}
+
+.option-container .selected, .option-container .selected:hover, .option-container .non-selected:hover {
+    background-color: var(--yellow);
+    color: var(--black);
+}
+
+.option-container .non-selected {
+    background-color: var(--gray);
+    color: var(--white);
+}
+
+.option-container input {
+    width: 3rem;
+    height: 2.6rem;
+    padding: 0 0.6rem 0 0.6rem;
+    margin: 0;
+}
+
+.recipe-start-form .start-recipe {
+    padding: 0.5rem 1rem 0.5rem 1rem;
+    margin-bottom: 1.5rem;
+}

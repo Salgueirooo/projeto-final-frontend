@@ -1,0 +1,102 @@
+.review-form {
+    width: 24rem;
+    
+    background-color: var(--black);
+    border-radius: 8px;
+}
+
+.review-form .body-review {
+    padding: 0 2rem 1.5rem 2rem;
+    justify-items: center;
+}
+
+.review-form button {
+    
+    /* position: absolute;
+    top: 25%;
+    right: 33%; */
+    justify-self: end;
+    display: flex;
+    align-items: center;
+    border: none;
+    border-radius: 8px;
+    background-color: var(--yellow);
+    color: var(--black);
+    font-size: 1.2rem;
+    font-weight:bold;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+    padding: 0.4rem;
+}
+
+.review-form button:hover {
+    background-color: var(--sec-yellow);
+}
+
+.body-review button {
+    justify-self: center;
+
+}
+
+.body-review .inline-review {
+    display: flex;
+    margin-top: 0.5rem;
+    gap: 0.5rem;
+    align-items: center;
+    align-content: center;
+}
+
+.body-review h2 {
+    font-size: 1.4rem;
+}
+
+.inline-review h2 {
+    font-size: 1.2rem;
+}
+
+.inline-review .stars {
+    margin-top: 0.2rem;
+    color: var(--yellow);
+}
+
+.inline-review button {
+    height: 2rem;
+    aspect-ratio: 1/1;
+    justify-content: center;
+    margin: 0 0.5rem 0 0.5rem;
+}
+
+.body-review .commentary-review {
+    margin-top: 1.4rem;
+    margin-bottom: 0.6rem;
+}
+
+.inline-review .notes-box {
+    /* margin-top: 1.5rem; */
+    width: 15rem;
+    height: calc(2.8rem);
+    padding: 0.5rem;
+    border-radius: 8px;
+    border: 1px solid var(--gray);
+    background-color: var(--gray);
+    font-size: 1rem;
+    resize:none;
+    display: block;
+    justify-self: center;
+    font-family: 'Segoe UI';
+    font-weight: bold;
+}
+
+.inline-review .notes-box:focus {
+    outline: none;
+    border-color: var(--yellow);
+    /* box-shadow: 0 0 4px var(--yellow); */
+}
+
+.body-review .submit {
+    width: 8rem;
+    justify-content: center;
+    justify-self: center;
+    margin-top: 2rem;
+    height: 2.4rem;
+}

@@ -1,11 +1,11 @@
 import { RxCross2 } from "react-icons/rx";
 import type { productDTO } from "../dto/productDTO"
 import "../styles/ProductInfo.css"
-import { FaRegStar, FaRegStarHalfStroke, FaStar } from "react-icons/fa6";
 import { useState } from "react";
 import api from "../services/api";
 import type { ProductReviewDTO } from "../dto/productReviewDTO";
 import { useNotification } from "../context/NotificationContext";
+import { FaRegStar, FaStar, FaStarHalfAlt } from "react-icons/fa";
 
 
 const BASE_URL = import.meta.env.VITE_API_BASE_URL;
@@ -26,7 +26,7 @@ const ProductInfo: React.FC<ProductInfoInt> = ({product, onSwitch}) => {
             if (rating >= i) {
                 stars.push(<FaStar key={i} className="star full" />);
             } else if (rating >= i - 0.5) {
-                stars.push(<FaRegStarHalfStroke key={i} className="star half" />);
+                stars.push(<FaStarHalfAlt key={i} className="star half" />);
             } else {
                 stars.push(<FaRegStar key={i} className="star empty" />);
             }

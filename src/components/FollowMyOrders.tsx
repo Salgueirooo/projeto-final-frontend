@@ -67,7 +67,7 @@ const FollowMyOrders: React.FC = () => {
                         
                         Object.entries(grouped).map(([day, orders]) => (
                             <div key={day}>
-                                <h2>{day}</h2>
+                                <h2 className="day">{day}</h2>
 
                                 <div className="orders-group">
                                     {orders.map((order) => (

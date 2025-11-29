@@ -76,9 +76,9 @@ const ProductSearchByCategory: React.FC<ProductSearchInt> = ({category, onSwitch
                             <RxCross1 />
                         </button>
                     ) : (
-                        <button onClick={() => {
-                            getProductsByNameAndCategory(productName, category.id);
-                            setSearched(true);
+                        <button disabled={productName === ""} onClick={() => {
+                                getProductsByNameAndCategory(productName, category.id);
+                                setSearched(true);
                             }}>
                             <IoSearch />
                         </button>

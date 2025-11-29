@@ -23,7 +23,7 @@
 
 .order {
     /* height: 25rem; */
-    width: 44rem;
+    width: 50rem;
     background-color: var(--black);
     border-radius: 8px;
     
@@ -137,6 +137,27 @@
     /* background-color: rgb(54, 194, 41); */
 }
 
+.discount button {
+    height: 1.6rem;
+    aspect-ratio: 2/1;
+    justify-content: center;
+    align-content: center;
+    justify-self: center;
+    font-size: 1rem;
+}
+
+.discount .inactive {
+    background-color: var(--gray);
+    color: var(--black);
+    border: 1px solid var(--black);
+}
+
+.discount .inactive:hover {
+    background-color: var(--gray);
+    color: var(--black);
+    border: 1px solid var(--black);
+}
+
 .order-container .quantity {
     width: 5rem;
     text-align: center;
@@ -181,4 +202,11 @@
     padding-left: 0.5rem;
 
     /* text-align: left; */
+}
+
+.order-container h2 {
+    font-size: 1.2rem;
+    color: var(--white);
+    /* font-weight: bold; */
+    margin-bottom: 0.3rem;
 }

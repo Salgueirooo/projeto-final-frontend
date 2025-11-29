@@ -17,7 +17,7 @@ const SearchMyOrders: React.FC = () => {
     const [date, setDate] = useState<string>("");
     const [loadingOrder, setLoadingOrder] = useState<boolean>(false);
     const [dateSearched, setDateSearched] = useState<string>("");
-
+    const [searched, setSearched] = useState<boolean>(false);
     const bakery = useSelectedBakery();
     const {addNotification} = useNotification();
 
@@ -80,7 +80,7 @@ const SearchMyOrders: React.FC = () => {
                             required
                         />
                     </div>
-                    <button type="submit" disabled={date.length !== 10}><IoSearch /></button>
+                    <button type="submit" onClick={() => setSearched(true)} disabled={date.length !== 10}><IoSearch /></button>
                 </form>
             </div>
             
@@ -89,10 +89,10 @@ const SearchMyOrders: React.FC = () => {
                     <div className="spinner"></div>
                 ) : (
                     orders.length === 0 ? (
-                        date.length < 10 || !reload ? (
+                        date.length < 10 || !searched ? (
                             <h3>Indique a data da encomenda.</h3>
                         ) : (
-                            reload && (<h3>Não foram encontradas encomendas para essa data.</h3>)
+                            searched && (<h3>Não foram encontradas encomendas para essa data.</h3>)
                         )
                         
                     ) : (

@@ -26,7 +26,7 @@ const CategorySelect: React.FC<CategorySelectInt> = ({category, onSwitchMode, on
                         onSwitchMode("selectProduct");
                         onSwitchCategory(category);
                     }}>
-                    Selecionar&nbsp;<FaArrowCircleRight />
+                    Selecionar&nbsp;&nbsp;<FaArrowCircleRight />
                 </button>
             </div>
             

@@ -19,7 +19,6 @@ const RegisterForm: React.FC<Props> = ({ onSwitch }) => {
     const [password, setPassword] = useState('');
 
     const { addNotification } = useNotification();
-    const navigate = useNavigate();
 
     const handleRegister = async (event: React.FormEvent) => {
         event.preventDefault();
@@ -28,7 +27,7 @@ const RegisterForm: React.FC<Props> = ({ onSwitch }) => {
             await api.post("/auth/register-client", { name, email, password, phone_number });
 
             addNotification("Conta criada.", false);
-            navigate("/");
+            onSwitch("login");
 
         } catch (err: any) {
             if(err.response) {

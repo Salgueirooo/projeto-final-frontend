@@ -1,10 +1,10 @@
-import { MdYard } from "react-icons/md";
 import type { OrderDTO } from "../dto/orderDTO"
 import "../styles/OrderShow.css"
 import { useState } from "react";
 import OrderInfo from "./OrderInfo";
 import api from "../services/api";
 import { useNotification } from "../context/NotificationContext";
+import { RxCross2 } from "react-icons/rx";
 
 interface Props {
     order: OrderDTO;
@@ -20,22 +20,52 @@ const OrderShow: React.FC<Props> = ({order, myOrders, refreshOrders, mode}) => {
     
     const dateTime = order.date.split("T");
     const [modalInfoOpen, setModalInfoOpen] = useState<boolean>(false);
-
+    const [modalRecuseOrder, setModalRecuseOrder] = useState<boolean>(false);
+    const [commentary, setCommentary] = useState<string>("");
     const {addNotification} = useNotification();
 
     const setAcceptance = async (acceptance: boolean) => {
-        try {
-            await api.put(`/order/set-acceptance-status/${order.id}`,
-                acceptance
-            );
-            acceptance ? (
-                addNotification("Encomenda aceite.", false)
-            ) : (
-                addNotification("Encomenda recusada.", false)
-            )
+        if (acceptance) {
+            try {
             
+                await api.put(`/order/set-acceptance-status/${order.id}`,{
+                    acceptance
+                });
+                addNotification("Encomenda aceite.", false);
+            
+                refreshOrders();
+        
+            } catch (err: any) {
+
+                if(err.response) {
+                    console.error(err.response.data);
+                    addNotification(err.response.data, true);
+                }
+                else {
+                    console.error(err);
+                    addNotification("Erro na comunicação com o Servidor.", true);
+
+                }
+            }
+        } else {
+            setModalRecuseOrder(true);
+        }
+        
+    };
+
+    const recuseOrder = async () => {
+        
+        try {
+        
+            await api.put(`/order/set-acceptance-status/${order.id}`, {
+                acceptance: false,
+                staffNotes: commentary
+            });
+            addNotification("Encomenda recusada.", false);
+            
+            setModalRecuseOrder(false);
             refreshOrders();
-       
+    
         } catch (err: any) {
 
             if(err.response) {
@@ -48,6 +78,8 @@ const OrderShow: React.FC<Props> = ({order, myOrders, refreshOrders, mode}) => {
 
             }
         }
+        
+        
     };
 
     const setReady = async () => {
@@ -136,6 +168,26 @@ const OrderShow: React.FC<Props> = ({order, myOrders, refreshOrders, mode}) => {
                 
             </div>
             {modalInfoOpen && <OrderInfo order={order} onSwitch={(m) => setModalInfoOpen(m)} myOrder={myOrders} refreshOrders={refreshOrders}/>}
+            {modalRecuseOrder && (
+                <div className="back-modal" onClick={() => setModalRecuseOrder(false)}>
+                    <div className="recuse-order-form" onClick={(e) => e.stopPropagation()}>
+                        <button onClick={() => setModalRecuseOrder(false)}><RxCross2 /></button>
+                        <div className="body-recuse">
+                            <h2>Indique o motivo da recusa do pedido (opcional)</h2>
+    
+                            <textarea
+                                placeholder="Escreva aqui as notas da sua encomenda..."
+                                className="notes-box"
+                                value={commentary}
+                                onChange={(e) => setCommentary(e.target.value)}>
+                            </textarea>
+                            
+                            <button className="submit" onClick={() => recuseOrder()}>Recusar</button>
+                        </div>
+                        
+                    </div>
+                </div>
+            )}
         </>
         
     )
