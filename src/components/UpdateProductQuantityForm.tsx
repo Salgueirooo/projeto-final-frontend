@@ -3,7 +3,7 @@ import "../styles/UpdateProductQuantityForm.css"
 import { useState } from "react";
 import { FaCheck } from "react-icons/fa";
 import api from "../services/api";
-import { useNotification } from "../context/NotificationContext";
+import { useToastNotification } from "../context/NotificationContext";
 
 interface Props {
     openForm: (op: boolean) => void;
@@ -14,7 +14,7 @@ interface Props {
 const UpdateProductQuantityForm: React.FC<Props> = ({refreshOrder, openForm, orderDetailsId}) => {
 
     const [quantity, setQuantity] = useState<number>(1)
-    const {addNotification} = useNotification();
+    const {addToastNotification: addNotification} = useToastNotification();
     const handleSubmit = async (event: React.FormEvent) => {
         event.preventDefault();
 
@@ -24,7 +24,6 @@ const UpdateProductQuantityForm: React.FC<Props> = ({refreshOrder, openForm, ord
             addNotification("A quantidade do produto foi atualizada.", false);
             openForm(false);
             refreshOrder();
-
 
         } catch (err: any) {
             if(err.response) {
@@ -56,7 +55,6 @@ const UpdateProductQuantityForm: React.FC<Props> = ({refreshOrder, openForm, ord
                         />
                         <button type="submit" className="submit"><FaCheck /></button>
                     </form>
-                    
                 </div>
             </div>
         </>

@@ -12,22 +12,16 @@
 }
 
 .order-form {
-    /* height: 25rem; */
     width: 24rem;
     background-color: var(--black);
     border-radius: 8px;
-    /* display:grid; */
     align-content:center;
     justify-items: center;
-    /* justify-content: center; */
+
 }
 
 .order-form button {
-    
-    /* position: absolute;
-    top: 25%;
-    right: 33%; */
-    /* justify-self: end; */
+
     display: flex;
     align-items: center;
     border: none;
@@ -75,7 +69,7 @@
 }
 
 .order-form .notes-box {
-    /* margin-top: 1.5rem; */
+
     width: 18rem;
     height: calc(2.8rem);
     padding: 0.5rem;
@@ -93,5 +87,5 @@
 .order-form .notes-box:focus {
     outline: none;
     border-color: var(--yellow);
-    /* box-shadow: 0 0 4px var(--yellow); */
+
 }

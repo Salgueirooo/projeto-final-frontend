@@ -28,13 +28,8 @@ const CategorySelect: React.FC<CategorySelectInt> = ({category, onSwitchMode, on
                     }}>
                     Selecionar&nbsp;&nbsp;<FaArrowCircleRight />
                 </button>
-            </div>
-            
-            
-            
-            
-        </div>
-        
+            </div>  
+        </div> 
     )
 }
 

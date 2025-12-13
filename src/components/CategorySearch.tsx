@@ -2,8 +2,7 @@ import { useEffect, useState } from "react"
 import "../styles/CategorySearch.css"
 import type { CategoryDTO } from "../dto/categoryDTO";
 import CategorySelect from "./CategorySelect";
-import BakeryInfo from "./BakeryInfo";
-import { useNotification } from "../context/NotificationContext";
+import { useToastNotification } from "../context/NotificationContext";
 import api from "../services/api";
 import ProductSearchByCategory from "./ProductSearchByCategory";
 
@@ -13,7 +12,7 @@ const CategorySearch: React.FC = () => {
 
     const [loadingCategories, setLoadingCategories] = useState<boolean>(false);
     const [categories, setCategories] = useState<CategoryDTO[]>([])
-    const {addNotification} = useNotification();
+    const {addToastNotification: addNotification} = useToastNotification();
 
     useEffect (() => {
         const getCategories = async () => {
@@ -42,6 +41,7 @@ const CategorySearch: React.FC = () => {
                     <div className="title">
                         <h2>Selecione uma Categoria.</h2>
                     </div>
+                    
                     <div className="category-container">
                         
                         {loadingCategories ? (
@@ -59,8 +59,8 @@ const CategorySearch: React.FC = () => {
                                     ))
                                 )} 
                             </>
-                            
                         )}
+                        
                     </div>
                 </>
             ) : (
@@ -68,10 +68,6 @@ const CategorySearch: React.FC = () => {
                     <ProductSearchByCategory category={category} onSwitchMode={(m) => setMode(m)}/>
                 )
             )}
-
-
-            
-        
         </>
     )
 }

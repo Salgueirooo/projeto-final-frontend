@@ -1,8 +1,4 @@
 .product button {
-    
-    /* position: absolute;
-    top: 25%;
-    right: 33%; */
     justify-self: end;
     display: flex;
     align-items: center;
@@ -18,7 +14,6 @@
 }
 
 .rating button {
-    /* font-weight: normal; */
     font-size: 1rem;
     margin-left: rem;
 }
@@ -28,22 +23,18 @@
 }
 
 .product {
-    /* height: 25rem; */
+
     width: 30rem;
     background-color: var(--black);
     border-radius: 8px;
-    
-    /* align-content:center; */
+
 }
 
 .product .container {
     max-height: 100%;
-    /* width: 60%; */
-    /* overflow-y: auto; */
-    /* width: 2%; */
+
     overflow: hidden;
-    /* text-overflow: ellipsis;
-    white-space: nowrap;  */
+
     flex: 1;
     
 }
@@ -55,7 +46,7 @@
 }
 
 .product .firstLine {
-    /* padding-top: 8%; */
+
     width: 90%;
     height: 40%;
     justify-self: center;
@@ -82,12 +73,11 @@
     white-space: nowrap;  
     font-size: 1.4rem;
     color: var(--white);
-    /* width: 20%; */
-    /* overflow-y: auto; */
+
 }
 
 .product .no-discount {
-    /* color: var(--yellow); */
+
     font-size: 1rem;
     font-weight: normal;
 }
@@ -96,21 +86,14 @@
     margin-top: 0.6rem;
     padding-bottom: 1rem;
     width: 90%;
-    /* height: 6rem; */
-    
-    /* overflow-y: auto; */
     
     justify-self: center;
 }
 
 .container h4 {
-    /* margin: 0rem; */
+
     margin-bottom: 0.4rem;
-    
-    /* flex: 1; */
-    /* text-overflow: ellipsis; */
-    /* white-space: nowrap; */
-    /* color: var(--white); */
+
     font-size: 1.1rem;
     color: var(--yellow);
 }
@@ -118,12 +101,10 @@
 .lastLine h4 {
     margin: 0rem;
     margin-bottom: 0.4rem;
-    /* flex: 1; */
-    /* text-overflow: ellipsis; */
-    /* white-space: nowrap; */
+
     color: var(--white);
     font-size: 1.1rem;
-    /* color: var(--yellow); */
+
     display: flex;
     align-items: center;
 }

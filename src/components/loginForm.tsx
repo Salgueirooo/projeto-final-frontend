@@ -1,10 +1,11 @@
 import api from "../services/api";
-import { useNotification } from '../context/NotificationContext'
+import { useToastNotification } from '../context/NotificationContext'
 import loginImage from '/src/assets/login-image.jpg'
 import '/src/styles/LoginPage.css'
 import CheckConn from './CheckConnection';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useNotificationStore } from "../hooks/hookNotificationStore";
 
 type Mode = "login" | "register";
 
@@ -18,8 +19,9 @@ const LoginForm: React.FC<Props> = ({ onSwitch }) => {
     const [password, setPassword] = useState('');
 
 
-    const { addNotification } = useNotification();
+    const { addToastNotification: addNotification } = useToastNotification();
     const navigate = useNavigate();
+    const { reloadNotifications } = useNotificationStore();
 
     const handleLogin = async (event: React.FormEvent) => {
         event.preventDefault();
@@ -30,6 +32,8 @@ const LoginForm: React.FC<Props> = ({ onSwitch }) => {
             const token = response.data.token;
             if (token) {
                 localStorage.setItem("token", token);
+                window.dispatchEvent(new Event("tokenChanged"));
+                reloadNotifications();
                 addNotification("Autenticado com sucesso.", false);
                 navigate("/select-bakery");
             } else {
@@ -59,6 +63,7 @@ const LoginForm: React.FC<Props> = ({ onSwitch }) => {
                             onChange={(e) => setEmail(e.target.value)}
                             required
                         />
+
                         <input className='bot-input'
                             type="password"
                             id="password"
@@ -67,6 +72,7 @@ const LoginForm: React.FC<Props> = ({ onSwitch }) => {
                             onChange={(e) => setPassword(e.target.value)}
                             required
                         />
+                        
                         <button type="submit">Iniciar Sessão</button>
                     </form>
 

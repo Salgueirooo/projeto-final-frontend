@@ -3,23 +3,31 @@ import OrderShow from "./OrderShow"
 import "../styles/SearchOrders.css"
 import { IoSearch } from "react-icons/io5"
 import { useEffect, useState } from "react"
-import { useSelectedBakery } from "../hooks/hookSelectBakery"
 import api from "../services/api"
-import { useNotification } from "../context/NotificationContext"
+import { useToastNotification } from "../context/NotificationContext"
 import { groupOrdersByHour } from "../hooks/hookGroupOrdersByHour"
 import { getStringDay } from "../hooks/hookStringDay"
 import { getTodayDate } from "../hooks/hookTodayDate"
+import { useLocation, useNavigate, useParams, useSearchParams } from "react-router-dom"
+import { HomeTab } from "../hooks/HomeTab"
+import { useWebSocket } from "../context/WebSocketContext"
 
 
 const SearchMyOrders: React.FC = () => {
 
+    const navigate = useNavigate();
+    const [params] = useSearchParams();
+    const { bakeryId } = useParams<string>();
     const todayDate = getTodayDate();
-    const [date, setDate] = useState<string>("");
+
+    const initialDate = params.get("date") ?? (todayDate);
+
+    const [date, setDate] = useState<string>(initialDate);
     const [loadingOrder, setLoadingOrder] = useState<boolean>(false);
     const [dateSearched, setDateSearched] = useState<string>("");
-    const [searched, setSearched] = useState<boolean>(false);
-    const bakery = useSelectedBakery();
-    const {addNotification} = useNotification();
+    const [searched, setSearched] = useState<boolean>(true);
+    
+    const {addToastNotification: addNotification} = useToastNotification();
 
     const [orders, setOrders] = useState<OrderDTO[]>([]);
 
@@ -27,6 +35,8 @@ const SearchMyOrders: React.FC = () => {
 
     const refreshOrder = async (event: React.FormEvent) => {
         event.preventDefault();
+        setSearched(true);
+        navigate(`/home/${bakeryId}/${HomeTab.SearchMyOrders}?date=${date}`);
         setReload(prev => !prev);
     };
 
@@ -37,9 +47,9 @@ const SearchMyOrders: React.FC = () => {
     useEffect (() => {
         const getOrder = async () => {
             try {
-                setLoadingOrder(true);
-                if(bakery !== null && date.length === 10) {
-                    const response = await api.get(`/order/search-day-by-user/${bakery.id}`,
+                searched && setLoadingOrder(true);
+                if(date.length === 10) {
+                    const response = await api.get(`/order/search-day-by-user/${bakeryId}`,
                         {params: {date}});
                     setOrders(response.data);
                     setDateSearched(date);
@@ -57,12 +67,29 @@ const SearchMyOrders: React.FC = () => {
 
                 }
             } finally {
-                setLoadingOrder(false);
+                searched && setLoadingOrder(false);
+                setSearched(false);
             }
         };
 
         getOrder();
-    }, [bakery, reload]);
+    }, [reload]);
+
+    const location = useLocation();
+    const { messages } = useWebSocket();
+    useEffect(() => {
+        if (messages.length === 0) return;
+
+        const lastMessage = messages[messages.length - 1];
+        const fullPath = location.pathname + location.search;
+        
+        console.log(location.pathname);
+        console.log(lastMessage.path);
+        
+        if (lastMessage.path?.some(p => p === fullPath)) {
+            refreshOrderNoArg();
+        }
+    }, [messages]);
 
     const grouped = groupOrdersByHour(orders);
 
@@ -80,6 +107,7 @@ const SearchMyOrders: React.FC = () => {
                             required
                         />
                     </div>
+                    
                     <button type="submit" onClick={() => setSearched(true)} disabled={date.length !== 10}><IoSearch /></button>
                 </form>
             </div>
@@ -89,12 +117,8 @@ const SearchMyOrders: React.FC = () => {
                     <div className="spinner"></div>
                 ) : (
                     orders.length === 0 ? (
-                        date.length < 10 || !searched ? (
-                            <h3>Indique a data da encomenda.</h3>
-                        ) : (
-                            searched && (<h3>Não foram encontradas encomendas para essa data.</h3>)
-                        )
-                        
+                       <h3>Não foram encontradas encomendas para essa data.</h3>
+                       
                     ) : (
                         
                         Object.entries(grouped).map(([hour, orders]) => (

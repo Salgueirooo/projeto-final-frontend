@@ -1,13 +1,13 @@
 import React, { createContext, useContext, useRef, useState } from "react";
-import Notification, { type NotificationDTO } from "../components/Notification";
+import Notification, { type NotificationDTO } from "../components/NotificationToast";
 
 interface NotificationContextType {
-  addNotification: (message: string, isError: boolean) => void;
+  addToastNotification: (message: string, isError: boolean) => void;
 }
 
 const NotificationContext = createContext<NotificationContextType | null>(null);
 
-export const useNotification = () => {
+export const useToastNotification = () => {
   const ctx = useContext(NotificationContext);
   if (!ctx) throw new Error("useNotification deve ser usado dentro de NotificationProvider");
   return ctx;
@@ -18,7 +18,7 @@ export const NotificationProvider: React.FC<{ children: React.ReactNode }> = ({ 
 
     const nextId = useRef(0);
 
-    const addNotification = (message: string, isError: boolean) => {
+    const addToastNotification = (message: string, isError: boolean) => {
         const newNotification: NotificationDTO = {
             id: (nextId.current++).toString(),
             message,
@@ -36,7 +36,7 @@ export const NotificationProvider: React.FC<{ children: React.ReactNode }> = ({ 
     };
 
     return (
-        <NotificationContext.Provider value={{ addNotification }}>
+        <NotificationContext.Provider value={{ addToastNotification: addToastNotification }}>
         {children}
         <div className="notification-sidebar">
             {notifications.map((n) => (

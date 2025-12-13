@@ -1,12 +1,12 @@
 import { useState } from "react";
 import { RxCross2 } from "react-icons/rx";
 import "../styles/RecipeStartForm.css"
-import { useNotification } from "../context/NotificationContext";
+import { useToastNotification } from "../context/NotificationContext";
 import api from "../services/api";
+import { useParams } from "react-router-dom";
 
 interface Props {
     recipeId: number;
-    bakeryId?: number;
     onSwitch: (modalForm: boolean) => void;
 }
 
@@ -16,8 +16,9 @@ interface Dose {
     quantity: number;
 }
 
-const RecipeStartForm: React.FC<Props> = ({recipeId, bakeryId, onSwitch}) => {
+const RecipeStartForm: React.FC<Props> = ({recipeId, onSwitch}) => {
 
+    const { bakeryId } = useParams<string>();
     const [customDose, setCustomDose] = useState<number>(1);
 
     const doses: Dose[] = [
@@ -53,33 +54,33 @@ const RecipeStartForm: React.FC<Props> = ({recipeId, bakeryId, onSwitch}) => {
         }
     ]
 
-    const {addNotification} = useNotification();
+    const {addToastNotification: addNotification} = useToastNotification();
 
     const addProducedRecipe = async () => {
         if (doseSelected.quantity === 0 && customDose <= 0) {
             addNotification("A dose deve ser maior que 0.", true);
+        
         } else {
-            if (bakeryId !== null) {
-                try {
-                    
-                    await api.post("/produced-recipe/add", {
-                        recipeId,
-                        bakeryId,
-                        dose: doseSelected.quantity === 0 ? (customDose) : (doseSelected.quantity)
-                    });
+            
+            try {
+                
+                await api.post("/produced-recipe/add", {
+                    recipeId,
+                    bakeryId,
+                    dose: doseSelected.quantity === 0 ? (customDose) : (doseSelected.quantity)
+                });
 
-                    addNotification("Receita iniciada com sucesso.", false);
-                    onSwitch(false);
+                addNotification("Receita iniciada com sucesso.", false);
+                onSwitch(false);
 
-                } catch (err: any) {
+            } catch (err: any) {
 
-                    if (err.response) {
-                        console.error(err.response.data);
-                        addNotification(err.response.data, true);
-                    } else {
-                        console.error(err);
-                        addNotification("Erro na comunicação com o Servidor.", true);
-                    }
+                if (err.response) {
+                    console.error(err.response.data);
+                    addNotification(err.response.data, true);
+                } else {
+                    console.error(err);
+                    addNotification("Erro na comunicação com o Servidor.", true);
                 }
             }
         }
@@ -92,6 +93,7 @@ const RecipeStartForm: React.FC<Props> = ({recipeId, bakeryId, onSwitch}) => {
                         
             <div className="recipe-start-form" onClick={(e) => e.stopPropagation()}>
                 <button className="close-bot" onClick={() => onSwitch(false)}><RxCross2 /></button>
+                
                 <h2>Escolha a dose da receita</h2>
                 <div className="option-container">
                     {doses.map((dose) => (
@@ -114,8 +116,6 @@ const RecipeStartForm: React.FC<Props> = ({recipeId, bakeryId, onSwitch}) => {
                 </div>
 
                 <button className="start-recipe" onClick={() => addProducedRecipe()}>Iniciar Receita</button>
-
-                
             </div>
         </div>
     )

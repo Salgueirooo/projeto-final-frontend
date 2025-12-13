@@ -4,9 +4,8 @@ import "../styles/ProductInfo.css"
 import { useState } from "react";
 import api from "../services/api";
 import type { ProductReviewDTO } from "../dto/productReviewDTO";
-import { useNotification } from "../context/NotificationContext";
+import { useToastNotification } from "../context/NotificationContext";
 import { FaRegStar, FaStar, FaStarHalfAlt } from "react-icons/fa";
-
 
 const BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
@@ -17,7 +16,7 @@ interface ProductInfoInt {
 
 const ProductInfo: React.FC<ProductInfoInt> = ({product, onSwitch}) => {
 
-    const { addNotification } = useNotification();
+    const { addToastNotification: addNotification } = useToastNotification();
     const finalPrice = (product.price - (product.price * product.discount / 100)).toFixed(2);
 
     const renderStars = (rating: number) => {

@@ -1,14 +1,12 @@
 import { FaInfoCircle } from "react-icons/fa";
 import type { productDTO } from "../dto/productDTO";
 import "../styles/ProductSelect.css"
-import { MdAddShoppingCart, MdOutlineAddShoppingCart } from "react-icons/md";
 import { FaCirclePlus } from "react-icons/fa6";
 import api from "../services/api";
-import { useNotification } from "../context/NotificationContext";
-import type { bakeryDTO } from "../dto/bakeryDTO";
-import { useEffect, useState } from "react";
+import { useToastNotification } from "../context/NotificationContext";
+import { useState } from "react";
 import ProductInfo from "./ProductInfo";
-import { useSelectedBakery } from "../hooks/hookSelectBakery";
+import { useParams } from "react-router-dom";
 
 const BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
@@ -18,7 +16,7 @@ interface ProductInfoInterface {
 
 const ProductSelect: React.FC<ProductInfoInterface> = ({product}) => {
 
-    const { addNotification } = useNotification();
+    const { addToastNotification: addNotification } = useToastNotification();
 
     const addCart = async (bakeryId: number, productId: number) => {
         try {
@@ -42,7 +40,7 @@ const ProductSelect: React.FC<ProductInfoInterface> = ({product}) => {
         }
     };
 
-    const bakery = useSelectedBakery();
+    const { bakeryId } = useParams<string>();
 
     const finalPrice = (product.price - (product.price * product.discount / 100)).toFixed(2);
 
@@ -76,7 +74,7 @@ const ProductSelect: React.FC<ProductInfoInterface> = ({product}) => {
                         
                         
                     </div>
-                    <button className="buy" onClick={() => bakery && addCart(bakery.id, product.id)}>
+                    <button className="buy" onClick={() => addCart(Number(bakeryId), product.id)}>
                         <FaCirclePlus />&nbsp;&nbsp;Adicionar ao Carrinho
                     </button>
                 </div>

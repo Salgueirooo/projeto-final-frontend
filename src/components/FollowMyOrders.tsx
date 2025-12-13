@@ -1,20 +1,21 @@
 import type { OrderDTO } from "../dto/orderDTO"
 import OrderShow from "./OrderShow"
 import "../styles/SearchOrders.css"
-import { IoSearch } from "react-icons/io5"
 import { useEffect, useState } from "react"
-import { useSelectedBakery } from "../hooks/hookSelectBakery"
 import api from "../services/api"
-import { useNotification } from "../context/NotificationContext"
+import { useToastNotification } from "../context/NotificationContext"
 import { groupOrdersByDay } from "../hooks/hookGroupOrdersByDay"
+import { useLocation, useParams } from "react-router-dom"
+import { useWebSocket } from "../context/WebSocketContext"
 
 
 const FollowMyOrders: React.FC = () => {
 
+    const {bakeryId} = useParams<string>();
+
     const [loadingOrder, setLoadingOrder] = useState<boolean>(false);
 
-    const bakery = useSelectedBakery();
-    const {addNotification} = useNotification();
+    const {addToastNotification: addNotification} = useToastNotification();
 
     const [orders, setOrders] = useState<OrderDTO[]>([]);
 
@@ -27,11 +28,9 @@ const FollowMyOrders: React.FC = () => {
     useEffect (() => {
         const getOrder = async () => {
             try {
-                setLoadingOrder(true);
-                if(bakery !== null) {
-                    const response = await api.get(`/order/all-by-user/${bakery.id}`);
-                    setOrders(response.data);
-                }
+                orders.length === 0 && setLoadingOrder(true);
+                const response = await api.get(`/order/all-by-user/${bakeryId}`);
+                setOrders(response.data);
                 
             } catch (err: any) {
 
@@ -46,12 +45,28 @@ const FollowMyOrders: React.FC = () => {
                 }
         
             } finally {
-                setLoadingOrder(false);
+                orders.length === 0 && setLoadingOrder(false);
             }
         };
 
         getOrder();
-    }, [bakery, reload]);
+    }, [reload]);
+
+    const location = useLocation();
+    const { messages } = useWebSocket();
+    useEffect(() => {
+        if (messages.length === 0) return;
+
+        const lastMessage = messages[messages.length - 1];
+        const fullPath = location.pathname + location.search;
+        
+        console.log(location.pathname);
+        console.log(lastMessage.path);
+        
+        if (lastMessage.path?.some(p => p === fullPath)) {
+            refreshOrder();
+        }
+    }, [messages]);
 
     const grouped = groupOrdersByDay(orders);
 
@@ -77,7 +92,6 @@ const FollowMyOrders: React.FC = () => {
                             </div>
                         ))
                     )
-                    
                 )}
             </div>
         </>

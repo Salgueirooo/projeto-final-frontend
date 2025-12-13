@@ -1,8 +1,6 @@
 import { useState } from "react";
 import type { recipeDTO } from "../dto/recipeDTO"
-import type { recipeIngredientDTO } from "../dto/recipeIngredientDTO";
 import RecipeStartForm from "./RecipeStartForm";
-import { useSelectedBakery } from "../hooks/hookSelectBakery";
 
 const BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
@@ -12,22 +10,12 @@ interface Props {
 
 const RecipeSelect: React.FC<Props> = ({recipeSelected}) => {
 
-    const bakery = useSelectedBakery();
-
-    const getQuantity = (ingredient: recipeIngredientDTO) => {
-        if (ingredient.unitSymbol === "unid.") {
-            return ingredient.quantity
-        } else {
-            return ingredient.quantity.toFixed(3).replace(".", ",")
-        }
-    }
-
     const [startRecipeFormOpen, setstartRecipeFormOpen] = useState<boolean>(false);
 
     return (
         <>
             <div className="inline-header">
-                <h3 className="title-recipe">Receita - {recipeSelected.productName}</h3>
+                <h3 className="title-recipe">Receita de {recipeSelected.productName}</h3>
                 <button onClick={() => setstartRecipeFormOpen(true)}>Iniciar Receita</button>
             </div>
             
@@ -40,12 +28,11 @@ const RecipeSelect: React.FC<Props> = ({recipeSelected}) => {
                     <ul>
                         {recipeSelected.ingredients.map((ingredient) =>(
                             <li key={ingredient.id}>
-                                <b>{getQuantity(ingredient)} {ingredient.unitSymbol}</b> de <b>{ingredient.name}</b>
+                                {ingredient.quantity.toString().replace(".", ",")} {ingredient.unitSymbol} de {ingredient.name}
                             </li>   
                         ))}
                     </ul>
                 </div>
-                
 
             </div>
             <div className="preparation">
@@ -53,7 +40,7 @@ const RecipeSelect: React.FC<Props> = ({recipeSelected}) => {
                 <div className="prep-text">{recipeSelected.preparation}</div>
             </div>
             {startRecipeFormOpen && (
-                <RecipeStartForm bakeryId={bakery?.id} recipeId={recipeSelected.id} onSwitch={(m) => setstartRecipeFormOpen(m)} />
+                <RecipeStartForm recipeId={recipeSelected.id} onSwitch={(m) => setstartRecipeFormOpen(m)} />
             )}
         </>
     )

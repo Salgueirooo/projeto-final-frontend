@@ -4,7 +4,7 @@ import { FaMinus, FaPlus } from "react-icons/fa6";
 import { useState } from "react";
 import { FaRegStar, FaStar, FaStarHalfAlt } from "react-icons/fa";
 import api from "../services/api";
-import { useNotification } from "../context/NotificationContext";
+import { useToastNotification } from "../context/NotificationContext";
 
 interface Props {
     onSwitch: (modalOpen: boolean) => void;
@@ -13,7 +13,7 @@ interface Props {
 
 const ReviewForm: React.FC<Props> = ({onSwitch, orderDetailsId}) => {
 
-    const { addNotification } = useNotification();
+    const { addToastNotification: addNotification } = useToastNotification();
 
     const addReview = async () => {
         if (orderDetailsId !== null) {

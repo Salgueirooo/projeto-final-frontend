@@ -12,9 +12,6 @@
 
 .review-form button {
     
-    /* position: absolute;
-    top: 25%;
-    right: 33%; */
     justify-self: end;
     display: flex;
     align-items: center;
@@ -72,7 +69,7 @@
 }
 
 .inline-review .notes-box {
-    /* margin-top: 1.5rem; */
+
     width: 15rem;
     height: calc(2.8rem);
     padding: 0.5rem;
@@ -90,7 +87,7 @@
 .inline-review .notes-box:focus {
     outline: none;
     border-color: var(--yellow);
-    /* box-shadow: 0 0 4px var(--yellow); */
+
 }
 
 .body-review .submit {

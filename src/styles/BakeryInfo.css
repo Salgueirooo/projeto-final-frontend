@@ -15,7 +15,7 @@
     
     position: absolute;
     top: calc(50% - 10rem);
-    right: calc(50% - 15rem);
+    right: calc(50% - 18rem);
     
     display: flex;
     align-items: center;
@@ -32,7 +32,7 @@
 
 .bakery {
     height: 20rem;
-    width: 30rem;
+    width: 36rem;
     background-color: var(--black);
     border-radius: 8px;
     
@@ -47,6 +47,7 @@
 
 .bakery .firstLine {
     width: 90%;
+    margin-top: 1.6rem;
     height: calc(100% - 6.6rem - 20%);
     justify-self: center;
     display:flex;
@@ -66,10 +67,6 @@
 
 .bakery h3 {
     margin: 0;
-    /* flex: 1;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;   */
     font-size: 1.6rem;
     color: var(--yellow);
     
@@ -77,7 +74,7 @@
 }
 
 .bakery .lastLine {
-    margin-top: 0.6rem;
+    margin-top: 1rem;
     width: 90%;
     height: 6rem;
     
@@ -88,9 +85,6 @@
 
 .bakery h4 {
     margin: 0.3rem;
-    /* flex: 1; */
-    /* text-overflow: ellipsis; */
-    /* white-space: nowrap; */
     color: var(--white);
     font-size: 1.1rem;
 }

@@ -1,9 +1,8 @@
 import api from "../services/api";
-import { useNotification } from '../context/NotificationContext'
+import { useToastNotification } from '../context/NotificationContext'
 import loginImage from '/src/assets/login-image.jpg'
 import '/src/styles/LoginPage.css'
 import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
 
 type Mode = "login" | "register";
 
@@ -18,7 +17,7 @@ const RegisterForm: React.FC<Props> = ({ onSwitch }) => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
 
-    const { addNotification } = useNotification();
+    const { addToastNotification: addNotification } = useToastNotification();
 
     const handleRegister = async (event: React.FormEvent) => {
         event.preventDefault();

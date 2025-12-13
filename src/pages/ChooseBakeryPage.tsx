@@ -1,23 +1,24 @@
 import type { bakeryDTO } from "../dto/bakeryDTO";
 import "../styles/ChooseBakery.css"
 
-import BakeryInfo from "../components/BakeryInfo"
 import SelectBakery from "../components/BakerySelect";
 import { useEffect, useState } from "react";
 import api from "../services/api";
-import { useNotification } from "../context/NotificationContext";
+import { useToastNotification } from "../context/NotificationContext";
 import { useLogout } from "../services/logout";
 import { TbLogout } from "react-icons/tb";
-import { FaCog } from "react-icons/fa";
+import { FaBell } from "react-icons/fa";
 import { IoCog } from "react-icons/io5";
-import useDecodedToken from "../hooks/hookToken";
+import useDecodedToken from "../hooks/hookDecodedToken";
+import NotificationWSList from "../components/NotificationWSList";
+import { useNotificationStore } from "../hooks/hookNotificationStore";
 
 const SelectBakeryPage: React.FC = () => {
     
     const { decodedToken } = useDecodedToken();
     const isAdmin: boolean = decodedToken?.roles?.includes("ROLE_ADMIN");
 
-    const { addNotification } = useNotification();
+    const { addToastNotification: addNotification } = useToastNotification();
     const [username, setUsername] = useState<string>("");
     
     useEffect(() => {
@@ -55,6 +56,22 @@ const SelectBakeryPage: React.FC = () => {
         getBakeries();
     }, []);
 
+    const [openNotifications, setOpenNotifications] = useState<boolean>(false);
+    const lastAccess = localStorage.getItem("lastAccessNotifications");
+
+    const { getAll } = useNotificationStore();
+    const [newNotification, setNewNotification] = useState(0);
+    const notifications = getAll();
+    
+    useEffect(() => {
+        const newNotificationsCount = lastAccess
+            ? notifications.filter(n => new Date(n.time) > new Date(lastAccess)).length
+            : notifications.length;
+        setNewNotification(newNotificationsCount);
+    }, [getAll, openNotifications]);
+
+    
+
     const haddleLogout = useLogout();
 
     return (
@@ -62,8 +79,14 @@ const SelectBakeryPage: React.FC = () => {
             <div className="top-bar">
                 <span className="top-short">BakeTec</span>
                 <span className="top-long">BakeTec - Sistema de Gestão de Pastelarias</span>
+                
                 {isAdmin && (
-                <button className="conf"><IoCog /></button> 
+                    <button className="conf"><IoCog /></button> 
+                )}
+                
+                <button className={openNotifications ? ("notifications-selected") : ("notifications")} onClick={() => setOpenNotifications(true)}><FaBell /></button>
+                {newNotification > 0 && (
+                    <div className="new-notif">{newNotification}</div>
                 )}
                 <button className="logout" onClick={haddleLogout}><TbLogout /></button>
             </div>
@@ -85,6 +108,9 @@ const SelectBakeryPage: React.FC = () => {
                 </div>
             </div>
             
+            {openNotifications && (
+                <NotificationWSList mode={"main"} onSwitch={(m) => setOpenNotifications(m)} lastAccess={lastAccess}/>
+            )}
             
         </>
     )

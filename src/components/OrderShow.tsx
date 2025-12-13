@@ -3,7 +3,7 @@ import "../styles/OrderShow.css"
 import { useState } from "react";
 import OrderInfo from "./OrderInfo";
 import api from "../services/api";
-import { useNotification } from "../context/NotificationContext";
+import { useToastNotification } from "../context/NotificationContext";
 import { RxCross2 } from "react-icons/rx";
 
 interface Props {
@@ -16,13 +16,12 @@ interface Props {
 type mode = "normal" | "pending" | "accepted" | "ready"
 
 const OrderShow: React.FC<Props> = ({order, myOrders, refreshOrders, mode}) => {
-
     
     const dateTime = order.date.split("T");
     const [modalInfoOpen, setModalInfoOpen] = useState<boolean>(false);
     const [modalRecuseOrder, setModalRecuseOrder] = useState<boolean>(false);
     const [commentary, setCommentary] = useState<string>("");
-    const {addNotification} = useNotification();
+    const {addToastNotification: addNotification} = useToastNotification();
 
     const setAcceptance = async (acceptance: boolean) => {
         if (acceptance) {
@@ -33,7 +32,7 @@ const OrderShow: React.FC<Props> = ({order, myOrders, refreshOrders, mode}) => {
                 });
                 addNotification("Encomenda aceite.", false);
             
-                refreshOrders();
+                //refreshOrders();
         
             } catch (err: any) {
 
@@ -50,7 +49,6 @@ const OrderShow: React.FC<Props> = ({order, myOrders, refreshOrders, mode}) => {
         } else {
             setModalRecuseOrder(true);
         }
-        
     };
 
     const recuseOrder = async () => {
@@ -64,7 +62,7 @@ const OrderShow: React.FC<Props> = ({order, myOrders, refreshOrders, mode}) => {
             addNotification("Encomenda recusada.", false);
             
             setModalRecuseOrder(false);
-            refreshOrders();
+            //refreshOrders();
     
         } catch (err: any) {
 
@@ -78,15 +76,13 @@ const OrderShow: React.FC<Props> = ({order, myOrders, refreshOrders, mode}) => {
 
             }
         }
-        
-        
     };
 
     const setReady = async () => {
         try {
             await api.put(`/order/set-order-ready/${order.id}`);
             addNotification("Encomenda definida como pronta.", false)
-            refreshOrders();
+            //refreshOrders();
        
         } catch (err: any) {
 
@@ -106,7 +102,7 @@ const OrderShow: React.FC<Props> = ({order, myOrders, refreshOrders, mode}) => {
         try {
             await api.put(`/order/set-order-delivered/${order.id}`);
             addNotification("Encomenda definida como entregue.", false)
-            refreshOrders();
+            //refreshOrders();
        
         } catch (err: any) {
 
@@ -117,14 +113,12 @@ const OrderShow: React.FC<Props> = ({order, myOrders, refreshOrders, mode}) => {
             else {
                 console.error(err);
                 addNotification("Erro na comunicação com o Servidor.", true);
-
             }
         }
     };
 
     return (
         <>
-            
             <div className="order-container">
                 <h4 className="hour"><b>{dateTime[1].slice(0,5)}</b></h4>
                 
@@ -172,6 +166,7 @@ const OrderShow: React.FC<Props> = ({order, myOrders, refreshOrders, mode}) => {
                 <div className="back-modal" onClick={() => setModalRecuseOrder(false)}>
                     <div className="recuse-order-form" onClick={(e) => e.stopPropagation()}>
                         <button onClick={() => setModalRecuseOrder(false)}><RxCross2 /></button>
+                        
                         <div className="body-recuse">
                             <h2>Indique o motivo da recusa do pedido (opcional)</h2>
     
@@ -184,12 +179,10 @@ const OrderShow: React.FC<Props> = ({order, myOrders, refreshOrders, mode}) => {
                             
                             <button className="submit" onClick={() => recuseOrder()}>Recusar</button>
                         </div>
-                        
                     </div>
                 </div>
             )}
         </>
-        
     )
 }
 

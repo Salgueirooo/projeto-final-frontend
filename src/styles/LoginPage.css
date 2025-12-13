@@ -1,9 +1,4 @@
 #root {
-    /* max-width: 1280px; */
-    /*margin: 0 auto;
-    padding: 2rem; */
-    /* text-align: center; */
-
     --bar-height: 4rem;
 }
 
@@ -56,7 +51,7 @@ body, html {
     transform: translate(-50%, -50%);
     z-index: 2;
     padding: 2rem;
-    /* height: min(30rem, calc(100vh - var(--bar-height)) - 3rem); */
+
     width: 25rem;
     background: var(--black);
     color: var(--yellow);
@@ -130,13 +125,13 @@ button:hover {
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 1rem; /* espaço entre elementos */
+    gap: 1rem;
     
     color: var(--yellow);
 }
 
 .separator .line {
-    flex: 1; /* faz as linhas crescerem igualmente */
+    flex: 1;
     height: 1px;
     background-color: var(--yellow);
 }

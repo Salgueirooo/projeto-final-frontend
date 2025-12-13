@@ -2,15 +2,18 @@ import { useState } from "react";
 import { RxCross2 } from "react-icons/rx";
 import "../styles/MakeOrderForm.css"
 import api from "../services/api";
-import { useNotification } from "../context/NotificationContext";
+import { useToastNotification } from "../context/NotificationContext";
+import { useNavigate, useParams } from "react-router-dom";
+import { HomeTab } from "../hooks/HomeTab";
 
 interface Props {
     orderId: number,
     onSwitch: (modalForm: boolean) => void;
-    onSwitchOp: (op: number) => void;
 }
 
-const MakeOrderForm: React.FC<Props> = ({orderId, onSwitch, onSwitchOp}) => {
+const MakeOrderForm: React.FC<Props> = ({orderId, onSwitch}) => {
+
+    const navigate = useNavigate();
 
     const [notes, setNotes] = useState("");
     const [selectedDate, setSelectedDate] = useState("");
@@ -34,7 +37,10 @@ const MakeOrderForm: React.FC<Props> = ({orderId, onSwitch, onSwitchOp}) => {
 
     const minTime = isTomorrow ? currentTime : "00:00";
 
-    const { addNotification } = useNotification();
+    const { addToastNotification: addNotification } = useToastNotification();
+
+    const { bakeryId } = useParams<{ bakeryId: string }>();
+
 
     const handleSubmit = async (event: React.FormEvent) => {
         event.preventDefault();
@@ -44,7 +50,7 @@ const MakeOrderForm: React.FC<Props> = ({orderId, onSwitch, onSwitchOp}) => {
 
             addNotification("A sua Encomenda foi efetuada.", false);
             onSwitch(false);
-            onSwitchOp(1);
+            navigate(`/home/${bakeryId}/${HomeTab.Accompany}`);
 
 
         } catch (err: any) {
@@ -101,12 +107,6 @@ const MakeOrderForm: React.FC<Props> = ({orderId, onSwitch, onSwitchOp}) => {
 
                     <button type="submit" className="submit">Finalizar encomenda</button>
                 </form>
-                
-                
-
-                
-                
-            
             </div>
         </div>
     )

@@ -3,13 +3,14 @@ import "../styles/RecipesShow.css"
 import { useEffect, useState } from "react";
 import { useToastNotification } from "../context/NotificationContext";
 import api from "../services/api";
-import type { recipeDTO } from "../dto/recipeDTO";
-import RecipeSelect from "./RecipeSelect";
-import { useNavigate, useParams, useSearchParams } from "react-router-dom";
+import { useLocation, useNavigate, useParams, useSearchParams } from "react-router-dom";
 import { HomeTab } from "../hooks/HomeTab";
+import type { producedRecipeDTO } from "../dto/producedRecipeDTO";
+import RecipeActiveSelect from "./RecipeActiveDetails";
+import { useWebSocket } from "../context/WebSocketContext";
 
 
-const ShowRecipes: React.FC = () => {
+const ShowActivatedRecipes: React.FC = () => {
 
     const navigate = useNavigate();
     const { bakeryId } = useParams<{ bakeryId: string}>();
@@ -19,19 +20,48 @@ const ShowRecipes: React.FC = () => {
 
     const {addToastNotification: addNotification} = useToastNotification();
 
-    const [recipes, setRecipes] = useState<recipeDTO[]>([]);
-    const [filteredRecipes, setFilteredRecipes] = useState<recipeDTO[]>([]);
+    const [recipes, setRecipes] = useState<producedRecipeDTO[]>([]);
+    const [filteredRecipes, setFilteredRecipes] = useState<producedRecipeDTO[]>([]);
     const [productName, setProductName] = useState<string>("");
     
-    const recipeParam = params.get("recipe");
-    const initialRecipeId = recipeParam ? Number(recipeParam) : null;
+    const [reload, setReload] = useState<boolean>(false);
 
-    const recipeSelected = initialRecipeId
-        ? recipes.find(r => r.id === initialRecipeId)
+    const refreshRecipes = () => {
+        setReload(prev => !prev);
+    };
+
+    const location = useLocation();
+    const { messages } = useWebSocket();
+    useEffect(() => {
+        if (messages.length === 0) return;
+
+        const lastMessage = messages[messages.length - 1];
+
+        if (lastMessage.path?.some(p => p === location.pathname)) {
+            refreshRecipes();
+        }
+    }, [messages]);
+
+    const recipeParam = params.get("recipe");
+
+    const [selectedRecipeId, setSelectedRecipeId] = useState<number | null>(
+        recipeParam ? Number(recipeParam) : null
+    );
+
+    useEffect(() => {
+        const p = params.get("recipe");
+        setSelectedRecipeId(p ? Number(p) : null);
+    }, [params]);
+
+    const recipeSelected = selectedRecipeId
+        ? recipes.find(r => r.id === selectedRecipeId)
         : undefined;
     
+    const [tradeRecipe, setTradeRecipe] = useState(false);
+
     const setSelectedRecipe = (newRecipeId: number) => {
-        navigate(`/home/${bakeryId}/${HomeTab.SearchRecipes}?recipe=${newRecipeId}`);
+        navigate(`/home/${bakeryId}/${HomeTab.StartedRecipes}?recipe=${newRecipeId}`);
+        setTradeRecipe(true);
     };
 
     useEffect(() => {
@@ -49,16 +79,18 @@ const ShowRecipes: React.FC = () => {
     }, [productName, recipes]);
 
     useEffect (() => {
-        const getRecipe = async () => {
+        const getRecipes = async () => {
             try {
                 setLoadingRecipe(true);
                 
-                const active = true;
-                const response = await api.get(`/recipe/search`,
-                    {params: {active}});
-                
-                    setRecipes(response.data);
-                    setFilteredRecipes(response.data);
+                const response = await api.get(`/produced-recipe/get-active-recipes/${bakeryId}`);
+                const newRecipes: producedRecipeDTO[] = response.data;
+                setRecipes(response.data);
+                setFilteredRecipes(response.data);
+
+                if (recipeSelected && newRecipes.every((recipe) => recipe.id !== recipeSelected?.id)) {
+                    navigate(`/home/${bakeryId}/${HomeTab.StartedRecipes}`);
+                }
                     
             } catch (err: any) {
 
@@ -76,8 +108,8 @@ const ShowRecipes: React.FC = () => {
             }
         };
 
-        getRecipe();
-    }, []);
+        getRecipes();
+    }, [reload]);
     
     return (
         <div className="show-recipe">
@@ -90,8 +122,6 @@ const ShowRecipes: React.FC = () => {
                         placeholder="Pesquisar"
                         onChange={(e) => setProductName(e.target.value)}
                     />
-                    
-                    
                 </div>
 
                 {loadingRecipe ? (
@@ -100,12 +130,17 @@ const ShowRecipes: React.FC = () => {
                     filteredRecipes.length > 0 ? (
                         filteredRecipes.map((recipe) => (
                             <button className={recipe.id === recipeSelected?.id ? "selected" : "no-selected"} key={recipe.id} onClick={() => setSelectedRecipe(recipe.id)}>
-                                <span className="text">{recipe.productName}</span>
+                                <div className="act-recipe-info">
+                                    <h3>{recipe.productName}</h3>
+                                    <h4>{recipe.initialDate.toString().replace("T", " ").slice(11, 16)} - {recipe.userName}</h4>
+                                </div>
+                                
+                                
                                 <FaArrowCircleRight />
                             </button>
                         ))
                     ) : (
-                        <span className="text">Nenhuma receita encontrada.</span>
+                        <span className="text">Sem receitas em produção.</span>
                     )
                     
                 )}
@@ -114,10 +149,10 @@ const ShowRecipes: React.FC = () => {
             <div className="body-recipes">
                 <div className="recipe-details">
                     {recipeSelected == undefined ? (
-                        <h3>Selecione um produto para consultar a sua receita.</h3>
+                        <h3>Selecione a receita que deseja seguir.</h3>
                     ) : (
-                        <RecipeSelect recipeSelected={recipeSelected}/>
                         
+                        <RecipeActiveSelect selectedRecipeId={recipeSelected.id} setTradeRecipe={(m) => setTradeRecipe(m)} tradeRecipe={tradeRecipe}/>
                     )}
                 </div>
             </div>
@@ -125,4 +160,4 @@ const ShowRecipes: React.FC = () => {
     )
 }
 
-export default ShowRecipes
+export default ShowActivatedRecipes

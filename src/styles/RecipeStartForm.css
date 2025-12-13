@@ -9,10 +9,6 @@
 
 .recipe-start-form button {
     
-    /* position: absolute;
-    top: 25%;
-    right: 33%; */
-    /* justify-self: end; */
     display: flex;
     align-items: center;
     border: none;
@@ -31,8 +27,7 @@
 }
 
 .option-container {
-    /* background-color: rgb(242, 255, 251); */
-    /* display: flex; */
+
     gap: 0.4rem;
     margin-bottom: 1.5rem;
     margin-top: 0.8rem;
@@ -72,4 +67,5 @@
 .recipe-start-form .start-recipe {
     padding: 0.5rem 1rem 0.5rem 1rem;
     margin-bottom: 1.5rem;
+    justify-self: center;
 }

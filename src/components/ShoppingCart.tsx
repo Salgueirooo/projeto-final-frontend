@@ -1,30 +1,24 @@
 import { useEffect, useState } from "react"
-import type { OrderDetailsDTO } from "../dto/orderDetailsDTO"
-import type { productDTO } from "../dto/productDTO"
 import "../styles/ShoppingCart.css"
 import MakeOrderForm from "./MakeOrderForm"
-import { useNotification } from "../context/NotificationContext"
+import { useToastNotification } from "../context/NotificationContext"
 import type { OrderInCartDTO } from "../dto/orderInCartDTO"
 import api from "../services/api"
-import { useSelectedBakery } from "../hooks/hookSelectBakery"
+
 import { FaMinus, FaPencilAlt, FaPlus, FaTrashAlt } from "react-icons/fa"
 import UpdateProductQuantityForm from "./UpdateProductQuantityForm"
+import { useParams } from "react-router-dom"
 
-//interface para mudar de tela
-interface Props {
-    onSwitch: (op: number) => void
-}
-
-const ShoppingCart: React.FC<Props> = ({onSwitch}) => {
+const ShoppingCart: React.FC = () => {
 
     const [loadingOrder, setLoadingOrder] = useState<boolean>(false);
     const [order, setOrder] = useState<OrderInCartDTO>({
         id: 0,
         orderDetailsList: []
     });
-    const {addNotification} = useNotification();
+    const {addToastNotification: addNotification} = useToastNotification();
 
-    const bakery = useSelectedBakery();
+    const { bakeryId } = useParams<string>();
 
     const [reload, setReload] = useState(false);
 
@@ -36,10 +30,8 @@ const ShoppingCart: React.FC<Props> = ({onSwitch}) => {
         const getOrder = async () => {
             try {
                 setLoadingOrder(true);
-                if(bakery !== null) {
-                    const response = await api.get(`/order/order-in-cart/${bakery.id}`);
-                    setOrder(response.data);
-                }
+                const response = await api.get(`/order/order-in-cart/${bakeryId}`);
+                setOrder(response.data);
                 
             } catch (err) {
                 console.error(err);
@@ -50,7 +42,7 @@ const ShoppingCart: React.FC<Props> = ({onSwitch}) => {
         };
 
         getOrder();
-    }, [bakery, reload]);
+    }, [reload]);
 
     const addOne = async (bakeryId: number, productId: number) => {
         try {
@@ -147,7 +139,7 @@ const ShoppingCart: React.FC<Props> = ({onSwitch}) => {
                                                 <td className="name" title={orderDetails.productName}>{orderDetails.productName}</td>
                                                 <td className="price-unit">{orderDetails.price.toFixed(2).replace(".", ",")}</td>
                                                 <td className="quantity">
-                                                    <button onClick={() => bakery && removeOne(bakery.id, orderDetails.productId)}>
+                                                    <button onClick={() => removeOne(Number(bakeryId), orderDetails.productId)}>
                                                         {orderDetails.quantity === 1 ? (<FaTrashAlt />) : (<FaMinus />)}
                                                         
                                                         
@@ -157,7 +149,7 @@ const ShoppingCart: React.FC<Props> = ({onSwitch}) => {
                                                         setUpgradeQuantityFormOpen(true);
                                                         setOrderDetailsId(orderDetails.id);
                                                         }}><FaPencilAlt /></button>
-                                                    <button onClick={() => bakery && addOne(bakery.id, orderDetails.productId)}><FaPlus /></button>
+                                                    <button onClick={() => addOne(Number(bakeryId), orderDetails.productId)}><FaPlus /></button>
                                                 </td>
                                                 <td className="discount">{orderDetails.discount}</td>
                                                 <td className="price">
@@ -169,7 +161,6 @@ const ShoppingCart: React.FC<Props> = ({onSwitch}) => {
                                         ))
                                     )} 
                                 </>
-                                
                             )}
                         </tbody>
                     </table>
@@ -184,7 +175,7 @@ const ShoppingCart: React.FC<Props> = ({onSwitch}) => {
                 </div>
             
             </div>
-            {modalFormOpen && (<MakeOrderForm orderId={order.id} onSwitch={(m) => setModalFormOpen(m)} onSwitchOp={(op) => onSwitch(op)}/>)}
+            {modalFormOpen && (<MakeOrderForm orderId={order.id} onSwitch={(m) => setModalFormOpen(m)}/>)}
             {upgradeQuantityFormOpen && (<UpdateProductQuantityForm orderDetailsId={orderDetailsId} refreshOrder={() => refreshOrder()} openForm={(f) => setUpgradeQuantityFormOpen(f)}/>)}
         </>
         

@@ -3,33 +3,49 @@ import OrderShow from "./OrderShow"
 import "../styles/SearchOrders.css"
 import { IoSearch } from "react-icons/io5"
 import { useEffect, useState } from "react"
-import { useSelectedBakery } from "../hooks/hookSelectBakery"
 import api from "../services/api"
-import { useNotification } from "../context/NotificationContext"
+import { useToastNotification } from "../context/NotificationContext"
 import { getStringDay } from "../hooks/hookStringDay"
 import { getTodayDate } from "../hooks/hookTodayDate"
 import { groupOrdersByHour } from "../hooks/hookGroupOrdersByHour"
+import { useLocation, useNavigate, useParams, useSearchParams } from "react-router-dom"
+import { HomeTab } from "../hooks/HomeTab"
+import { useWebSocket } from "../context/WebSocketContext"
 
 
 const SearchOrdersReady: React.FC = () => {
 
+    const navigate = useNavigate();
+    const { bakeryId } = useParams<string>();
+    const [params] = useSearchParams();
+    
     const todayDate = getTodayDate();
+    const initialDate = params.get("date") ?? (todayDate);
+    const initialUsername = params.get("username") ?? "";
 
-    const [date, setDate] = useState<string>(todayDate);
-    const [username, setUsername] = useState<string>("");
+    const [date, setDate] = useState<string>(initialDate);
+    const [username, setUsername] = useState<string>(initialUsername);
     const [loadingOrder, setLoadingOrder] = useState<boolean>(false);
-    const [dateSearched, setDateSearched] = useState<string>("");
+    const [dateSearched, setDateSearched] = useState<string>(initialDate);
+    const [searched, setSearched] = useState(true);
 
-    const bakery = useSelectedBakery();
-    const {addNotification} = useNotification();
+    const {addToastNotification: addNotification} = useToastNotification();
 
     const [orders, setOrders] = useState<OrderDTO[]>([]);
 
     const [reload, setReload] = useState(false);
 
+    const buildParams = () => {
+        const p = new URLSearchParams();
+        p.append("date", date);
+        if (username.trim() !== "") p.append("username", username);
+        return p.toString();
+    };
+
     const refreshOrder = async (event: React.FormEvent) => {
         event.preventDefault();
         setReload(prev => !prev);
+        setSearched(true);
     };
 
     const refreshOrderNoArg = () => {
@@ -39,10 +55,12 @@ const SearchOrdersReady: React.FC = () => {
     useEffect (() => {
         const getOrder = async () => {
             try {
-                setLoadingOrder(true);
-                if(bakery !== null && date.length === 10) {
-                    const response = await api.get(`/order/get-ready-by-date/${bakery.id}`,
+                searched && setLoadingOrder(true);
+                if(date.length === 10) {
+                    navigate(`/home/${bakeryId}/${HomeTab.ReadyOrders}?${buildParams()}`);
+                    const response = await api.get(`/order/get-ready-by-date/${bakeryId}`,
                         {params: {date, username}});
+                    
                     setOrders(response.data);
                     setDateSearched(date);
                 }
@@ -59,12 +77,29 @@ const SearchOrdersReady: React.FC = () => {
 
                 }
             } finally {
-                setLoadingOrder(false);
+                searched && setLoadingOrder(false);
+                setSearched(false);
             }
         };
 
         getOrder();
-    }, [bakery, reload]);
+    }, [reload]);
+
+    const location = useLocation();
+    const { messages } = useWebSocket();
+    useEffect(() => {
+        if (messages.length === 0) return;
+
+        const lastMessage = messages[messages.length - 1];
+        const fullPath = location.pathname + location.search;
+        
+        console.log(location.pathname);
+        console.log(lastMessage.path);
+        
+        if (lastMessage.path?.some(p => p === fullPath)) {
+            refreshOrderNoArg();
+        }
+    }, [messages]);
 
     const grouped = groupOrdersByHour(orders);
 

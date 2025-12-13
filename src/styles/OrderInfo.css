@@ -1,8 +1,5 @@
 .order button {
     
-    /* position: absolute;
-    top: 25%;
-    right: 33%; */
     justify-self: end;
     display: flex;
     align-items: center;
@@ -22,12 +19,11 @@
 }
 
 .order {
-    /* height: 25rem; */
+
     width: 50rem;
     background-color: var(--black);
     border-radius: 8px;
-    
-    /* align-content:center; */
+
 }
 
 .order .order-container {
@@ -88,11 +84,9 @@
 
 .order-container table {
     width: 100%;
-    /* text-align: left; */
-    /* border-radius: 10px; */
     font-size: 1.1rem;
 
-    border-collapse: separate;   /* importante */
+    border-collapse: separate;
     border-spacing: 0 0.3rem;
 }
 
@@ -102,14 +96,10 @@
 
 .order-container thead {
    
-    /* display: block; */
-    /* width: 100%; */
     height: 2.5rem;
     
     background-color: var(--yellow);
     color: var(--black);
-
-    
 }
 
 .order-container .t-body {
@@ -118,7 +108,6 @@
 }
 
 .order-container td {
-    /* padding-left: 1rem; */
     background-color: var(--gray);
     height: 2rem;
 }
@@ -128,13 +117,13 @@
 .order-container .price {
     width: 6rem;
     text-align: center;
-    /* background-color: aquamarine; */
+
 }
 
 .order-container .discount {
     width: 6rem;
     text-align: center;
-    /* background-color: rgb(54, 194, 41); */
+
 }
 
 .discount button {
@@ -161,8 +150,6 @@
 .order-container .quantity {
     width: 5rem;
     text-align: center;
-    /* gap: 4rem; */
-    /* background-color: rgb(190, 146, 52); */
 }
 
 .quantity span {
@@ -175,12 +162,11 @@
 .order-container .price-unit {
     width: 8rem;
     text-align: center;
-    /* background-color: rgb(230, 68, 47); */
+
 }
 
 .order-container th.name {
-    /* display: inline-block; */
-    /* max-width: 12rem; */
+
     text-align: left;
     padding-left: 0.5rem;
 }
@@ -201,12 +187,11 @@
     text-overflow: ellipsis;
     padding-left: 0.5rem;
 
-    /* text-align: left; */
 }
 
 .order-container h2 {
     font-size: 1.2rem;
     color: var(--white);
-    /* font-weight: bold; */
+
     margin-bottom: 0.3rem;
 }

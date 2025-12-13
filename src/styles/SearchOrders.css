@@ -38,7 +38,7 @@
 }
 
 .search-order-text {
-    /* margin-left: 1rem; */
+
     padding: 0.5rem 0.5rem 0.5rem 0.5rem;
     height: 1rem;
     border-radius: 0px;
@@ -49,7 +49,7 @@
 }
 
 .search-order-name {
-    /* margin-left: 1rem; */
+
     padding: 0.5rem 0.5rem 0.5rem 0.5rem;
     height: 1rem;
     border-radius: 0px;
@@ -66,22 +66,16 @@
     font-size: 1rem;
     align-items: center;
     padding: 0.5rem;
-    /* margin-right: 0.2rem; */
+
     border: none;
     border-radius: 50%;
-    /* width: 10%; */
-    /* height: calc(var(--bar-height) - 1rem); */
+
     background-color: var(--yellow);
     color: var(--black);
     font-weight:bold;
     cursor: pointer;
     transition: background-color 0.2s ease;
-    /* display: flex;
-    align-items: center;
-    justify-content: center; */
 
-    /* display: flex;
-    justify-content: space-between;  Utilizar noutros botoes*/ 
 }
 
 .space-search-order-bar button:hover {
@@ -91,7 +85,7 @@
 .orders-container {
     height: calc(100% - var(--bar-height) - 0.5rem);
     width: calc(100% - 2rem);
-    /* justify-content: center; */
+
     overflow-y: auto;
     justify-self: center;
     
@@ -102,9 +96,9 @@
 }
 
 .orders-container .orders-group {
-    /* justify-content: center; */
+
     display: flex;
-    gap: 1rem;
+    gap: 0.5rem;
     margin-bottom: 1rem;
     flex-wrap: wrap;
     align-content: flex-start;
@@ -114,9 +108,9 @@
 .orders-container h2 {
     font-size: 1.2rem;
     color: var(--white);
-    /* font-weight: bold; */
+
     margin-bottom: 0.3rem;
-    /* margin-top: 1rem; */
+
 }
 
 
@@ -125,17 +119,16 @@
     margin-top: 1rem;
     height: calc(100% - 2rem);
     width: calc(100% - 2rem);
-    /* justify-content: center; */
     overflow-y: auto;
     justify-self: center;
     
 }
 
 .all-orders-container .orders-group {
-    /* justify-content: center; */
+
     display: flex;
     gap: 1rem;
-    margin-bottom: 1rem;
+    /* margin-bottom: 0.8rem; */
     flex-wrap: wrap;
     align-content: flex-start;
 
@@ -144,7 +137,6 @@
 .all-orders-container .day {
     font-size: 1.2rem;
     color: var(--white);
-    /* font-weight: bold; */
-    margin-bottom: 0.3rem;
-    /* margin-top: 1rem; */
+    margin-top: 0.6rem;
+    margin-bottom: 0.2rem;
 }

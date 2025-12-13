@@ -3,25 +3,41 @@ import OrderShow from "./OrderShow"
 import "../styles/SearchOrders.css"
 import { IoSearch } from "react-icons/io5"
 import { useEffect, useState } from "react"
-import { useSelectedBakery } from "../hooks/hookSelectBakery"
 import api from "../services/api"
-import { useNotification } from "../context/NotificationContext"
+import { useToastNotification } from "../context/NotificationContext"
 import { getTodayDate } from "../hooks/hookTodayDate"
 import { getStringDay } from "../hooks/hookStringDay"
 import { groupOrdersByHour } from "../hooks/hookGroupOrdersByHour"
+import { useLocation, useNavigate, useParams, useSearchParams } from "react-router-dom"
+import { HomeTab } from "../hooks/HomeTab"
+import { useWebSocket } from "../context/WebSocketContext"
 
 
 const SearchOrdersAccepted: React.FC = () => {
 
+    const navigate = useNavigate();
+    const { bakeryId } = useParams<string>();
+    const [params] = useSearchParams();
+
+    const buildParams = () => {
+        const p = new URLSearchParams();
+        p.append("date", date);
+        if (username.trim() !== "") p.append("username", username);
+        return p.toString();
+    };
+
     const todayDate = getTodayDate();
 
-    const [date, setDate] = useState<string>(todayDate);
-    const [username, setUsername] = useState<string>("");
-    const [loadingOrder, setLoadingOrder] = useState<boolean>(false);
-    const [dateSearched, setDateSearched] = useState<string>("");
+    const initialDate = params.get("date") ?? (todayDate);
+    const initialUsername = params.get("username") ?? "";
 
-    const bakery = useSelectedBakery();
-    const {addNotification} = useNotification();
+    const [date, setDate] = useState<string>(initialDate);
+    const [username, setUsername] = useState<string>(initialUsername);
+    const [loadingOrder, setLoadingOrder] = useState<boolean>(false);
+    const [dateSearched, setDateSearched] = useState<string>(initialDate);
+    const [searched, setSearched] = useState(true);
+
+    const {addToastNotification: addNotification} = useToastNotification();
 
     const [orders, setOrders] = useState<OrderDTO[]>([]);
 
@@ -29,6 +45,7 @@ const SearchOrdersAccepted: React.FC = () => {
 
     const refreshOrder = async (event: React.FormEvent) => {
         event.preventDefault();
+        setSearched(true);
         setReload(prev => !prev);
     };
 
@@ -39,9 +56,10 @@ const SearchOrdersAccepted: React.FC = () => {
     useEffect (() => {
         const getOrder = async () => {
             try {
-                setLoadingOrder(true);
-                if(bakery !== null && date.length === 10) {
-                    const response = await api.get(`/order/get-accepted-by-date/${bakery.id}`,
+                searched && setLoadingOrder(true);
+                if(date.length === 10) {
+                    navigate(`/home/${bakeryId}/${HomeTab.ConfirmedOrders}?${buildParams()}`);
+                    const response = await api.get(`/order/get-accepted-by-date/${bakeryId}`,
                         {params: {date, username}});
                     setOrders(response.data);
                     setDateSearched(date);
@@ -59,12 +77,29 @@ const SearchOrdersAccepted: React.FC = () => {
 
                 }
             } finally {
-                setLoadingOrder(false);
+                searched && setLoadingOrder(false);
+                setSearched(false);
             }
         };
 
         getOrder();
-    }, [bakery, reload]);
+    }, [reload]);
+
+    const location = useLocation();
+    const { messages } = useWebSocket();
+    useEffect(() => {
+        if (messages.length === 0) return;
+
+        const lastMessage = messages[messages.length - 1];
+        const fullPath = location.pathname + location.search;
+        
+        console.log(location.pathname);
+        console.log(lastMessage.path);
+        
+        if (lastMessage.path?.some(p => p === fullPath)) {
+            refreshOrderNoArg();
+        }
+    }, [messages]);
 
     const grouped = groupOrdersByHour(orders);
 
@@ -81,6 +116,7 @@ const SearchOrdersAccepted: React.FC = () => {
                             onChange={(e) => setDate(e.target.value)}
                             required
                         />
+                        
                         <input className="search-order-name"
                             type="text"
                             id="name"
@@ -100,8 +136,6 @@ const SearchOrdersAccepted: React.FC = () => {
                 ) : (
                     orders.length === 0 ? (
                         <h3>Não foram encontradas encomendas para essa data.</h3>
-                        
-                        
                     ) : (
                         
                         Object.entries(grouped).map(([hour, orders]) => (

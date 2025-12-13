@@ -1,5 +1,5 @@
 import { RxCross2 } from "react-icons/rx";
-import { useNotification } from "../context/NotificationContext";
+import { useToastNotification } from "../context/NotificationContext";
 import type { OrderDTO } from "../dto/orderDTO";
 import "../styles/OrderInfo.css"
 import api from "../services/api";
@@ -16,7 +16,7 @@ interface Props {
 
 const OrderInfo: React.FC<Props> = ({onSwitch, order, myOrder, refreshOrders}) => {
 
-    const { addNotification } = useNotification();
+    const { addToastNotification: addNotification } = useToastNotification();
 
     const [openModalForm, setOpenModalForm] = useState<boolean>(false);
     const [orderDetailsIdSelected, setOrderDetailsIdSelected] = useState<number | null>(null);
@@ -47,8 +47,6 @@ const OrderInfo: React.FC<Props> = ({onSwitch, order, myOrder, refreshOrders}) =
             }
         }
     };
-
-    
 
     return (
         <>

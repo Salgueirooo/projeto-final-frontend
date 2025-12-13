@@ -9,7 +9,6 @@
 }
 
 .category-container {
-    /* background-color: aquamarine; */
     display:flex;
     
     justify-self: center;

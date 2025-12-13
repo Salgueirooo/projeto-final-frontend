@@ -1,12 +1,11 @@
 .quantity-form {
-    /* height: 25rem; */
     width: 22rem;
     background-color: var(--black);
     border-radius: 8px;
-    /* display:grid; */
+
     align-content:center;
     justify-items: center;
-    /* justify-content: center; */
+
 }
 
 .quantity-form .form-body {
@@ -17,11 +16,7 @@
 }
 
 .quantity-form button {
-    
-    /* position: absolute;
-    top: 25%;
-    right: 33%; */
-    /* justify-self: end; */
+
     display: flex;
     align-items: center;
     border: none;
@@ -44,8 +39,7 @@
     justify-content: center;
     justify-self: center;
     border-radius: 50%;
-    /* margin-top: 1.5rem;
-    margin-bottom: 1.8rem; */
+
     height: 2.2rem;
     font-size: 1rem;
 }

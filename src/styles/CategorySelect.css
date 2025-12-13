@@ -1,13 +1,8 @@
 .show-category {
     height: 16rem;
     width: 16rem;
-    /* display: flex; */
+
     background-color: var(--black);
-    /* justify-items: center;
-    
-    align-content:center; */
-    /* gap: 10px; */
-    /* display: flex; */
     border-radius: 10px;
     
     word-wrap: break-word;
@@ -17,26 +12,22 @@
 }
 
 .category-info {
-    /* transform: translateY(-1.4rem); */
     width: 100%;
     height: calc(100% - 1.1rem);
     justify-items: center;
     align-content: center;
-    
-    /* align-content:center; */
+
 }
 
 .category-info h3 {
     margin-top: 0.5rem;
     margin-bottom: 0.8rem;
     font-size: 1.3rem;
-    /* flex: 1; */
+
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
     width: 90%;
-    /* display: flex;
-    justify-content: center; */
     text-align: center; 
 }
 
@@ -52,9 +43,7 @@
 
 
 .show-category button {
-    
-    /* height: 60%; */
-    /* padding-top: 0.4rem; */
+
     padding-bottom: 0%;
     align-items: center;
     justify-content: center;

@@ -5,41 +5,41 @@ import { IoSearch } from "react-icons/io5"
 import { useEffect, useState } from "react"
 import api from "../services/api"
 import { useToastNotification } from "../context/NotificationContext"
+import { groupOrdersByHour } from "../hooks/hookGroupOrdersByHour"
 import { getStringDay } from "../hooks/hookStringDay"
 import { getTodayDate } from "../hooks/hookTodayDate"
-import { groupOrdersByHour } from "../hooks/hookGroupOrdersByHour"
 import { useLocation, useNavigate, useParams, useSearchParams } from "react-router-dom"
 import { HomeTab } from "../hooks/HomeTab"
 import { useWebSocket } from "../context/WebSocketContext"
+import type { producedRecipeDTO } from "../dto/producedRecipeDTO"
+import { groupRecipesByHour } from "../hooks/hookGroupRecipesByHour"
+import RecipeHistoryDetails from "./RecipeHistoryDetails"
 
 
-const SearchAllOrders: React.FC = () => {
+const RecipeHistory: React.FC = () => {
 
     const navigate = useNavigate();
-    const { bakeryId } = useParams<string>();
     const [params] = useSearchParams();
-
-    const initialDate = params.get("date") ?? "";
-    const initialEmail = params.get("email") ?? "";
-
+    const { bakeryId } = useParams<string>();
     const todayDate = getTodayDate();
 
-    const [date, setDate] = useState<string>(initialDate);
-    const [email, setEmail] = useState<string>(initialEmail);
-    const [loadingOrder, setLoadingOrder] = useState<boolean>(false);
-    const [dateSearched, setDateSearched] = useState<string>("");
-    const [searched, setSearched] = useState(true);
+    const initialDate = params.get("date") ?? (todayDate);
 
+    const [date, setDate] = useState<string>(initialDate);
+    const [loadingRecipe, setLoadingRecipe] = useState<boolean>(false);
+    const [dateSearched, setDateSearched] = useState<string>("");
+    const [searched, setSearched] = useState<boolean>(true);
+    
     const {addToastNotification: addNotification} = useToastNotification();
 
-    const [orders, setOrders] = useState<OrderDTO[]>([]);
+    const [recipes, setRecipes] = useState<producedRecipeDTO[]>([]);
 
     const [reload, setReload] = useState(false);
 
     const refreshOrder = async (event: React.FormEvent) => {
         event.preventDefault();
-        navigate(`/home/${bakeryId}/${HomeTab.SearchAllOrders}?date=${date}&email=${email}`);
         setSearched(true);
+        navigate(`/home/${bakeryId}/${HomeTab.HistoryRecipes}?date=${date}`);
         setReload(prev => !prev);
     };
 
@@ -50,11 +50,11 @@ const SearchAllOrders: React.FC = () => {
     useEffect (() => {
         const getOrder = async () => {
             try {
-                searched && setLoadingOrder(true);
+                searched && setLoadingRecipe(true);
                 if(date.length === 10) {
-                    const response = await api.get(`/order/search-email-day/${bakeryId}`,
-                        {params: {date, email}});
-                    setOrders(response.data);
+                    const response = await api.get(`/produced-recipe/get-all-by-date/${bakeryId}`,
+                        {params: {date}});
+                    setRecipes(response.data);
                     setDateSearched(date);
                 }
                 
@@ -70,7 +70,7 @@ const SearchAllOrders: React.FC = () => {
 
                 }
             } finally {
-                searched && setLoadingOrder(false);
+                searched && setLoadingRecipe(false);
                 setSearched(false);
             }
         };
@@ -94,14 +94,14 @@ const SearchAllOrders: React.FC = () => {
         }
     }, [messages]);
 
-    const grouped = groupOrdersByHour(orders);
+    const grouped = groupRecipesByHour(recipes);
 
     return (
         <>
             <div className="order-container-header">
-                <h2>{getStringDay(dateSearched, todayDate)}</h2> 
+                <h2>{getStringDay(dateSearched, todayDate)}</h2>
                 <form className="space-search-order-bar" onSubmit={refreshOrder}>
-                    <div className="search-order-box-ready">
+                    <div className="search-order-box">
                         <input className="search-order-text"
                             type="date"
                             id="date"
@@ -109,48 +109,38 @@ const SearchAllOrders: React.FC = () => {
                             onChange={(e) => setDate(e.target.value)}
                             required
                         />
-                        <input className="search-order-name"
-                            type="email"
-                            id="name"
-                            value={email}
-                            placeholder="Insira o email do cliente"
-                            onChange={(e) => setEmail(e.target.value)}
-                            required
-                        />
                     </div>
-                    <button type="submit" disabled={date.length !== 10}><IoSearch /></button>
+                    
+                    <button type="submit" onClick={() => setSearched(true)} disabled={date.length !== 10}><IoSearch /></button>
                 </form>
             </div>
             
             <div className="orders-container">
-                {loadingOrder ? (
+                {loadingRecipe ? (
                     <div className="spinner"></div>
                 ) : (
-                    orders.length === 0 ? (
-                        dateSearched.length === 10 ? (
-                            <h3>Não foram encontradas encomendas para essa data.</h3>
-                        ) : (
-                            <h3>Indique a data e o nome do cliente relativos à encomenda.</h3>
-                        )
-                        
+                    recipes.length === 0 ? (
+                       <h3>Não foram encontradas encomendas para essa data.</h3>
+                       
                     ) : (
                         
-                        Object.entries(grouped).map(([hour, orders]) => (
+                        Object.entries(grouped).map(([hour, recipes]) => (
                             <div key={hour}>
                                 <h2>{hour} - {hour.replace(":00", ":59")}</h2>
 
                                 <div className="orders-group">
-                                    {orders.map((order) => (
-                                        <OrderShow key={order.id + order.date} order={order} myOrders={false} refreshOrders={() => refreshOrderNoArg()} mode="normal"/>
+                                    {recipes.map((recipe) => (
+                                        <RecipeHistoryDetails key={recipe.id} recipeInfo={recipe} />
                                     ))}
                                 </div>
                             </div>
                         ))
                     )
+                    
                 )}
             </div>
         </>
     )
 }
 
-export default SearchAllOrders
+export default RecipeHistory

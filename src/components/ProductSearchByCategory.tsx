@@ -1,13 +1,11 @@
 import { useEffect, useState } from "react"
 import "../styles/ProductSearch.css"
-import { IoSearch } from "react-icons/io5";
 import ProductSelect from "./ProductSelect";
 import type { productDTO } from "../dto/productDTO";
 import api from "../services/api";
-import { useNotification } from "../context/NotificationContext";
+import { useToastNotification } from "../context/NotificationContext";
 import type { CategoryDTO } from "../dto/categoryDTO";
 import { FaArrowCircleLeft } from "react-icons/fa";
-import { RxCross1 } from "react-icons/rx";
 
 type opMode = "selectCategory" | "selectProduct";
 
@@ -22,36 +20,43 @@ const ProductSearchByCategory: React.FC<ProductSearchInt> = ({category, onSwitch
     
     const [loadingProducts, setLoadingProducts] = useState<boolean>(false);
     const [products, setProducts] = useState<productDTO[]>([]);
+    const [filteredProducts, setFilteredProducts] = useState<productDTO[]>([]);
 
-    const { addNotification } = useNotification();
-
-    const getProductsByNameAndCategory = async (name: string | null, categoryId: number) => {
-        try {
-            setLoadingProducts(true);
-            const response = await api.get("/product/search-active", {
-                params: { name, categoryId }
-            });
-            setProducts(response.data);
-            
-        } catch (err) {
-            console.error(err);
-            addNotification("Erro na comunicação com o Servidor.", true);
-        } finally {
-            setLoadingProducts(false);
-        }
-    };
+    const { addToastNotification: addNotification } = useToastNotification();
 
     useEffect (() => {
-        getProductsByNameAndCategory(null, category.id);
+        const getProductsByNameAndCategory = async (categoryId: number) => {
+            try {
+                setLoadingProducts(true);
+                const response = await api.get("/product/search-active", {
+                    params: { categoryId }
+                });
+                setProducts(response.data);
+                
+            } catch (err) {
+                console.error(err);
+                addNotification("Erro na comunicação com o Servidor.", true);
+            } finally {
+                setLoadingProducts(false);
+            }
+        };
+
+        getProductsByNameAndCategory(category.id);
     }, []);
 
-    const [searched, setSearched] = useState<boolean>(false);
+    useEffect(() => {
+        const name = productName.trim().toLowerCase();
 
-    const cleanSearch = () => {
-        setProductName("");
-        getProductsByNameAndCategory(null, category.id);
-        setSearched(false);
-    }
+        if (name === "") {
+            setFilteredProducts(products);
+        } else {
+            setFilteredProducts(
+                products.filter(r =>
+                    r.name.toLowerCase().includes(name)
+                )
+            );
+        }
+    }, [productName, products]);
 
     return (
         <>
@@ -70,21 +75,7 @@ const ProductSearchByCategory: React.FC<ProductSearchInt> = ({category, onSwitch
                         onChange={(e) => setProductName(e.target.value)}
                         required
                     />
-                    
-                    {searched ? (
-                        <button onClick={() => cleanSearch()}>
-                            <RxCross1 />
-                        </button>
-                    ) : (
-                        <button disabled={productName === ""} onClick={() => {
-                                getProductsByNameAndCategory(productName, category.id);
-                                setSearched(true);
-                            }}>
-                            <IoSearch />
-                        </button>
-                    )}
 
-                    
                 </div>
             </div>
             <div className="product-container">
@@ -92,15 +83,14 @@ const ProductSearchByCategory: React.FC<ProductSearchInt> = ({category, onSwitch
                     <div className="spinner"></div>
                 ) : (
                     <>
-                        {products.length === 0 ? (
+                        {filteredProducts.length === 0 ? (
                             <h3>Nenhum produto encontrado.</h3>
                         ) : (
-                            products.map((product) => (
+                            filteredProducts.map((product) => (
                                 <ProductSelect key={product.id} product={product} />
                             ))
                         )} 
                     </>
-                    
                 )}
             </div>
         </>

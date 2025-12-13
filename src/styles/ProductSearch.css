@@ -48,7 +48,7 @@
 .search-box {
     height: 2.5rem;
     background-color: var(--black);
-    width: 24rem;
+    width: 16rem;
     display: flex;
     justify-content:space-between;
     align-items: center;
@@ -61,7 +61,7 @@
     padding: 0.3rem 0 0.3rem 0;
     height: 1rem;
     border-radius: 0px;
-    width: 18rem;
+    width: 14rem;
     background-color: var(--black);
 }
 
@@ -86,24 +86,17 @@
     font-weight:bold;
     cursor: pointer;
     transition: background-color 0.2s ease;
-    /* display: flex;
-    align-items: center;
-    justify-content: center; */
 
-    /* display: flex;
-    justify-content: space-between;  Utilizar noutros botoes*/ 
 }
 
 .product-container {
     height: calc(100% - var(--search-bar-height) - 1rem);
     width: calc(100% - 2rem);
-    /* background-color: aqua; */
+
     overflow-y: auto;
     justify-self: center;
-    /* align-self: center; */
+
     gap: 0.6rem;
-    
-    /* border-radius: 0px 0px 10px 10px; */
     flex-wrap: wrap;
     justify-content: center;
     align-content: flex-start;

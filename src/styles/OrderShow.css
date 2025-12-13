@@ -1,19 +1,14 @@
 .order-container {
-    /* margin-top: 1rem;
-    margin-left: 1rem; */
-    /* padding: 0.5rem 2rem 1rem 2rem; */
-    /* width: 18rem; */
+  
     background-color: var(--black);
     border-radius: 10px;
-    /* display:contents; */
+
     word-wrap:break-word;
-    /* min-width: 10rem; */
+
     display: flex;
     flex-direction: column;
     
 }
-
-
 
 .order-body h4 {
     margin: 0;
@@ -46,7 +41,7 @@
 .order-body .title1 {
     text-align: center;
     margin-bottom: 0.8rem;
-    /* font-size: 1; */
+
 }
 
 .order-container .client {
@@ -55,7 +50,6 @@
     margin-top: auto;
     font-size: 1.1rem;
     max-width: 15rem;
-    /* text-align: center; */
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
@@ -68,9 +62,6 @@
 
 .order-container .info {
     
-    /* height: 60%; */
-    /* padding-top: 0.4rem; */
-    /* padding-bottom: 0%; */
     align-items: center;
     justify-content: center;
     border: none;
@@ -83,8 +74,7 @@
     transition: background-color 0.2s ease;
     display: flex;
     padding: 0.5rem;
-    /* width: 80%; */
-    /* width: calc(100% - 4rem); */
+
     border: 2px solid var(--black);
 
 }
@@ -110,8 +100,6 @@
     background-color: var(--sec-yellow);
 }
 
-
-
 .order-container .op-acceptance {
     display: flex;
     justify-content: space-between;
@@ -128,7 +116,6 @@
     justify-content: center;
     border: none;
     border-radius: 0px 0px 0px 0px;
-    /* background-color: var(--yellow); */
     color: var(--black);
     font-size: 1rem;
     font-weight:bold;
@@ -142,7 +129,6 @@
 
 .op-acceptance .recuse {
     border-radius: 0 0 0 10px;
-    /* background-color: #DB2B39; */
     background-color: var(--gray);
     color: var(--white);
 }
@@ -150,16 +136,15 @@
 .op-acceptance .recuse:hover {
 
     background-color: var(--sec-gray);
-
 }
 
 .op-acceptance .accept {
     border-radius: 0 0 10px 0px;
-    background-color: var(--yellow); /*#04A777*/
+    background-color: var(--yellow);
 }
 
 .op-acceptance .accept:hover {
-    background-color: var(--sec-yellow); /*#04A777*/
+    background-color: var(--sec-yellow);
 }
 
 .recuse-order-form {
@@ -171,8 +156,7 @@
     text-align: center;
 }
 
-.recuse-order-form .body-recuse {
-    
+.recuse-order-form .body-recuse {    
     padding: 0 2rem 0 2rem;
 }
 
@@ -195,7 +179,6 @@
 .recuse-order-form .notes-box:focus {
     outline: none;
     border-color: var(--yellow);
-    /* box-shadow: 0 0 4px var(--yellow); */
 }
 
 .recuse-order-form .submit {

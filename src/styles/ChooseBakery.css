@@ -45,7 +45,6 @@
 .conf {
     left: 1rem;
     font-size: 2.2rem;
-    /* font-size: 1.9rem; */
 }
 
 .logout {
@@ -58,7 +57,6 @@
 }
 
 .back-select {
-    /* position: relative; */
     height: calc(100vh - var(--bar-height) - 1rem);
     width: calc(100vw - 2rem);
     overflow: hidden;
@@ -81,7 +79,6 @@
 
 .bakery-container {
     display:flex;
-    /* background-color: aqua; */
     justify-self: center;
     align-self: center;
     width: calc(100% - 1rem);
