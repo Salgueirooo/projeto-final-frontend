@@ -1,3 +1,80 @@
+/*Recipe Start*/
+.recipe-start {
+    width: 45rem;
+    max-height: 30rem;
+    background-color: var(--black);
+    border-radius: 8px;
+    align-content:center;
+}
+
+.recipe-start table {
+    width: calc(100% - 6rem);
+
+    font-size: 1.1rem;
+    border-collapse: separate;
+    border-spacing: 0 0.2rem;
+    justify-self: center;
+
+    table-layout: fixed; 
+}
+
+
+
+.recipe-start thead {
+    
+    height: 3rem;
+    
+    background-color: var(--yellow);
+    color: var(--black);
+
+}
+
+.table-body-status {
+    width: 100%;
+    height: calc(100% - 10rem);
+    overflow-y: auto;
+    margin-bottom: 1.2rem;
+    /* background-color:aqua; */
+}
+
+.recipe-start td {
+    background-color: var(--gray);
+    height: 2.5rem;
+    
+}
+
+.recipe-start .sufficient {
+    width: 5rem;
+    /* background-color: aqua; */
+    text-align: center;
+}
+
+.recipe-start .insufficient {
+    width: 5rem;
+    /* background-color: aqua; */
+    text-align: center;
+    color: var(--yellow);
+}
+
+.recipe-start .quantity-stock {
+    width: 10rem;
+    /* min-width: 14rem; */
+    text-align: center;
+    /* background-color: aquamarine; */
+}
+
+.recipe-start .name {
+    width: 12rem;
+    text-align: left;
+    padding-left: 1rem;
+    /* background-color: aqua; */
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+
+/*Recipe Start Form*/
 .recipe-start-form {
     width: 26rem;
     
@@ -7,7 +84,7 @@
     justify-items: center;
 }
 
-.recipe-start-form button {
+.recipe-start-form button, .recipe-start button {
     
     display: flex;
     align-items: center;
@@ -22,7 +99,7 @@
     padding: 0.4rem;
 }
 
-.recipe-start-form .close-bot {
+.recipe-start-form .close-bot, .recipe-start .close-bot {
     justify-self: end;
 }
 
@@ -64,7 +141,7 @@
     margin: 0;
 }
 
-.recipe-start-form .start-recipe {
+.recipe-start-form .start-recipe, .recipe-start .start-recipe {
     padding: 0.5rem 1rem 0.5rem 1rem;
     margin-bottom: 1.5rem;
     justify-self: center;

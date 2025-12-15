@@ -4,35 +4,85 @@ import { useState } from "react";
 import { FaCheck } from "react-icons/fa";
 import api from "../services/api";
 import { useToastNotification } from "../context/NotificationContext";
+import { useParams } from "react-router-dom";
 
 interface Props {
     openForm: (op: boolean) => void;
-    refreshOrder: () => void;
-    orderDetailsId: number;
+    refreshOrder?: () => void;
+    orderDetailsId?: number;
+    ingredientId?: number;
+    mode: mode
 }
 
-const UpdateProductQuantityForm: React.FC<Props> = ({refreshOrder, openForm, orderDetailsId}) => {
+type mode = "update-cart" | "update-stock" | "add-stock"
 
+const UpdateProductQuantityForm: React.FC<Props> = ({mode, refreshOrder, openForm, orderDetailsId, ingredientId}) => {
+    const { bakeryId } = useParams<string>();
     const [quantity, setQuantity] = useState<number>(1)
     const {addToastNotification: addNotification} = useToastNotification();
-    const handleSubmit = async (event: React.FormEvent) => {
+    const updateCartQuantity = async (event: React.FormEvent) => {
         event.preventDefault();
 
-        try {
-            await api.put("/order/upgrade-product", {orderDetailsId, quantity});
+        if (orderDetailsId) {
+            try {
+                await api.put("/order/update-product", {orderDetailsId, quantity});
 
-            addNotification("A quantidade do produto foi atualizada.", false);
-            openForm(false);
-            refreshOrder();
+                addNotification("A quantidade do produto foi atualizada.", false);
+                openForm(false);
+                refreshOrder && refreshOrder();
 
-        } catch (err: any) {
-            if(err.response) {
-                console.error(err.response.data);
-                addNotification(err.response.data, true);
+            } catch (err: any) {
+                if(err.response) {
+                    console.error(err.response.data);
+                    addNotification(err.response.data, true);
+                }
+                else {
+                    console.error(err);
+                    addNotification("Erro ao atualizar a quantidade do produto.", true);
+                }
             }
-            else {
-                console.error(err);
-                addNotification("Erro ao atualizar a quantidade do produto.", true);
+        }
+        
+    };
+
+    const updateStockQuantity = async (event: React.FormEvent) => {
+        event.preventDefault();
+
+        if (ingredientId) {
+            try {
+                await api.put(`/stock/update/${bakeryId}/${ingredientId}`, quantity);
+                openForm(false);
+
+            } catch (err: any) {
+                if(err.response) {
+                    console.error(err.response.data);
+                    addNotification(err.response.data, true);
+                }
+                else {
+                    console.error(err);
+                    addNotification("Erro ao atualizar a quantidade do ingrediente.", true);
+                }
+            }
+        }
+    };
+
+    const addStockQuantity = async (event: React.FormEvent) => {
+        event.preventDefault();
+
+        if (ingredientId) {
+            try {
+                await api.put(`/stock/add/${bakeryId}/${ingredientId}`, quantity);
+                openForm(false);
+
+            } catch (err: any) {
+                if(err.response) {
+                    console.error(err.response.data);
+                    addNotification(err.response.data, true);
+                }
+                else {
+                    console.error(err);
+                    addNotification("Erro ao adicionar quantidade do ingrediente.", true);
+                }
             }
         }
     };
@@ -40,14 +90,27 @@ const UpdateProductQuantityForm: React.FC<Props> = ({refreshOrder, openForm, ord
     return (
         <>
             <div className="back-modal" onClick={() => openForm(false)}>
+                
                 <div className="quantity-form" onClick={(e) => e.stopPropagation()}>
                     <button className="close-bot" onClick={() => openForm(false)}><RxCross2 /></button>
 
-                    <h3>Insira a quantidade pretendida</h3>
-                    <form className="form-body" onSubmit={handleSubmit}>
+                    {mode === "update-cart" && (<h3>Insira a quantidade pretendida</h3>)}
+                    {mode === "add-stock" && (<h3>Insira a quantidade a adicionar</h3>)}
+                    {mode === "update-stock" && (<h3>Insira a nova quantidade</h3>)}
+
+                    <form className="form-body" onSubmit={mode === "update-cart" ? (
+                        updateCartQuantity
+                    ) : (
+                        mode === "add-stock" ? (
+                            addStockQuantity
+                        ) : (
+                            updateStockQuantity
+                        )
+                    )}>
                         <input
                             type="number"
-                            min="0"
+                            min="0.0"
+                            step="any"
                             required
                             className="quantity-input"
                             value={quantity}

@@ -1,0 +1,79 @@
+.show-stock {
+    /* background-color: aqua; */
+    width: calc(100% - 6rem);
+    height: calc(100% - 4rem);
+    justify-self: center;
+    margin-top: 2.5rem;
+    background-color: var(--gray);
+}
+
+.show-stock table {
+    width: 100%;
+
+    font-size: 1.1rem;
+    border-collapse: separate;
+    border-spacing: 0 0.3rem;
+}
+
+.show-stock thead {
+
+    height: 3rem;
+    
+    background-color: var(--yellow);
+    color: var(--black);
+
+}
+
+.table-body-stock {
+    height: calc(100% - 5rem);
+    overflow-y: auto;
+    /* background-color:aqua; */
+}
+
+.show-stock td {
+    background-color: var(--black);
+    height: 2.5rem;
+}
+
+
+.show-stock .quantity-stock {
+    width: 18rem;
+    min-width: 14rem;
+    text-align: center;
+}
+
+.quantity-stock button {
+    background-color: var(--yellow);
+    border: none;
+    padding: 0.3rem 0.4rem 0.1rem 0.4rem;
+    border-radius: 8px;
+    font-size: 0.9rem;
+    color: var(--black);
+}
+
+.quantity-stock button:hover {
+    background-color: var(--sec-yellow);
+}
+
+/* .quantity .edit {
+    margin-right: 0.5rem;
+} */
+
+.quantity-stock span {
+    background-color: var(--gray);
+    padding: 0.1rem 0.6rem 0.1rem 0.6rem;
+    margin: 0 0.5rem 0 0.5rem;
+    border-radius: 8px;
+    
+}
+
+.show-stock .name {
+    width: 40rem;
+    text-align: left;
+    padding-left: 1rem;
+    /* background-color: aqua; */
+}
+
+.name svg, .quantity-stock svg {
+    font-size: 1.2rem;
+}

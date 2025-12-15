@@ -31,6 +31,8 @@ import { useNotificationStore } from "../hooks/hookNotificationStore";
 import NotificationWSList from "../components/NotificationWSList";
 import ShowActivatedRecipes from "../components/RecipeShowActive";
 import RecipeHistory from "../components/RecipeHistory";
+import Stock from "../components/Stock";
+import BakeryStats from "../components/StatitsticsBakery";
 
 const HomePage: React.FC = () => {
     
@@ -51,8 +53,7 @@ const HomePage: React.FC = () => {
         navigate("/select-bakery");
     };
 
-    const { decodedToken } = useDecodedToken();
-    const isAdmin: boolean = decodedToken?.roles?.includes("ROLE_ADMIN");
+    const { isAdmin } = useDecodedToken();
 
     const { addToastNotification: addNotification } = useToastNotification();
 
@@ -226,14 +227,6 @@ const HomePage: React.FC = () => {
                         <FaArrowCircleRight />
                     </button>
 
-                    <button onClick={() => setSelectedTab(HomeTab.WithoutStock)} className={selectedTab === HomeTab.WithoutStock ? "op-selected" : "op"}>
-                        <div className="op-left">
-                            <BsDatabaseFillExclamation />
-                            <span className="text">Ver sem Stock</span>
-                        </div>
-                        <FaArrowCircleRight />
-                    </button>
-
                     <div className="separators">Estatísticas</div>
 
                     <button onClick={() => setSelectedTab(HomeTab.SalesStats)} className={selectedTab === HomeTab.SalesStats ? "op-selected" : "op"}>
@@ -284,6 +277,8 @@ const HomePage: React.FC = () => {
                     {selectedTab === HomeTab.SearchRecipes && <ShowRecipes />}
                     {selectedTab === HomeTab.StartedRecipes && <ShowActivatedRecipes />}
                     {selectedTab === HomeTab.HistoryRecipes && <RecipeHistory />}
+                    {selectedTab === HomeTab.ManageStock && <Stock />}
+                    {selectedTab === HomeTab.SalesStats && <BakeryStats />}
                 </div>
             </div>
         </>

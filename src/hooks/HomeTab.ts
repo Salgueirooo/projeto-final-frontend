@@ -12,7 +12,6 @@ export const HomeTab = {
     StartedRecipes: "started-recipes",
     HistoryRecipes: "history-recipes",
     ManageStock: "manage-stock",
-    WithoutStock: "without-stock",
     SalesStats: "sales-stats",
     RevenueStats: "revenue-stats",
     YearStats: "year-stats",

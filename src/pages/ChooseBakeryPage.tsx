@@ -15,8 +15,7 @@ import { useNotificationStore } from "../hooks/hookNotificationStore";
 
 const SelectBakeryPage: React.FC = () => {
     
-    const { decodedToken } = useDecodedToken();
-    const isAdmin: boolean = decodedToken?.roles?.includes("ROLE_ADMIN");
+    const { isAdmin } = useDecodedToken();
 
     const { addToastNotification: addNotification } = useToastNotification();
     const [username, setUsername] = useState<string>("");

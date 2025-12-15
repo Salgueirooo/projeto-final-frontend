@@ -1,6 +1,7 @@
 import { useState } from "react";
 import type { recipeDTO } from "../dto/recipeDTO"
 import RecipeStartForm from "./RecipeStartForm";
+import RecipeStatus from "./RecipeStart";
 
 const BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
@@ -10,13 +11,13 @@ interface Props {
 
 const RecipeSelect: React.FC<Props> = ({recipeSelected}) => {
 
-    const [startRecipeFormOpen, setstartRecipeFormOpen] = useState<boolean>(false);
+    const [startRecipeFormOpen, setStartRecipeFormOpen] = useState<boolean>(false);
 
     return (
         <>
             <div className="inline-header">
                 <h3 className="title-recipe">Receita de {recipeSelected.productName}</h3>
-                <button onClick={() => setstartRecipeFormOpen(true)}>Iniciar Receita</button>
+                <button onClick={() => setStartRecipeFormOpen(true)}>Iniciar Receita</button>
             </div>
             
             <div className="inline">
@@ -40,7 +41,7 @@ const RecipeSelect: React.FC<Props> = ({recipeSelected}) => {
                 <div className="prep-text">{recipeSelected.preparation}</div>
             </div>
             {startRecipeFormOpen && (
-                <RecipeStartForm recipeId={recipeSelected.id} onSwitch={(m) => setstartRecipeFormOpen(m)} />
+                <RecipeStatus recipeId={recipeSelected.id} onSwitch={m => setStartRecipeFormOpen(m)} />
             )}
         </>
     )

@@ -176,7 +176,7 @@ const ShoppingCart: React.FC = () => {
             
             </div>
             {modalFormOpen && (<MakeOrderForm orderId={order.id} onSwitch={(m) => setModalFormOpen(m)}/>)}
-            {upgradeQuantityFormOpen && (<UpdateProductQuantityForm orderDetailsId={orderDetailsId} refreshOrder={() => refreshOrder()} openForm={(f) => setUpgradeQuantityFormOpen(f)}/>)}
+            {upgradeQuantityFormOpen && (<UpdateProductQuantityForm mode="update-cart" orderDetailsId={orderDetailsId} refreshOrder={() => refreshOrder()} openForm={(f) => setUpgradeQuantityFormOpen(f)}/>)}
         </>
         
     )
