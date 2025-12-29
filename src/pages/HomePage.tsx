@@ -10,7 +10,7 @@ import { useToastNotification } from "../context/NotificationContext";
 import { FaArrowCircleLeft, FaArrowCircleRight, FaRegCalendarCheck } from "react-icons/fa";
 import { MdIncompleteCircle, MdOutlineEuroSymbol } from "react-icons/md";
 import { LuHistory } from "react-icons/lu";
-import { BsArchiveFill, BsDatabaseFill, BsDatabaseFillExclamation } from "react-icons/bs";
+import { BsArchiveFill, BsDatabaseFill, BsDatabaseFillCheck } from "react-icons/bs";
 import { GiCupcake } from "react-icons/gi";
 import { IoIosCart, IoIosStats } from "react-icons/io";
 import { GoGraph } from "react-icons/go";
@@ -32,7 +32,8 @@ import NotificationWSList from "../components/NotificationWSList";
 import ShowActivatedRecipes from "../components/RecipeShowActive";
 import RecipeHistory from "../components/RecipeHistory";
 import Stock from "../components/Stock";
-import BakeryStats from "../components/StatitsticsBakery";
+import BakeryStats from "../components/StatisticsBakery";
+import StockVerify from "../components/StockVerify";
 
 const HomePage: React.FC = () => {
     
@@ -227,6 +228,14 @@ const HomePage: React.FC = () => {
                         <FaArrowCircleRight />
                     </button>
 
+                    <button onClick={() => setSelectedTab(HomeTab.VerifyStock)} className={selectedTab === HomeTab.VerifyStock ? "op-selected" : "op"}>
+                        <div className="op-left">
+                            <BsDatabaseFillCheck />
+                            <span className="text">Verificar</span>
+                        </div>
+                        <FaArrowCircleRight />
+                    </button>
+
                     <div className="separators">Estatísticas</div>
 
                     <button onClick={() => setSelectedTab(HomeTab.SalesStats)} className={selectedTab === HomeTab.SalesStats ? "op-selected" : "op"}>
@@ -278,6 +287,7 @@ const HomePage: React.FC = () => {
                     {selectedTab === HomeTab.StartedRecipes && <ShowActivatedRecipes />}
                     {selectedTab === HomeTab.HistoryRecipes && <RecipeHistory />}
                     {selectedTab === HomeTab.ManageStock && <Stock />}
+                    {selectedTab === HomeTab.VerifyStock && <StockVerify />}
                     {selectedTab === HomeTab.SalesStats && <BakeryStats />}
                 </div>
             </div>

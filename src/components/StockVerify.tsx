@@ -12,7 +12,7 @@ import { IoMdArrowDropdownCircle, IoMdArrowDropupCircle } from "react-icons/io"
 
 type mode = "nameAsc" | "nameDesc" | "quantityAsc" | "quantityDesc"
 
-const Stock: React.FC = () => {
+const StockVerify: React.FC = () => {
 
     const [loadingOrder, setLoadingOrder] = useState<boolean>(true);
     const [stocks, setStocks] = useState<stockDTO[]>([]);
@@ -178,4 +178,4 @@ const Stock: React.FC = () => {
         
     )
 }
-export default Stock
+export default StockVerify

@@ -98,13 +98,13 @@
     text-align: center;
 }
 
-.notification-container .notif-link {
+.notification-container .notif-link, .notification-message .notif-link {
     cursor: pointer; 
     text-decoration: underline;
     color: var(--blue);
 }
 
-.notification-container .notif-link:hover {
+.notification-container .notif-link:hover, .notification-message .notif-link:hover {
     color: var(--sec-blue);
 }
 

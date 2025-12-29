@@ -5,6 +5,7 @@ export const useLogout = () => {
 
     const handleLogout = () => {
         localStorage.removeItem("token");
+        window.dispatchEvent(new Event("tokenChanged"));
         navigate("/");
     };
 

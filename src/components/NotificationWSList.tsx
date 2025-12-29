@@ -2,11 +2,7 @@ import { useEffect, useState } from "react";
 import { useNotificationStore } from "../hooks/hookNotificationStore";
 import type { wsMessageDTO } from "../dto/wsMessageDTO";
 import "../styles/NotificationWSList.css"
-import ProductInfo from "./ProductInfo";
-import type { productDTO } from "../dto/productDTO";
 import { useNavigate } from "react-router-dom";
-import { getTodayDate } from "../hooks/hookTodayDate";
-import { getStringDay } from "../hooks/hookStringDay";
 
 type mode = "main" | "bakery"
 type show = "all" | "toBakery" | "toUser"
@@ -45,8 +41,6 @@ const NotificationWSList: React.FC<Props> = ({ mode, bakeryId, onSwitch, lastAcc
         ? notifications.filter(n => new Date(n.time) <= new Date(lastAccess))
         : []
     ).reverse();
-
-    const today = getTodayDate();
 
     return(
         <>
@@ -106,7 +100,7 @@ const NotificationWSList: React.FC<Props> = ({ mode, bakeryId, onSwitch, lastAcc
                                                 {hyperlink && hasValidPath && (
                                                     <span
                                                         className="notif-link"
-                                                        onClick={() => {onSwitch(false); localStorage.setItem("lastAccessNotifications", new Date().toISOString());; navigate(path[0])}}
+                                                        onClick={() => {onSwitch(false); localStorage.setItem("lastAccessNotifications", new Date().toISOString()); navigate(path[0])}}
                                                     >
                                                         {hyperlink}
                                                     </span>

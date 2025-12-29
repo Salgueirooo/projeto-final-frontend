@@ -117,6 +117,7 @@ const ProductInfo: React.FC<ProductInfoInt> = ({product, onSwitch}) => {
                                                 <h4>{comment.review}</h4>
                                             )}
                                             <h5>{comment.userName} - {comment.dateTime}</h5>
+                                            <h5>Comprado em {comment.bakeryName}</h5>
                                         </div>
                                     ))
                                 )}

@@ -7,10 +7,10 @@ import api from "../services/api"
 import { useToastNotification } from "../context/NotificationContext"
 import { getStringDay } from "../hooks/hookStringDay"
 import { getTodayDate } from "../hooks/hookTodayDate"
-import { groupOrdersByHour } from "../hooks/hookGroupOrdersByHour"
 import { useLocation, useNavigate, useParams, useSearchParams } from "react-router-dom"
 import { HomeTab } from "../hooks/HomeTab"
 import { useWebSocket } from "../context/WebSocketContext"
+import { groupOrdersByDay } from "../hooks/hookGroupOrdersByDay"
 
 
 const SearchAllOrders: React.FC = () => {
@@ -38,7 +38,23 @@ const SearchAllOrders: React.FC = () => {
 
     const refreshOrder = async (event: React.FormEvent) => {
         event.preventDefault();
-        navigate(`/home/${bakeryId}/${HomeTab.SearchAllOrders}?date=${date}&email=${email}`);
+        
+        const params = new URLSearchParams();
+
+        if (date)
+            params.append("date", date);
+
+        if (email) 
+            params.append("email", email);
+
+        const queryString = params.toString();
+
+        navigate(
+            `/home/${bakeryId}/${HomeTab.SearchAllOrders}${
+                queryString ? `?${queryString}` : ""
+            }`
+        );
+        
         setSearched(true);
         setReload(prev => !prev);
     };
@@ -51,12 +67,14 @@ const SearchAllOrders: React.FC = () => {
         const getOrder = async () => {
             try {
                 searched && setLoadingOrder(true);
-                if(date.length === 10) {
+                if (email.length >= 1) {
                     const response = await api.get(`/order/search-email-day/${bakeryId}`,
                         {params: {date, email}});
                     setOrders(response.data);
                     setDateSearched(date);
                 }
+                
+                
                 
             } catch (err: any) {
 
@@ -86,15 +104,12 @@ const SearchAllOrders: React.FC = () => {
         const lastMessage = messages[messages.length - 1];
         const fullPath = location.pathname + location.search;
         
-        console.log(location.pathname);
-        console.log(lastMessage.path);
-        
         if (lastMessage.path?.some(p => p === fullPath)) {
             refreshOrderNoArg();
         }
     }, [messages]);
 
-    const grouped = groupOrdersByHour(orders);
+    const groupedByDay = groupOrdersByDay(orders);
 
     return (
         <>
@@ -107,7 +122,6 @@ const SearchAllOrders: React.FC = () => {
                             id="date"
                             value={date}
                             onChange={(e) => setDate(e.target.value)}
-                            required
                         />
                         <input className="search-order-name"
                             type="email"
@@ -118,7 +132,7 @@ const SearchAllOrders: React.FC = () => {
                             required
                         />
                     </div>
-                    <button type="submit" disabled={date.length !== 10}><IoSearch /></button>
+                    <button type="submit" disabled={email.length < 1}><IoSearch /></button>
                 </form>
             </div>
             
@@ -130,14 +144,14 @@ const SearchAllOrders: React.FC = () => {
                         dateSearched.length === 10 ? (
                             <h3>Não foram encontradas encomendas para essa data.</h3>
                         ) : (
-                            <h3>Indique a data e o nome do cliente relativos à encomenda.</h3>
+                            <h3>Indique o email do cliente e, opcionalmente, a data da encomenda.</h3>
                         )
                         
                     ) : (
                         
-                        Object.entries(grouped).map(([hour, orders]) => (
-                            <div key={hour}>
-                                <h2>{hour} - {hour.replace(":00", ":59")}</h2>
+                        Object.entries(groupedByDay).map(([day, orders]) => (
+                            <div key={day}>
+                                {!dateSearched && <h2>{day}</h2>}
 
                                 <div className="orders-group">
                                     {orders.map((order) => (

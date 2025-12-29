@@ -1,0 +1,146 @@
+.stats-panel {
+    justify-self: center;
+    margin-top: 1rem;
+    width: calc(100% - 2rem);
+    height: calc(100% - 2rem);
+    /* background-color: aqua; */
+    overflow: auto;
+}
+
+.stats-panel .search-container {
+    height: 2.2rem;
+    width: 100%;
+    /* background-color: aquamarine; */
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+}
+
+.search-container .op-left, .search-container .op-right {
+    align-content: center;
+    display: flex;
+    gap: 0.4rem;
+}
+
+.search-container button {
+    /* padding: 0.3rem 1rem 0.3rem 1rem; */
+    height: 2.2rem;
+    width: 5rem;
+    /* background-color: var(--yellow); */
+    border: none;
+    border-radius: 8px;
+    font-weight: bold;
+    color: var(--black);
+    font-size: 1.1rem;
+    cursor: pointer;
+}
+
+.search-container .selected {
+    background-color: var(--yellow);
+    color: var(--black);
+}
+
+.search-container .no-selected {
+    background-color: var(--black);
+    color: var(--white);
+}
+
+.search-container .no-selected:hover {
+    background-color: var(--yellow);
+    color: var(--black);
+}
+
+.op-right input {
+    /* width: 12rem; */
+    height: calc(100% - 0.1rem);
+    padding: 0 1rem 0 1rem;
+    margin: 0;
+    background-color: var(--black);
+    font-size: 1.1rem;
+}
+
+.op-right .month {
+    width: 12rem;
+}
+
+.op-right .date {
+    width: 10rem;
+}
+
+.op-right .year {
+    width: 4rem;
+}
+
+.op-right button {
+    height: 100%;
+    width: 2.2rem;
+    border-radius: 50%;
+    padding-top: 0.3rem;
+    background-color: var(--yellow);
+}
+
+.op-right button:hover {
+    background-color: var(--sec-yellow);
+}
+
+.stats-panel .stats-container {
+    /* background-color: aqua; */
+    width: 100%;
+    height: calc(100% - 3rem);
+    margin-top: 0.8rem;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    overflow-x: hidden;
+}
+
+.stats-container h2 {
+    text-align: center;
+    /* height: rem; */
+    padding-top: 0.8rem;
+    padding-bottom: 0.4rem;
+    /* margin: 0; */
+}
+
+.stats-container .best {
+    justify-self: center;
+    justify-items: center;
+    align-content: center;
+    width: calc(100% - 4rem);
+    height: 3rem;
+    padding: 0 1rem 0 1rem;
+    background-color: var(--gray);
+    border-radius: 8px;
+}
+
+.best h3 {
+    text-align: center;
+    margin: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    width: 100%;
+}
+
+.best b {
+    color: var(--yellow);
+}
+
+.stats-container .stats1, .stats-container .stats2 {
+    height: 100%;
+    max-width: 100%;
+    flex: 1 1 30rem; 
+    /* width: calc(50% - 0.5rem); */
+    
+    background-color: var(--black);
+    border-radius: 8px;
+}
+
+.stats-container .bar-graphic {
+    width: calc(100% - 1rem);
+    height: calc(100% - 7.2rem);
+    min-width: 300px;
+    /* background-color: rgb(35, 5, 63); */
+}
+
+

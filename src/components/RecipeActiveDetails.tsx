@@ -73,12 +73,38 @@ const RecipeActiveSelect: React.FC<Props> = ({selectedRecipeId, setTradeRecipe, 
     }, [selectedRecipeId, reload]);
 
     const toggleIngredientState = async (id: number) => {
+        
+        setRecipe(prev => {
+            if (!prev) return prev;
+
+            return {
+                ...prev,
+                ingredientsList: prev.ingredientsList.map(ingredient =>
+                    ingredient.id === id
+                        ? { ...ingredient, done: !ingredient.done }
+                        : ingredient
+                ),
+            };
+        });
+        
         try {
-                
+               
             await api.put(`/produced-recipe/toggle-ingredient-state/${id}`);
 
                 
         } catch (err: any) {
+            setRecipe(prev => {
+                if (!prev) return prev;
+
+                return {
+                    ...prev,
+                    ingredientsList: prev.ingredientsList.map(ingredient =>
+                        ingredient.id === id
+                            ? { ...ingredient, done: !ingredient.done }
+                            : ingredient
+                    ),
+                };
+            });
 
             if(err.response) {
                 console.error(err.response.data);

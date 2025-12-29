@@ -1,8 +1,9 @@
-import React, { createContext, useContext, useRef, useState } from "react";
+import React, { createContext, useContext, useEffect, useRef, useState } from "react";
 import Notification, { type NotificationDTO } from "../components/NotificationToast";
+import type { wsMessageDTO } from "../dto/wsMessageDTO";
 
 interface NotificationContextType {
-  addToastNotification: (message: string, isError: boolean) => void;
+  addToastNotification: (message: string, isError: boolean, data?: wsMessageDTO) => void;
 }
 
 const NotificationContext = createContext<NotificationContextType | null>(null);
@@ -16,17 +17,25 @@ export const useToastNotification = () => {
 export const NotificationProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
     const [notifications, setNotifications] = useState<NotificationDTO[]>([]);
 
+    const sidebarRef = useRef<HTMLDivElement | null>(null);
     const nextId = useRef(0);
 
-    const addToastNotification = (message: string, isError: boolean) => {
+    useEffect(() => {
+        if (!sidebarRef.current) return;
+
+        sidebarRef.current.scrollTop = sidebarRef.current.scrollHeight;
+    }, [notifications]);
+
+    const addToastNotification = (message: string, isError: boolean, data?: wsMessageDTO) => {
         const newNotification: NotificationDTO = {
             id: (nextId.current++).toString(),
             message,
             date: new Date().toLocaleTimeString(),
-            isError
+            isError,
+            data
         };
 
-        setNotifications((prev) => [...prev, newNotification]);
+        setNotifications((prev) => [newNotification, ...prev]);
 
         setTimeout(() => {
             setNotifications((prev) =>
@@ -38,7 +47,7 @@ export const NotificationProvider: React.FC<{ children: React.ReactNode }> = ({ 
     return (
         <NotificationContext.Provider value={{ addToastNotification: addToastNotification }}>
         {children}
-        <div className="notification-sidebar">
+        <div className="notification-sidebar" ref={sidebarRef}>
             {notifications.map((n) => (
                 <Notification key={n.id} notification={n} />
             ))}

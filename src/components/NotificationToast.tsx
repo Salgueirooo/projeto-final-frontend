@@ -1,5 +1,7 @@
 import React from "react";
 import "../styles/Notification.css";
+import type { wsMessageDTO } from "../dto/wsMessageDTO";
+import { useNavigate } from "react-router-dom";
 
 
 export interface NotificationDTO {
@@ -7,14 +9,19 @@ export interface NotificationDTO {
     date?: string;
     isError: boolean;
     message: string;
+    data?: wsMessageDTO;
 }
-
 
 interface NotificationProps {   
     notification: NotificationDTO;
 }
 
-const Notification: React.FC<NotificationProps> = ({ notification}) => {
+const Notification: React.FC<NotificationProps> = ({ notification }) => {
+
+    const navigate = useNavigate();
+    const data = notification.data;
+    const path = data?.path?.[0];
+
     return (
         <div className={
                 notification.isError
@@ -22,7 +29,18 @@ const Notification: React.FC<NotificationProps> = ({ notification}) => {
                 : "notification-info"
             }>
             <div className="notification-date">{notification.date}</div>
-            <div className="notification-message">{notification.message}</div>
+            <div className="notification-message">
+                {notification.message}
+                {path && (
+                    <span
+                        className="notif-link"
+                        onClick={() => navigate(path)}
+                    >
+                        {data?.hyperlink}
+                    </span>
+                )}
+                
+            </div>
         </div>
     );
 };

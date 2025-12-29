@@ -6,5 +6,6 @@ export interface recipeDTO {
     productName: string,
     image: string,
     preparation: string,
+    nResultingProducts: string,
     ingredients: recipeIngredientDTO[]
 }

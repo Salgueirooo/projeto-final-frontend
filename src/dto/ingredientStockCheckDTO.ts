@@ -1,7 +1,8 @@
-import type { recipeIngredientDTO } from "./recipeIngredientDTO";
+import type { IngredientDTO } from "./ingredientDTO";
 
-export interface ingredientStockCheckDTO {
-    ingredient: recipeIngredientDTO,
+export interface IngredientStockCheckDTO {
+    ingredient: IngredientDTO,
+    quantityNeeded: number,
     availableQuantity: number,
     sufficient: boolean
 }

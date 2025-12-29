@@ -4,7 +4,7 @@ import RecipeStartForm from "./RecipeStartForm";
 import api from "../services/api";
 import { useToastNotification } from "../context/NotificationContext";
 import { useParams } from "react-router-dom";
-import type { ingredientStockCheckDTO } from "../dto/ingredientStockCheckDTO";
+import type { IngredientStockCheckDTO } from "../dto/ingredientStockCheckDTO";
 import "../styles/RecipeStartForm.css"
 import { FaCheck } from "react-icons/fa";
 import { ImCross } from "react-icons/im";
@@ -14,22 +14,25 @@ interface Props {
     onSwitch: (modalForm: boolean) => void;
 }
 
-type mode = "recipeStockStatus" | "startRecipe"
+type mode = "recipeStockStatus" | "chooseDose"
 
 const RecipeStatus: React.FC<Props> = ({recipeId, onSwitch}) => {
 
-    const [mode, setMode] = useState<mode>("recipeStockStatus")
+    const [mode, setMode] = useState<mode>("chooseDose")
     const [loadingStock, setLoadingStock] = useState<boolean>(false);
-    const [recipeStocks, setRecipeStocks] = useState<ingredientStockCheckDTO[]>([]);
+    const [recipeStocks, setRecipeStocks] = useState<IngredientStockCheckDTO[]>([]);
     const {addToastNotification: addNotification} = useToastNotification();
 
     const { bakeryId } = useParams<string>();
+    const [dose, setDose] = useState(0);
 
     useEffect (() => {
         const getStocks = async () => {
             try {
                 setLoadingStock(true);
-                const response = await api.get(`/stock/recipe-stock-status/${bakeryId}/${recipeId}`);
+                const response = await api.get(`/stock/recipe-stock-status/${bakeryId}/${recipeId}`,
+                    {params: {dose}}
+                );
                 setRecipeStocks(response.data);
                 
             } catch (err) {
@@ -41,7 +44,31 @@ const RecipeStatus: React.FC<Props> = ({recipeId, onSwitch}) => {
         };
 
         getStocks();
-    }, []);
+    }, [dose]);
+
+    const addProducedRecipe = async () => {
+          
+        if (dose > 0) {
+            try {
+            
+                await api.post("/produced-recipe/add", {
+                    recipeId,
+                    bakeryId,
+                    dose
+                });
+
+            } catch (err: any) {
+
+                if (err.response) {
+                    console.error(err.response.data);
+                    addNotification(err.response.data, true);
+                } else {
+                    console.error(err);
+                    addNotification("Erro na comunicação com o Servidor.", true);
+                }
+            }
+        }
+    };
 
     return (
         <>
@@ -74,7 +101,7 @@ const RecipeStatus: React.FC<Props> = ({recipeId, onSwitch}) => {
                                             {recipeStocks.map(recipeStock => (
                                                     <tr key={recipeStock.ingredient.id}>
                                                         <td className="name" title={recipeStock.ingredient.name}>{recipeStock.ingredient.name}</td>
-                                                        <td className="quantity-stock">{recipeStock.ingredient.quantity.toString().replace(".", ",")} / {recipeStock.availableQuantity.toString().replace(".", ",")} {recipeStock.ingredient.unitSymbol}</td>
+                                                        <td className="quantity-stock">{recipeStock.quantityNeeded.toString().replace(".", ",")} / {recipeStock.availableQuantity.toString().replace(".", ",")} {recipeStock.ingredient.unitSymbol}</td>
                                                         <td className={recipeStock.sufficient ? "sufficient" : "insufficient"}>{recipeStock.sufficient ? (<FaCheck />) : (<ImCross />)}</td>
                                                     </tr>
                                             ))} 
@@ -85,7 +112,7 @@ const RecipeStatus: React.FC<Props> = ({recipeId, onSwitch}) => {
                         </div>
                         
                         {recipeStocks.every(recipeStock => recipeStock.sufficient !== false) ? (
-                            <button className="start-recipe" onClick={() => setMode("startRecipe")}>Iniciar Receita</button>
+                            <button className="start-recipe" onClick={() => addProducedRecipe()}>Iniciar Receita</button>
                         ) : (
                             <button className="start-recipe" onClick={() => onSwitch(false)}>Cancelar</button>
                         )}
@@ -93,7 +120,7 @@ const RecipeStatus: React.FC<Props> = ({recipeId, onSwitch}) => {
                     </div>
                 </div>  
             ) : (
-                <RecipeStartForm recipeId={recipeId} onSwitch={onSwitch}/>
+                <RecipeStartForm onSwitch={onSwitch} setDose={(d) => setDose(d)} setMode={(m) => setMode(m)}/>
             )}
         </>
 

@@ -5,18 +5,18 @@ import App from "./App"
 import { NotificationProvider } from "./context/NotificationContext";
 import { BrowserRouter } from 'react-router-dom';
 import { NotificationStoreProvider } from './context/NotificationStoreContext';
-import { WebSocketProvider } from './context/WebSocketContext';
+import { AuthProvider } from './context/AuthProvider';
 
 createRoot(document.getElementById('root')!).render(
     <StrictMode>
         <BrowserRouter>
-            <NotificationStoreProvider>
-                <NotificationProvider>
-                    <WebSocketProvider>
+            <AuthProvider>
+                <NotificationStoreProvider>
+                    <NotificationProvider>
                         <App />
-                    </WebSocketProvider>
-                </NotificationProvider>
-            </NotificationStoreProvider>
+                    </NotificationProvider>
+                </NotificationStoreProvider>
+            </AuthProvider>
         </BrowserRouter>
     
     </StrictMode>,

@@ -5,6 +5,7 @@ import SockJS from "sockjs-client";
 import { useToastNotification } from "./NotificationContext";
 import type { wsMessageDTO } from "../dto/wsMessageDTO";
 import { useNotificationStore } from "../hooks/hookNotificationStore";
+import { useAuth } from "../hooks/useAuth";
 
 const BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
@@ -20,25 +21,25 @@ export const WebSocketProvider = ({ children }: { children: ReactNode }) => {
     const { addToastNotification } = useToastNotification();
     const { addNotification } = useNotificationStore();
 
-    const [token, setToken] = useState(localStorage.getItem("token"));
+    const { isAuthenticated, token } = useAuth();
+
+    // useEffect(() => {
+    //     const onStorage = (e: StorageEvent) => {
+    //         if (e.key === "token") setToken(localStorage.getItem("token"));
+    //     };
+    //     const onTokenChanged = () => setToken(localStorage.getItem("token"));
+
+    //     window.addEventListener("storage", onStorage);
+    //     window.addEventListener("tokenChanged", onTokenChanged);
+
+    //     return () => {
+    //         window.removeEventListener("storage", onStorage);
+    //         window.removeEventListener("tokenChanged", onTokenChanged);
+    //     };
+    // }, []);
 
     useEffect(() => {
-        const onStorage = (e: StorageEvent) => {
-            if (e.key === "token") setToken(localStorage.getItem("token"));
-        };
-        const onTokenChanged = () => setToken(localStorage.getItem("token"));
-
-        window.addEventListener("storage", onStorage);
-        window.addEventListener("tokenChanged", onTokenChanged);
-
-        return () => {
-            window.removeEventListener("storage", onStorage);
-            window.removeEventListener("tokenChanged", onTokenChanged);
-        };
-    }, []);
-
-    useEffect(() => {
-        if (!token) {
+        if (!isAuthenticated || !token) {
             if (clientRef.current) {
                 clientRef.current.deactivate();
                 clientRef.current = null;
@@ -56,7 +57,7 @@ export const WebSocketProvider = ({ children }: { children: ReactNode }) => {
             connectHeaders: {
                 Authorization: "Bearer " + token,
             },
-            reconnectDelay: 5000,
+            reconnectDelay: 0,
         });
 
         client.onConnect = () => {
@@ -64,7 +65,7 @@ export const WebSocketProvider = ({ children }: { children: ReactNode }) => {
                 try {
                     const data: wsMessageDTO = JSON.parse(msg.body);
                     setMessages((prev) => [...prev, data]);
-                    addToastNotification(data.message, false);
+                    addToastNotification(data.message, false, data);
                     addNotification(data);
                 } catch (err) {
                     console.error("Falha ao analisar mensagem", err);
@@ -90,7 +91,7 @@ export const WebSocketProvider = ({ children }: { children: ReactNode }) => {
             client.deactivate();
             clientRef.current = null;
         };
-    }, [token]);
+    }, [isAuthenticated, token]);
 
     return (
         <WebSocketContext.Provider value={{messages}}>

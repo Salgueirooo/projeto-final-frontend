@@ -30,7 +30,7 @@ const OrderShow: React.FC<Props> = ({order, myOrders, refreshOrders, mode}) => {
                 await api.put(`/order/set-acceptance-status/${order.id}`,{
                     acceptance
                 });
-                addNotification("Encomenda aceite.", false);
+                // addNotification("Encomenda aceite.", false);
             
                 //refreshOrders();
         
@@ -59,7 +59,7 @@ const OrderShow: React.FC<Props> = ({order, myOrders, refreshOrders, mode}) => {
                 acceptance: false,
                 staffNotes: commentary
             });
-            addNotification("Encomenda recusada.", false);
+            // addNotification("Encomenda recusada.", false);
             
             setModalRecuseOrder(false);
             //refreshOrders();

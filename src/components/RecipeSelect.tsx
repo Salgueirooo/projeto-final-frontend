@@ -16,7 +16,7 @@ const RecipeSelect: React.FC<Props> = ({recipeSelected}) => {
     return (
         <>
             <div className="inline-header">
-                <h3 className="title-recipe">Receita de {recipeSelected.productName}</h3>
+                <h3 className="title-recipe">Receita de {recipeSelected.productName} (~{recipeSelected.nResultingProducts} un.)</h3>
                 <button onClick={() => setStartRecipeFormOpen(true)}>Iniciar Receita</button>
             </div>
             

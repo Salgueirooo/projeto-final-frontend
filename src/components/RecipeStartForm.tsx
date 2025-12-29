@@ -1,13 +1,13 @@
 import { useState } from "react";
 import { RxCross2 } from "react-icons/rx";
 import "../styles/RecipeStartForm.css"
-import { useToastNotification } from "../context/NotificationContext";
-import api from "../services/api";
-import { useParams } from "react-router-dom";
+
+type mode = "recipeStockStatus" | "chooseDose"
 
 interface Props {
-    recipeId: number;
     onSwitch: (modalForm: boolean) => void;
+    setDose: (dose: number) => void;
+    setMode: (mode: mode) => void;
 }
 
 interface Dose {
@@ -16,9 +16,7 @@ interface Dose {
     quantity: number;
 }
 
-const RecipeStartForm: React.FC<Props> = ({recipeId, onSwitch}) => {
-
-    const { bakeryId } = useParams<string>();
+const RecipeStartForm: React.FC<Props> = ({onSwitch, setDose, setMode}) => {
     const [customDose, setCustomDose] = useState<number>(1);
 
     const doses: Dose[] = [
@@ -54,37 +52,9 @@ const RecipeStartForm: React.FC<Props> = ({recipeId, onSwitch}) => {
         }
     ]
 
-    const {addToastNotification: addNotification} = useToastNotification();
-
-    const addProducedRecipe = async () => {
-        if (doseSelected.quantity === 0 && customDose <= 0) {
-            addNotification("A dose deve ser maior que 0.", true);
-        
-        } else {
-            
-            try {
-                
-                await api.post("/produced-recipe/add", {
-                    recipeId,
-                    bakeryId,
-                    dose: doseSelected.quantity === 0 ? (customDose) : (doseSelected.quantity)
-                });
-
-                addNotification("Receita iniciada com sucesso.", false);
-                onSwitch(false);
-
-            } catch (err: any) {
-
-                if (err.response) {
-                    console.error(err.response.data);
-                    addNotification(err.response.data, true);
-                } else {
-                    console.error(err);
-                    addNotification("Erro na comunicação com o Servidor.", true);
-                }
-            }
-        }
-    };
+    const getDoseRequest = () => {
+        return doseSelected.quantity === 0 ? (customDose) : (doseSelected.quantity);
+    }
 
     const [doseSelected, setDoseSelected] = useState<Dose>(doses[2]);
 
@@ -115,7 +85,7 @@ const RecipeStartForm: React.FC<Props> = ({recipeId, onSwitch}) => {
                     
                 </div>
 
-                <button className="start-recipe" onClick={() => addProducedRecipe()}>Iniciar Receita</button>
+                <button disabled={doseSelected.quantity === 0 && customDose <= 0} className="start-recipe" onClick={() => { setDose(getDoseRequest()); setMode("recipeStockStatus") }}>Iniciar Receita</button>
             </div>
         </div>
     )
