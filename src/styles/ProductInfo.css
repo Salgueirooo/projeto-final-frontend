@@ -131,7 +131,7 @@
 }
 
 .comments .comments-container {
-    max-height: 6rem;
+    max-height: 6.5rem;
     overflow-y: auto;
     width: calc(100% - 2rem);
     justify-self: center;
@@ -139,6 +139,16 @@
     border-radius: 8px;
     padding: 0.5rem 1rem 0.5rem 1rem;
     margin-bottom: 0.4rem;
+}
+
+.comments-container .inline {
+    display: flex;
+    justify-content: space-between;
+}
+
+.inline button {
+    height: 1.5rem;
+    width: 1.5rem;
 }
 
 .comments-container h5 {

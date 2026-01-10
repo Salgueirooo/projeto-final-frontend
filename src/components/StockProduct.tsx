@@ -4,19 +4,19 @@ import { useToastNotification } from "../context/NotificationContext"
 import api from "../services/api"
 import { FaPencilAlt, FaPlus } from "react-icons/fa"
 import { useLocation, useParams } from "react-router-dom"
-import type { stockDTO } from "../dto/stockDTO"
 import { useWebSocket } from "../context/WebSocketContext"
 import UpdateProductQuantityForm from "./UpdateProductQuantityForm"
 import useDecodedToken from "../hooks/hookDecodedToken"
 import { IoMdArrowDropdownCircle, IoMdArrowDropupCircle } from "react-icons/io"
+import type { ProductStockDTO } from "../dto/productStockDTO"
 
 type mode = "nameAsc" | "nameDesc" | "quantityAsc" | "quantityDesc"
 
-const Stock: React.FC = () => {
+const ProductStock: React.FC = () => {
 
     const [loadingStock, setLoadingStock] = useState<boolean>(true);
-    const [stocks, setStocks] = useState<stockDTO[]>([]);
-    const [showStocks, setShowStocks] = useState<stockDTO[]>([]);
+    const [stocks, setStocks] = useState<ProductStockDTO[]>([]);
+    const [showStocks, setShowStocks] = useState<ProductStockDTO[]>([]);
     const [showMode, setShowMode] = useState<mode>("nameAsc");
     
 
@@ -24,7 +24,7 @@ const Stock: React.FC = () => {
     const { isAdmin } = useDecodedToken();
 
     const { bakeryId } = useParams<string>();
-    const [ingredientIdSelected, setIngredientIdSelected] = useState<number>(0);
+    const [productIdSelected, setProductIdSelected] = useState<number>(0);
     const [reload, setReload] = useState(false);
 
     const refreshOrder = () => {
@@ -48,7 +48,7 @@ const Stock: React.FC = () => {
         const getStocks = async () => {
             try {
                 
-                const response = await api.get(`/stock/search-bakery-stock/${bakeryId}`);
+                const response = await api.get(`/product-stock/get-all-by-bakery/${bakeryId}`);
                 setStocks(response.data);
                 
             } catch (err) {
@@ -84,7 +84,7 @@ const Stock: React.FC = () => {
 
     const sortByNameDesc = (arr: typeof stocks) =>
         [...arr].sort((a, b) =>
-            b.ingredientName.localeCompare(a.ingredientName)
+            b.productName.localeCompare(a.productName)
         );
 
     const sortByQuantityAsc = (arr: typeof stocks) =>
@@ -126,7 +126,7 @@ const Stock: React.FC = () => {
                     <thead>
                         <tr>
                             <th className="name" onClick={() => changeShowMode("name")}>
-                                Ingrediente {showMode === "nameAsc" && <IoMdArrowDropupCircle />}{showMode === "nameDesc" && <IoMdArrowDropdownCircle />}
+                                Produto {showMode === "nameAsc" && <IoMdArrowDropupCircle />}{showMode === "nameDesc" && <IoMdArrowDropdownCircle />}
                             </th>
                             <th className="quantity-stock" onClick={() => changeShowMode("quantity")}>
                                 Quantidade {showMode === "quantityAsc" && <IoMdArrowDropupCircle />}{showMode === "quantityDesc" && <IoMdArrowDropdownCircle />}
@@ -148,18 +148,18 @@ const Stock: React.FC = () => {
                                 <>
                                     {showStocks.length === 0 ? (
                                         <tr>
-                                            <td className="name">Não existem ingredientes para mostrar.</td>
+                                            <td className="name">Não existem produtos para mostrar.</td>
                                         </tr>
                                     ) : (
                                         showStocks.map(stock => (
                                             <tr key={stock.id}>
-                                                <td className="name" title={stock.ingredientName}>{stock.ingredientName}</td>
+                                                <td className="name" title={stock.productName}>{stock.productName}</td>
                                                 <td className="quantity-stock">
-                                                    {isAdmin && <button className="edit" onClick={() => {setIngredientIdSelected(stock.ingredientId); setUpgradeFormOpen(true);}}><FaPencilAlt /></button>}
+                                                    {isAdmin && <button className="edit" onClick={() => {setProductIdSelected(stock.productId); setUpgradeFormOpen(true);}}><FaPencilAlt /></button>}
                                                     
-                                                    <span>{stock.quantity.toString().replace(".", ",")} {stock.unitSymbol}</span>
+                                                    <span>{stock.quantity}</span>
                                                     
-                                                    {isAdmin && <button onClick={() => {setIngredientIdSelected(stock.ingredientId); setAddFormOpen(true);}}><FaPlus /></button>}
+                                                    {isAdmin && <button onClick={() => {setProductIdSelected(stock.productId); setAddFormOpen(true);}}><FaPlus /></button>}
                                                 </td>
                                             </tr>
                                         ))
@@ -171,10 +171,10 @@ const Stock: React.FC = () => {
                 </div>
             </div>
             
-            {addFormOpen && (<UpdateProductQuantityForm stockType="ingredient" mode="add-stock" ingredientId={ingredientIdSelected} refreshOrder={() => refreshOrder()} openForm={(f) => setAddFormOpen(f)}/>)}
-            {updateFormOpen && (<UpdateProductQuantityForm stockType="ingredient" mode="update-stock" ingredientId={ingredientIdSelected} refreshOrder={() => refreshOrder()} openForm={(f) => setUpgradeFormOpen(f)}/>)}
+            {addFormOpen && (<UpdateProductQuantityForm stockType="product" mode="add-stock" productId={productIdSelected} refreshOrder={() => refreshOrder()} openForm={(f) => setAddFormOpen(f)}/>)}
+            {updateFormOpen && (<UpdateProductQuantityForm stockType="product" mode="update-stock" productId={productIdSelected} refreshOrder={() => refreshOrder()} openForm={(f) => setUpgradeFormOpen(f)}/>)}
         </>
         
     )
 }
-export default Stock
+export default ProductStock

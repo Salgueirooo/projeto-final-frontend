@@ -18,7 +18,7 @@ type mode = "recipeStockStatus" | "chooseDose"
 
 const RecipeStatus: React.FC<Props> = ({recipeId, onSwitch}) => {
 
-    const [mode, setMode] = useState<mode>("chooseDose")
+    const [mode, setMode] = useState<mode>("chooseDose");
     const [loadingStock, setLoadingStock] = useState<boolean>(false);
     const [recipeStocks, setRecipeStocks] = useState<IngredientStockCheckDTO[]>([]);
     const {addToastNotification: addNotification} = useToastNotification();
@@ -28,18 +28,20 @@ const RecipeStatus: React.FC<Props> = ({recipeId, onSwitch}) => {
 
     useEffect (() => {
         const getStocks = async () => {
-            try {
-                setLoadingStock(true);
-                const response = await api.get(`/stock/recipe-stock-status/${bakeryId}/${recipeId}`,
-                    {params: {dose}}
-                );
-                setRecipeStocks(response.data);
-                
-            } catch (err) {
-                console.error(err);
-                addNotification("Erro na comunicação com o Servidor.", true);
-            } finally {
-                setLoadingStock(false);
+            if (dose > 0) {
+                try {
+                    setLoadingStock(true);
+                    const response = await api.get(`/stock/recipe-stock-status/${bakeryId}/${recipeId}`,
+                        {params: {dose}}
+                    );
+                    setRecipeStocks(response.data);
+                    
+                } catch (err) {
+                    console.error(err);
+                    addNotification("Erro na comunicação com o Servidor.", true);
+                } finally {
+                    setLoadingStock(false);
+                }
             }
         };
 
@@ -112,7 +114,7 @@ const RecipeStatus: React.FC<Props> = ({recipeId, onSwitch}) => {
                         </div>
                         
                         {recipeStocks.every(recipeStock => recipeStock.sufficient !== false) ? (
-                            <button className="start-recipe" onClick={() => addProducedRecipe()}>Iniciar Receita</button>
+                            <button className="start-recipe" onClick={() => {addProducedRecipe(); onSwitch(false);}}>Iniciar Receita</button>
                         ) : (
                             <button className="start-recipe" onClick={() => onSwitch(false)}>Cancelar</button>
                         )}

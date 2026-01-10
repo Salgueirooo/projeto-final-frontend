@@ -6,6 +6,7 @@ import api from "../services/api";
 import type { ProductReviewDTO } from "../dto/productReviewDTO";
 import { useToastNotification } from "../context/NotificationContext";
 import { FaRegStar, FaStar, FaStarHalfAlt } from "react-icons/fa";
+import useDecodedToken from "../hooks/hookDecodedToken";
 
 const BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
@@ -16,6 +17,7 @@ interface ProductInfoInt {
 
 const ProductInfo: React.FC<ProductInfoInt> = ({product, onSwitch}) => {
 
+    const { isAdmin } = useDecodedToken();
     const { addToastNotification: addNotification } = useToastNotification();
     const finalPrice = (product.price - (product.price * product.discount / 100)).toFixed(2);
 
@@ -37,10 +39,10 @@ const ProductInfo: React.FC<ProductInfoInt> = ({product, onSwitch}) => {
     const [loadingComments, setLoadingComments] = useState<boolean>(false);
     const [comments, setComments] = useState<ProductReviewDTO[]>([]);
 
-    const getComments = async (productId: number) => {
+    const getComments = async () => {
         try {
             setLoadingComments(true);
-            const response = await api.get(`/product-review/get/${productId}`);
+            const response = await api.get(`/product-review/get/${product.id}`);
             setComments(response.data);
         
         } catch (err: any) {
@@ -56,6 +58,25 @@ const ProductInfo: React.FC<ProductInfoInt> = ({product, onSwitch}) => {
 
         } finally {
             setLoadingComments(false);
+        }
+    }
+
+    const deleteComment = async (commentaryId: number) => {
+        try {
+            await api.delete(`/product-review/delete/${commentaryId}`);
+            getComments();
+        
+        } catch (err: any) {
+
+            if(err.response) {
+                console.error(err.response.data);
+                addNotification(err.response.data, true);
+            }
+            else {
+                console.error(err);
+                addNotification("Erro na comunicação com o Servidor.", true);
+            }
+
         }
     }
     
@@ -95,7 +116,7 @@ const ProductInfo: React.FC<ProductInfoInt> = ({product, onSwitch}) => {
                                         const next = !commentsTab;
                                         setCommentsTab(next);
                                         if (next) {
-                                            getComments(product.id);    
+                                            getComments();    
                                         }
                                     }}>
                                     {commentsTab ? "fechar comentários" : "abrir comentários"}
@@ -112,12 +133,14 @@ const ProductInfo: React.FC<ProductInfoInt> = ({product, onSwitch}) => {
                                 ) : (
                                     comments.map((comment) => (
                                         <div key={comment.id} className="comments-container">
-                                            <h4>{renderStars(comment.rating)}</h4>
+                                            <div className="inline">
+                                                <h4>{renderStars(comment.rating)}</h4>{isAdmin && <button onClick={() => deleteComment(comment.id)}><RxCross2 /></button>}
+                                            </div>
                                             {comment.review !== null && (
                                                 <h4>{comment.review}</h4>
                                             )}
                                             <h5>{comment.userName} - {comment.dateTime}</h5>
-                                            <h5>Comprado em {comment.bakeryName}</h5>
+                                            <h5>Encomendado em {comment.bakeryName}</h5>
                                         </div>
                                     ))
                                 )}

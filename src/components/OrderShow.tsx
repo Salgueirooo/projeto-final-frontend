@@ -5,17 +5,19 @@ import OrderInfo from "./OrderInfo";
 import api from "../services/api";
 import { useToastNotification } from "../context/NotificationContext";
 import { RxCross2 } from "react-icons/rx";
+import OrderStatus from "./OrderSetReady";
 
 interface Props {
     order: OrderDTO;
     myOrders: boolean;
     refreshOrders: () => void;
     mode: mode;
+    seeState?: boolean;
 }
 
 type mode = "normal" | "pending" | "accepted" | "ready"
 
-const OrderShow: React.FC<Props> = ({order, myOrders, refreshOrders, mode}) => {
+const OrderShow: React.FC<Props> = ({order, myOrders, refreshOrders, mode, seeState}) => {
     
     const dateTime = order.date.split("T");
     const [modalInfoOpen, setModalInfoOpen] = useState<boolean>(false);
@@ -59,10 +61,8 @@ const OrderShow: React.FC<Props> = ({order, myOrders, refreshOrders, mode}) => {
                 acceptance: false,
                 staffNotes: commentary
             });
-            // addNotification("Encomenda recusada.", false);
             
             setModalRecuseOrder(false);
-            //refreshOrders();
     
         } catch (err: any) {
 
@@ -78,25 +78,7 @@ const OrderShow: React.FC<Props> = ({order, myOrders, refreshOrders, mode}) => {
         }
     };
 
-    const setReady = async () => {
-        try {
-            await api.put(`/order/set-order-ready/${order.id}`);
-            addNotification("Encomenda definida como pronta.", false)
-            //refreshOrders();
-       
-        } catch (err: any) {
-
-            if(err.response) {
-                console.error(err.response.data);
-                addNotification(err.response.data, true);
-            }
-            else {
-                console.error(err);
-                addNotification("Erro na comunicação com o Servidor.", true);
-
-            }
-        }
-    };
+    const [modalReady, setModalReady] = useState(false);
 
     const setDelivered = async () => {
         try {
@@ -131,7 +113,12 @@ const OrderShow: React.FC<Props> = ({order, myOrders, refreshOrders, mode}) => {
                 {myOrders ? (
                     <h4 className="client"><b>Estado:</b>&nbsp;{order.orderState}</h4>
                 ) : (
-                    <h4 className="client" title={order.userName}><b>Cliente:</b>&nbsp;{order.userName}</h4>
+                    seeState ? (
+                        <h4 className="client"><b>Estado:</b>&nbsp;{order.orderState}</h4>
+                    ) : (
+                        <h4 className="client" title={order.userName}><b>Cliente:</b>&nbsp;{order.userName}</h4>
+                    )
+                    
                 )}
 
                 {(mode==="normal") && (
@@ -151,7 +138,7 @@ const OrderShow: React.FC<Props> = ({order, myOrders, refreshOrders, mode}) => {
                     <>
                         <button className="info-acceptance" onClick={() => setModalInfoOpen(true)}>+ Informação</button>
                         {mode==="accepted" && (
-                            <button className="info" onClick={() => setReady()}>Definir como Pronta</button>
+                            <button className="info" onClick={() => setModalReady(true)}>Definir como Pronta</button>
                         )}
                         {mode==="ready" && (
                             <button className="info" onClick={() => setDelivered()}>Definir como Entregue</button>
@@ -182,6 +169,7 @@ const OrderShow: React.FC<Props> = ({order, myOrders, refreshOrders, mode}) => {
                     </div>
                 </div>
             )}
+            {modalReady && <OrderStatus orderId={order.id} onSwitch={(r) => setModalReady(r)}/>}
         </>
     )
 }

@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import "../styles/StatisticsBakery.css"
 import { IoSearch } from "react-icons/io5";
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from "recharts";
@@ -28,11 +28,11 @@ const BakeryStats: React.FC = () => {
     const { bakeryId } = useParams<string>();
     const [stats, setStats] = useState<STAllSalesDTO | null>(null);
 
-    const [loadingOrder, setLoadingOrder] = useState<boolean>(false);
+    const [loadingStats, setLoadingStats] = useState<boolean>(false);
 
     const getStats = async (startDate: string, endDate: string) => {
         try {
-            setLoadingOrder(true);
+            setLoadingStats(true);
             const response = await api.get(`/statistics/sales/${bakeryId}`,{
                 params: {startDate, endDate}
             });
@@ -42,7 +42,7 @@ const BakeryStats: React.FC = () => {
             console.error(err);
             addNotification("Erro na comunicação com o Servidor.", true);
         } finally {
-            setLoadingOrder(false);
+            setLoadingStats(false);
         }
     };
 
@@ -140,11 +140,13 @@ const BakeryStats: React.FC = () => {
                     }><IoSearch /></button>
                 </form>
             </div>
-            <div className="stats-container">
+            {loadingStats ? (<div className="spinner"></div>) : (
+                <div className="stats-container">
                     <div className="stats1">
                         <h2>Produtos Vendidos</h2>
                         <div className="bar-graphic">
-                            <ResponsiveContainer>
+                            
+                            <ResponsiveContainer width="100%" height="100%" initialDimension={ { width: 320, height: 200 } }>
                                 <BarChart data={stats?.productSalesList}>
                                     <CartesianGrid strokeWidth={0.5} vertical={false} />
                                     <XAxis 
@@ -167,6 +169,9 @@ const BakeryStats: React.FC = () => {
                                     <Bar dataKey="totalQuantity" name={"Quantidade"} fill="#ecac23" radius={[8, 8, 0, 0]}/>
                                 </BarChart>
                             </ResponsiveContainer>
+                            
+                            
+                            
                         </div>
                         <div className="best">
                             {stats?.topProductSale?
@@ -179,7 +184,8 @@ const BakeryStats: React.FC = () => {
                     <div className="stats2">
                         <h2>N.º de Produtos Comprados</h2>
                         <div className="bar-graphic">
-                            <ResponsiveContainer>
+                            
+                            <ResponsiveContainer width="100%" height="100%" initialDimension={ { width: 320, height: 200 } }>
                                 <BarChart data={stats?.clientSalesList}>
                                     <CartesianGrid strokeWidth={0.5} vertical={false}/>
                                     <XAxis 
@@ -202,6 +208,9 @@ const BakeryStats: React.FC = () => {
                                     <Bar dataKey="totalQuantity" fill="#ecac23" radius={[8, 8, 0, 0]}/>
                                 </BarChart>
                             </ResponsiveContainer>
+                            
+                                
+                            
                         </div>
                         <div className="best">
                             {stats?.topClientSale?
@@ -210,7 +219,9 @@ const BakeryStats: React.FC = () => {
                                 : <h3>Não existem dados sobre este intervalo.</h3>}
                         </div>
                     </div>
-            </div>
+                </div>
+            )}
+            
         </div>
     )
 }

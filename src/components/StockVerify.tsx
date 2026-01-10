@@ -1,33 +1,38 @@
 import { useEffect, useState } from "react"
-import "../styles/Stock.css"
+import "../styles/StockVerify.css"
 import { useToastNotification } from "../context/NotificationContext"
 import api from "../services/api"
-import { FaPencilAlt, FaPlus } from "react-icons/fa"
+import { FaCheck } from "react-icons/fa"
 import { useLocation, useParams } from "react-router-dom"
-import type { stockDTO } from "../dto/stockDTO"
 import { useWebSocket } from "../context/WebSocketContext"
-import UpdateProductQuantityForm from "./UpdateProductQuantityForm"
-import useDecodedToken from "../hooks/hookDecodedToken"
 import { IoMdArrowDropdownCircle, IoMdArrowDropupCircle } from "react-icons/io"
+import { getTodayDate } from "../hooks/hookTodayDate"
+import { IoSearch } from "react-icons/io5"
+import type { IngredientStockCheckDTO } from "../dto/ingredientStockCheckDTO"
+import { ImCross } from "react-icons/im"
+import { getStringDay } from "../hooks/hookStringDay"
 
 type mode = "nameAsc" | "nameDesc" | "quantityAsc" | "quantityDesc"
 
 const StockVerify: React.FC = () => {
 
-    const [loadingOrder, setLoadingOrder] = useState<boolean>(true);
-    const [stocks, setStocks] = useState<stockDTO[]>([]);
-    const [showStocks, setShowStocks] = useState<stockDTO[]>([]);
+    const todayDate = getTodayDate();
+    
+    const [loadingStock, setLoadingStock] = useState<boolean>(false);
+    const [stocks, setStocks] = useState<IngredientStockCheckDTO[]>([]);
+    const [showStocks, setShowStocks] = useState<IngredientStockCheckDTO[]>([]);
     const [showMode, setShowMode] = useState<mode>("nameAsc");
     
+    const [startDate, setStartDate] = useState(todayDate);
+    const [endDate, setEndDate] = useState("");
+    const [dateSearched, setDateSearched] = useState("");
 
     const {addToastNotification: addNotification} = useToastNotification();
-    const { isAdmin } = useDecodedToken();
 
     const { bakeryId } = useParams<string>();
-    const [ingredientIdSelected, setIngredientIdSelected] = useState<number>(0);
     const [reload, setReload] = useState(false);
 
-    const refreshOrder = () => {
+    const refreshOrderNoArgs = () => {
         setReload(prev => !prev);
     };
 
@@ -40,27 +45,39 @@ const StockVerify: React.FC = () => {
         const fullPath = location.pathname + location.search;
         
         if (lastMessage.path?.some(p => p === fullPath)) {
-            refreshOrder();
+            refreshOrderNoArgs();
         }
     }, [messages]);
 
     useEffect (() => {
         const getStocks = async () => {
-            try {
-                
-                const response = await api.get(`/stock/search-bakery-stock/${bakeryId}`);
-                setStocks(response.data);
-                
-            } catch (err) {
-                console.error(err);
-                addNotification("Erro na comunicação com o Servidor.", true);
-            } finally {
-                setLoadingOrder(false);
+            if (startDate.length === 10 && endDate.length === 10) {
+                try {
+                    setLoadingStock(true);
+                    const response = await api.get(`/stock/orders-stock-status/${bakeryId}`,
+                        {params: {startDate, endDate}}
+                    );
+                    updateDateSearched();
+                    setStocks(response.data);
+                    
+                } catch (err) {
+                    console.error(err);
+                    addNotification("Erro na comunicação com o Servidor.", true);
+                } finally {
+                    setLoadingStock(false);
+                }
             }
+            
         };
 
         getStocks();
     }, [reload]);
+
+    const refreshOrder = async (event: React.FormEvent) => {
+        event.preventDefault();
+        setReload(prev => !prev);
+        // setSearched(true);
+    };
 
     type button = "name" | "quantity"
     const changeShowMode = (buttonSelected: button) => {
@@ -82,24 +99,29 @@ const StockVerify: React.FC = () => {
         }
     }
 
+    const sortByNameAsc = (arr: typeof stocks) =>
+        [...arr].sort((a, b) =>
+            a.ingredient.name.localeCompare(b.ingredient.name)
+        );
+
     const sortByNameDesc = (arr: typeof stocks) =>
         [...arr].sort((a, b) =>
-            b.ingredientName.localeCompare(a.ingredientName)
+            b.ingredient.name.localeCompare(a.ingredient.name)
         );
 
     const sortByQuantityAsc = (arr: typeof stocks) =>
         [...arr].sort((a, b) =>
-            (a.quantity ?? 0) - (b.quantity ?? 0)
+            (a.quantityNeeded ?? 0) - (b.quantityNeeded ?? 0)
         );
 
     const sortByQuantityDesc = (arr: typeof stocks) =>
         [...arr].sort((a, b) =>
-            (b.quantity ?? 0) - (a.quantity ?? 0)
+            (b.quantityNeeded ?? 0) - (a.quantityNeeded ?? 0)
         );
 
     useEffect (() => {
         if (showMode === "nameAsc") {
-            setShowStocks(stocks);
+            setShowStocks(sortByNameAsc(stocks));
 
         } else if (showMode === "nameDesc") {
             setShowStocks(sortByNameDesc(stocks));
@@ -114,32 +136,63 @@ const StockVerify: React.FC = () => {
 
     }, [showMode, stocks]);
 
-
-    const [addFormOpen, setAddFormOpen] = useState<boolean>(false);
-    const [updateFormOpen, setUpgradeFormOpen] = useState<boolean>(false);
+    const updateDateSearched = () => {
+        if (startDate === endDate) {
+            setDateSearched(getStringDay(startDate, todayDate));
+        } else {
+            setDateSearched(`${getStringDay(startDate, todayDate)} - ${getStringDay(endDate, todayDate)}`);
+        }
+    }
 
     return (
         <>
-            <div className="show-stock">
-            
+
+            <div className="show-verify-stock">
+                <div className="inline">
+                    <h2>{dateSearched}</h2>
+                    <form className="header" onSubmit={refreshOrder}>
+                        <input className="search-order-text"
+                            type="date"
+                            id="date1"
+                            value={startDate}
+                            onChange={(e) => setStartDate(e.target.value)}
+                            min={todayDate}
+                            required
+                        />
+                        <h2>-</h2>
+                        <input className="search-order-text"
+                            type="date"
+                            id="date2"
+                            value={endDate}
+                            onChange={(e) => setEndDate(e.target.value)}
+                            min={todayDate}
+                            required
+                        />
+                        <button type="submit" className="search"><IoSearch /></button>
+                    </form>
+                </div>
+
                 <table>
                     <thead>
                         <tr>
                             <th className="name" onClick={() => changeShowMode("name")}>
                                 Ingrediente {showMode === "nameAsc" && <IoMdArrowDropupCircle />}{showMode === "nameDesc" && <IoMdArrowDropdownCircle />}
                             </th>
-                            <th className="quantity-stock" onClick={() => changeShowMode("quantity")}>
-                                Quantidade {showMode === "quantityAsc" && <IoMdArrowDropupCircle />}{showMode === "quantityDesc" && <IoMdArrowDropdownCircle />}
+                            <th className="quantity-stock-verify" onClick={() => changeShowMode("quantity")}>
+                                Quantidade (N/E) {showMode === "quantityAsc" && <IoMdArrowDropupCircle />}{showMode === "quantityDesc" && <IoMdArrowDropdownCircle />}
+                            </th>
+                            <th className="sufficient">
+                                Suficiente
                             </th>
                         </tr>
                     </thead>                  
                 </table>
 
-                <div className="table-body-stock">
+                <div className="table-body-verify-stock">
                     <table className="cart-table">
                         <tbody>
 
-                            {loadingOrder ? (
+                            {loadingStock ? (
                                 <tr>
                                     <td><div className="spinner"></div></td>
                                 </tr>
@@ -152,15 +205,15 @@ const StockVerify: React.FC = () => {
                                         </tr>
                                     ) : (
                                         showStocks.map(stock => (
-                                            <tr key={stock.id}>
-                                                <td className="name" title={stock.ingredientName}>{stock.ingredientName}</td>
-                                                <td className="quantity-stock">
-                                                    {isAdmin && <button className="edit" onClick={() => {setIngredientIdSelected(stock.ingredientId); setUpgradeFormOpen(true);}}><FaPencilAlt /></button>}
+                                            <tr key={stock.ingredient.id}>
+                                                <td className="name" title={stock.ingredient.name}>{stock.ingredient.name}</td>
+                                                <td className="quantity-stock-verify">
                                                     
-                                                    <span>{stock.quantity.toString().replace(".", ",")} {stock.unitSymbol}</span>
-                                                    
-                                                    {isAdmin && <button onClick={() => {setIngredientIdSelected(stock.ingredientId); setAddFormOpen(true);}}><FaPlus /></button>}
+                                                    <span>{stock.quantityNeeded.toString().replace(".", ",")} / {stock.availableQuantity.toString().replace(".", ",")} {stock.ingredient.unitSymbol}</span>
+
                                                 </td>
+                                                <td className={stock.sufficient ? "sufficient" : "insufficient"}>{stock.sufficient ? (<FaCheck />) : (<ImCross />)}</td>
+
                                             </tr>
                                         ))
                                     )} 
@@ -169,13 +222,8 @@ const StockVerify: React.FC = () => {
                         </tbody>
                     </table>
                 </div>
-            
             </div>
-            
-            {addFormOpen && (<UpdateProductQuantityForm mode="add-stock" ingredientId={ingredientIdSelected} refreshOrder={() => refreshOrder()} openForm={(f) => setAddFormOpen(f)}/>)}
-            {updateFormOpen && (<UpdateProductQuantityForm mode="update-stock" ingredientId={ingredientIdSelected} refreshOrder={() => refreshOrder()} openForm={(f) => setUpgradeFormOpen(f)}/>)}
         </>
-        
     )
 }
 export default StockVerify

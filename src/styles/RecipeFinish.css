@@ -1,0 +1,39 @@
+.recipe-finish {
+    width: 25rem;
+    /* height: 12rem; */
+    background-color: var(--black);
+    border-radius: 8px;
+    /* align-content:center; */
+    
+}
+
+.finish {
+    height: calc(100% - 2rem);
+    width: calc(100% - 4rem);
+    /* background-color: aqua; */
+    justify-self: center;
+    
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1.4rem;
+    padding-bottom: 2rem;
+}
+
+.finish h2 {
+    font-size: 1.3rem;
+    text-align: center;
+    
+}
+
+.finish input {
+    width: 8rem;
+    padding-top: 0.6rem;
+    padding-bottom: 0.6rem;
+
+}
+
+.finish button {
+    padding: 0.5rem 1rem 0.5rem 1rem;
+    font-size: 1.1rem;
+}

@@ -9,7 +9,7 @@
 
 .show-stock table {
     width: 100%;
-
+    table-layout: fixed; 
     font-size: 1.1rem;
     border-collapse: separate;
     border-spacing: 0 0.3rem;
@@ -37,8 +37,8 @@
 
 
 .show-stock .quantity-stock {
-    width: 18rem;
-    min-width: 14rem;
+    width: 6rem;
+    /* min-width: 14rem; */
     text-align: center;
 }
 
@@ -60,18 +60,27 @@
 } */
 
 .quantity-stock span {
-    background-color: var(--gray);
-    padding: 0.1rem 0.6rem 0.1rem 0.6rem;
-    margin: 0 0.5rem 0 0.5rem;
-    border-radius: 8px;
+    display: inline-block;
     
+    background-color: var(--gray);
+    padding: 0.3rem 0.6rem 0.05rem 0.6rem;
+    margin: 0 0.5rem 0rem 0.5rem;
+    border-radius: 8px;
+    font-size: 1.1rem;
+    font-weight: normal;
+    min-width: 1.4rem;
+    /* height: 2rem; */
 }
 
 .show-stock .name {
-    width: 40rem;
+    width: 15rem;
     text-align: left;
     padding-left: 1rem;
     /* background-color: aqua; */
+    /* max-width: 10rem; */
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 .name svg, .quantity-stock svg {

@@ -7,7 +7,7 @@ import "../styles/HomePage.css"
 import { useNavigate, useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { useToastNotification } from "../context/NotificationContext";
-import { FaArrowCircleLeft, FaArrowCircleRight, FaRegCalendarCheck } from "react-icons/fa";
+import { FaArrowCircleLeft, FaArrowCircleRight, FaRegCalendarCheck, FaTasks } from "react-icons/fa";
 import { MdIncompleteCircle, MdOutlineEuroSymbol } from "react-icons/md";
 import { LuHistory } from "react-icons/lu";
 import { BsArchiveFill, BsDatabaseFill, BsDatabaseFillCheck } from "react-icons/bs";
@@ -34,6 +34,8 @@ import RecipeHistory from "../components/RecipeHistory";
 import Stock from "../components/Stock";
 import BakeryStats from "../components/StatisticsBakery";
 import StockVerify from "../components/StockVerify";
+import ProductStock from "../components/StockProduct";
+import RecipeTasksList from "../components/RecipeTasksList";
 
 const HomePage: React.FC = () => {
     
@@ -209,6 +211,14 @@ const HomePage: React.FC = () => {
                         <FaArrowCircleRight />
                     </button>
 
+                    <button onClick={() => setSelectedTab(HomeTab.TaskListRecipes)} className={selectedTab === HomeTab.TaskListRecipes ? "op-selected" : "op"}>
+                        <div className="op-left">
+                            <FaTasks />
+                            <span className="text">Lista de Tarefas</span>
+                        </div>
+                        <FaArrowCircleRight />
+                    </button>
+
                     <button onClick={() => setSelectedTab(HomeTab.HistoryRecipes)} className={selectedTab === HomeTab.HistoryRecipes ? "op-selected" : "op"}>
                         <div className="op-left">
                             <BsArchiveFill />
@@ -220,10 +230,18 @@ const HomePage: React.FC = () => {
 
                     <div className="separators">Stock</div>
 
-                    <button onClick={() => setSelectedTab(HomeTab.ManageStock)} className={selectedTab === HomeTab.ManageStock ? "op-selected" : "op"}>
+                    <button onClick={() => setSelectedTab(HomeTab.ManageProductStock)} className={selectedTab === HomeTab.ManageProductStock ? "op-selected" : "op"}>
                         <div className="op-left">
                             <BsDatabaseFill />
-                            <span className="text">Gerir</span>
+                            <span className="text">Gerir Produtos</span>
+                        </div>
+                        <FaArrowCircleRight />
+                    </button>
+
+                    <button onClick={() => setSelectedTab(HomeTab.ManageIngredientStock)} className={selectedTab === HomeTab.ManageIngredientStock ? "op-selected" : "op"}>
+                        <div className="op-left">
+                            <BsDatabaseFill />
+                            <span className="text">Gerir Ingredientes</span>
                         </div>
                         <FaArrowCircleRight />
                     </button>
@@ -231,7 +249,7 @@ const HomePage: React.FC = () => {
                     <button onClick={() => setSelectedTab(HomeTab.VerifyStock)} className={selectedTab === HomeTab.VerifyStock ? "op-selected" : "op"}>
                         <div className="op-left">
                             <BsDatabaseFillCheck />
-                            <span className="text">Verificar</span>
+                            <span className="text">Controlo de Ingredientes</span>
                         </div>
                         <FaArrowCircleRight />
                     </button>
@@ -285,8 +303,10 @@ const HomePage: React.FC = () => {
                     {selectedTab === HomeTab.SearchAllOrders && <SearchAllOrders />}
                     {selectedTab === HomeTab.SearchRecipes && <ShowRecipes />}
                     {selectedTab === HomeTab.StartedRecipes && <ShowActivatedRecipes />}
+                    {selectedTab === HomeTab.TaskListRecipes && <RecipeTasksList />}
                     {selectedTab === HomeTab.HistoryRecipes && <RecipeHistory />}
-                    {selectedTab === HomeTab.ManageStock && <Stock />}
+                    {selectedTab === HomeTab.ManageProductStock && <ProductStock />}
+                    {selectedTab === HomeTab.ManageIngredientStock && <Stock />}
                     {selectedTab === HomeTab.VerifyStock && <StockVerify />}
                     {selectedTab === HomeTab.SalesStats && <BakeryStats />}
                 </div>

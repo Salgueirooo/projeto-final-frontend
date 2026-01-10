@@ -11,15 +11,19 @@ interface Props {
     refreshOrder?: () => void;
     orderDetailsId?: number;
     ingredientId?: number;
-    mode: mode
+    productId?: number;
+    mode: mode;
+    stockType?: stock;
 }
 
+type stock = "ingredient" | "product"
 type mode = "update-cart" | "update-stock" | "add-stock"
 
-const UpdateProductQuantityForm: React.FC<Props> = ({mode, refreshOrder, openForm, orderDetailsId, ingredientId}) => {
+const UpdateProductQuantityForm: React.FC<Props> = ({mode, stockType, refreshOrder, openForm, orderDetailsId, ingredientId, productId}) => {
     const { bakeryId } = useParams<string>();
     const [quantity, setQuantity] = useState<number>(1)
     const {addToastNotification: addNotification} = useToastNotification();
+    
     const updateCartQuantity = async (event: React.FormEvent) => {
         event.preventDefault();
 
@@ -48,43 +52,89 @@ const UpdateProductQuantityForm: React.FC<Props> = ({mode, refreshOrder, openFor
     const updateStockQuantity = async (event: React.FormEvent) => {
         event.preventDefault();
 
-        if (ingredientId) {
-            try {
-                await api.put(`/stock/update/${bakeryId}/${ingredientId}`, quantity);
-                openForm(false);
+        if (stockType === "ingredient") {
+            
+            if (ingredientId) {
+                try {
+                    await api.put(`/stock/update/${bakeryId}/${ingredientId}`, quantity);
+                    openForm(false);
 
-            } catch (err: any) {
-                if(err.response) {
-                    console.error(err.response.data);
-                    addNotification(err.response.data, true);
-                }
-                else {
-                    console.error(err);
-                    addNotification("Erro ao atualizar a quantidade do ingrediente.", true);
+                } catch (err: any) {
+                    if(err.response) {
+                        console.error(err.response.data);
+                        addNotification(err.response.data, true);
+                    }
+                    else {
+                        console.error(err);
+                        addNotification("Erro ao atualizar a quantidade do ingrediente.", true);
+                    }
                 }
             }
+
+        } else if (stockType === "product") {
+
+            if (productId) {
+                try {
+                    await api.put(`/product-stock/update/${bakeryId}/${productId}`, quantity);
+                    openForm(false);
+
+                } catch (err: any) {
+                    if(err.response) {
+                        console.error(err.response.data);
+                        addNotification(err.response.data, true);
+                    }
+                    else {
+                        console.error(err);
+                        addNotification("Erro ao atualizar a quantidade do produto.", true);
+                    }
+                }
+            }
+
         }
     };
 
     const addStockQuantity = async (event: React.FormEvent) => {
         event.preventDefault();
 
-        if (ingredientId) {
-            try {
-                await api.put(`/stock/add/${bakeryId}/${ingredientId}`, quantity);
-                openForm(false);
+        if (stockType === "ingredient") {
+            if (ingredientId) {
+                try {
+                    await api.put(`/stock/add/${bakeryId}/${ingredientId}`, quantity);
+                    openForm(false);
 
-            } catch (err: any) {
-                if(err.response) {
-                    console.error(err.response.data);
-                    addNotification(err.response.data, true);
-                }
-                else {
-                    console.error(err);
-                    addNotification("Erro ao adicionar quantidade do ingrediente.", true);
+                } catch (err: any) {
+                    if(err.response) {
+                        console.error(err.response.data);
+                        addNotification(err.response.data, true);
+                    }
+                    else {
+                        console.error(err);
+                        addNotification("Erro ao adicionar quantidade do ingrediente.", true);
+                    }
                 }
             }
+
+        } else if (stockType === "product") {
+
+            if (productId) {
+                try {
+                    await api.put(`/product-stock/add-stock/${bakeryId}/${productId}`, quantity);
+                    openForm(false);
+
+                } catch (err: any) {
+                    if(err.response) {
+                        console.error(err.response.data);
+                        addNotification(err.response.data, true);
+                    }
+                    else {
+                        console.error(err);
+                        addNotification("Erro ao adicionar quantidade do produto.", true);
+                    }
+                }
+            }
+
         }
+        
     };
 
     return (

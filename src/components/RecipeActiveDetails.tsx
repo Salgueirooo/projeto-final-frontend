@@ -6,6 +6,7 @@ import { FaCheck } from "react-icons/fa";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { useWebSocket } from "../context/WebSocketContext";
 import { HomeTab } from "../hooks/HomeTab";
+import FinishRecipe from "./RecipeFinish";
 
 const BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
@@ -22,6 +23,7 @@ const RecipeActiveSelect: React.FC<Props> = ({selectedRecipeId, setTradeRecipe, 
     const [recipe, setRecipe] = useState<activatedRecipeDTO>()
     const [loadingRecipe, setLoadingRecipe] = useState<boolean>(false);
     const [reload, setReload] = useState<boolean>(false);
+    const [modalFinish, setModalFinish] = useState(false);
 
     const refreshRecipe = () => {
         setReload(prev => !prev);
@@ -90,7 +92,6 @@ const RecipeActiveSelect: React.FC<Props> = ({selectedRecipeId, setTradeRecipe, 
         try {
                
             await api.put(`/produced-recipe/toggle-ingredient-state/${id}`);
-
                 
         } catch (err: any) {
             setRecipe(prev => {
@@ -139,22 +140,25 @@ const RecipeActiveSelect: React.FC<Props> = ({selectedRecipeId, setTradeRecipe, 
 
     const finishRecipe = async () => {
         if (recipe?.ingredientsList.every(i => i.done === true) ?? false) {
-            try {
-                await api.put(`/produced-recipe/complete-production/${recipe?.id}`);
-                navigate(`/home/${bakeryId}/${HomeTab.StartedRecipes}`);
+            // try {
+            //     await api.put(`/produced-recipe/complete-production/${recipe?.id}`);
+            //     navigate(`/home/${bakeryId}/${HomeTab.StartedRecipes}`);
         
-            } catch (err: any) {
+            // } catch (err: any) {
 
-                if(err.response) {
-                    console.error(err.response.data);
-                    addNotification(err.response.data, true);
-                }
-                else {
-                    console.error(err);
-                    addNotification("Erro na comunicação com o Servidor.", true);
+            //     if(err.response) {
+            //         console.error(err.response.data);
+            //         addNotification(err.response.data, true);
+            //     }
+            //     else {
+            //         console.error(err);
+            //         addNotification("Erro na comunicação com o Servidor.", true);
 
-                }
-            }
+            //     }
+            // }
+
+            setModalFinish(true);
+
         } else {
             addNotification("Atenção! Não foram adicionados todos os ingredientes à receita.", true);
         }
@@ -168,7 +172,7 @@ const RecipeActiveSelect: React.FC<Props> = ({selectedRecipeId, setTradeRecipe, 
             ) : (
                 <>
                     <div className="inline-header">
-                        <h3 className="title-recipe-short">Receita de {recipe?.dose.toString().replace(".", ",")} dose(s) de {recipe?.productName}</h3>
+                        <h3 className="title-recipe-short">Receita de {recipe?.dose.toString().replace(".", ",")} dose(s) de {recipe?.productName} (~{recipe?.nResultingProducts} un.)</h3>
                         <div className="button-box-recipe">
                             <button className="cancel" onClick={() => cancelRecipe()}>Cancelar</button>
                             <button onClick={() => finishRecipe()}>Terminar</button>
@@ -206,6 +210,7 @@ const RecipeActiveSelect: React.FC<Props> = ({selectedRecipeId, setTradeRecipe, 
                         <div className="prep-text">{recipe?.preparation}</div>
                     </div>
                     <h4>Iniciada por {recipe?.userName} em {recipe?.initialDate.toString().slice(0, 10)} às {recipe?.initialDate.toString().slice(11, 16)}</h4>
+                    {modalFinish && <FinishRecipe recipeId={recipe?.id} bakeryId={bakeryId} nResultingProducts={recipe?.nResultingProducts} onSwitch={(m) => setModalFinish(m)} />}
                 </>
                 
             )}

@@ -117,12 +117,6 @@ const SearchAllOrders: React.FC = () => {
                 <h2>{getStringDay(dateSearched, todayDate)}</h2> 
                 <form className="space-search-order-bar" onSubmit={refreshOrder}>
                     <div className="search-order-box-ready">
-                        <input className="search-order-text"
-                            type="date"
-                            id="date"
-                            value={date}
-                            onChange={(e) => setDate(e.target.value)}
-                        />
                         <input className="search-order-name"
                             type="email"
                             id="name"
@@ -130,6 +124,13 @@ const SearchAllOrders: React.FC = () => {
                             placeholder="Insira o email do cliente"
                             onChange={(e) => setEmail(e.target.value)}
                             required
+                        />
+                        
+                        <input className="search-order-text"
+                            type="date"
+                            id="date"
+                            value={date}
+                            onChange={(e) => setDate(e.target.value)}
                         />
                     </div>
                     <button type="submit" disabled={email.length < 1}><IoSearch /></button>
@@ -155,7 +156,7 @@ const SearchAllOrders: React.FC = () => {
 
                                 <div className="orders-group">
                                     {orders.map((order) => (
-                                        <OrderShow key={order.id + order.date} order={order} myOrders={false} refreshOrders={() => refreshOrderNoArg()} mode="normal"/>
+                                        <OrderShow key={order.id + order.date} order={order} myOrders={false} refreshOrders={() => refreshOrderNoArg()} mode="normal" seeState={true}/>
                                     ))}
                                 </div>
                             </div>
