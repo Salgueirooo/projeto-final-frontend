@@ -13,7 +13,6 @@ import { LuHistory } from "react-icons/lu";
 import { BsArchiveFill, BsDatabaseFill, BsDatabaseFillCheck } from "react-icons/bs";
 import { GiCupcake } from "react-icons/gi";
 import { IoIosCart, IoIosStats } from "react-icons/io";
-import { GoGraph } from "react-icons/go";
 import { GrDocumentUser } from "react-icons/gr";
 import ProductSearch from "../components/ProductSearch";
 import CategorySearch from "../components/CategorySearch";
@@ -32,10 +31,12 @@ import NotificationWSList from "../components/NotificationWSList";
 import ShowActivatedRecipes from "../components/RecipeShowActive";
 import RecipeHistory from "../components/RecipeHistory";
 import Stock from "../components/Stock";
-import BakeryStats from "../components/StatisticsBakery";
+import BakerySalesStats from "../components/StatisticsSalesBakery";
 import StockVerify from "../components/StockVerify";
 import ProductStock from "../components/StockProduct";
 import RecipeTasksList from "../components/RecipeTasksList";
+import BakeryCostStats from "../components/StatisticsCostBakery";
+import BakeryUserStats from "../components/StatisticsUser";
 
 const HomePage: React.FC = () => {
     
@@ -272,18 +273,10 @@ const HomePage: React.FC = () => {
                         <FaArrowCircleRight />
                     </button>
 
-                    <button onClick={() => setSelectedTab(HomeTab.YearStats)} className={selectedTab === HomeTab.YearStats? "op-selected" : "op"}>
-                        <div className="op-left">
-                            <GoGraph />
-                            <span className="text">N.º Encomendas por Ano</span>
-                        </div>
-                        <FaArrowCircleRight />
-                    </button>
-
                     <button onClick={() => setSelectedTab(HomeTab.UserStats)} className={selectedTab === HomeTab.UserStats ? "op-selected" : "op"}>
                         <div className="op-left">
                             <GrDocumentUser />
-                            <span className="text">Encomendas do Utilizador</span>
+                            <span className="text">Minhas Encomendas</span>
                         </div>
                         <FaArrowCircleRight />
                     </button>
@@ -308,7 +301,9 @@ const HomePage: React.FC = () => {
                     {selectedTab === HomeTab.ManageProductStock && <ProductStock />}
                     {selectedTab === HomeTab.ManageIngredientStock && <Stock />}
                     {selectedTab === HomeTab.VerifyStock && <StockVerify />}
-                    {selectedTab === HomeTab.SalesStats && <BakeryStats />}
+                    {selectedTab === HomeTab.SalesStats && <BakerySalesStats />}
+                    {selectedTab === HomeTab.RevenueStats && <BakeryCostStats />}
+                    {selectedTab === HomeTab.UserStats && <BakeryUserStats />}
                 </div>
             </div>
         </>

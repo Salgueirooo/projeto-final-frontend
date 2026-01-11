@@ -17,7 +17,6 @@ export const HomeTab = {
     VerifyStock: "verify-stock",
     SalesStats: "sales-stats",
     RevenueStats: "revenue-stats",
-    YearStats: "year-stats",
     UserStats: "user-stats",
 } as const;
 

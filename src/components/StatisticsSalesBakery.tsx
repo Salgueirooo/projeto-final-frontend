@@ -10,7 +10,7 @@ import getMonthName from "../hooks/GetMonthName";
 
 type op = "day" | "month" | "year"
 
-const BakeryStats: React.FC = () => {
+const BakerySalesStats: React.FC = () => {
     const initialDate = new Date().toISOString().slice(0, 10);
     
     const inicialDay = initialDate
@@ -166,7 +166,7 @@ const BakeryStats: React.FC = () => {
                                             color: "#fff"
                                         }}
                                     />
-                                    <Bar dataKey="totalQuantity" name={"Quantidade"} fill="#ecac23" radius={[8, 8, 0, 0]}/>
+                                    <Bar dataKey="totalQuantity" name={"Quantidade vendida"} fill="#ecac23" radius={[8, 8, 0, 0]}/>
                                 </BarChart>
                             </ResponsiveContainer>
                             
@@ -175,14 +175,14 @@ const BakeryStats: React.FC = () => {
                         </div>
                         <div className="best">
                             {stats?.topProductSale?
-                                (<h3><b>Produto mais vendido:</b>&nbsp;&nbsp;{stats?.topProductSale.productName}</h3>)
+                                (<h3><b>Produto mais vendido:</b>&nbsp;&nbsp;{stats?.topProductSale.productName} - {stats.topProductSale.totalQuantity} un.</h3>)
                                 
                                 : <h3>Não existem dados sobre este intervalo.</h3>}
                             
                         </div>
                     </div>
                     <div className="stats2">
-                        <h2>N.º de Produtos Comprados</h2>
+                        <h2>Compras por Cliente</h2>
                         <div className="bar-graphic">
                             
                             <ResponsiveContainer width="100%" height="100%" initialDimension={ { width: 320, height: 200 } }>
@@ -205,7 +205,7 @@ const BakeryStats: React.FC = () => {
                                             color: "#fff"
                                         }}
                                     />
-                                    <Bar dataKey="totalQuantity" fill="#ecac23" radius={[8, 8, 0, 0]}/>
+                                    <Bar dataKey="totalQuantity" name={"Produtos adquiridos"} fill="#ecac23" radius={[8, 8, 0, 0]}/>
                                 </BarChart>
                             </ResponsiveContainer>
                             
@@ -214,7 +214,7 @@ const BakeryStats: React.FC = () => {
                         </div>
                         <div className="best">
                             {stats?.topClientSale?
-                                (<h3><b>Melhor Cliente:</b>&nbsp;&nbsp;{stats?.topClientSale.clientName}</h3>)
+                                (<h3><b>Melhor Cliente:</b>&nbsp;&nbsp;{stats?.topClientSale.clientName} - {stats.topClientSale.totalQuantity} prod.</h3>)
                                 
                                 : <h3>Não existem dados sobre este intervalo.</h3>}
                         </div>
@@ -226,4 +226,4 @@ const BakeryStats: React.FC = () => {
     )
 }
 
-export default BakeryStats
+export default BakerySalesStats
