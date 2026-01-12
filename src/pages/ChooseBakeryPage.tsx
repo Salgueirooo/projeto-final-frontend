@@ -12,6 +12,8 @@ import { IoCog } from "react-icons/io5";
 import useDecodedToken from "../hooks/hookDecodedToken";
 import NotificationWSList from "../components/NotificationWSList";
 import { useNotificationStore } from "../hooks/hookNotificationStore";
+import { BiLineChart } from "react-icons/bi";
+import { useNavigate } from "react-router-dom";
 
 const SelectBakeryPage: React.FC = () => {
     
@@ -70,7 +72,7 @@ const SelectBakeryPage: React.FC = () => {
     }, [getAll, openNotifications]);
 
     
-
+    const navigate = useNavigate();
     const haddleLogout = useLogout();
 
     return (
@@ -80,7 +82,10 @@ const SelectBakeryPage: React.FC = () => {
                 <span className="top-long">BakeTec - Sistema de Gestão de Pastelarias</span>
                 
                 {isAdmin && (
-                    <button className="conf"><IoCog /></button> 
+                    <>
+                        <button className="conf"><IoCog /></button> 
+                        <button className="stat" onClick={() => navigate("/statistics")}><BiLineChart /></button> 
+                    </>
                 )}
                 
                 <button className={openNotifications ? ("notifications-selected") : ("notifications")} onClick={() => setOpenNotifications(true)}><FaBell /></button>

@@ -188,8 +188,6 @@ const BakeryCostStats: React.FC = () => {
                                 </BarChart>
                             </ResponsiveContainer>
                             
-                            
-                            
                         </div>
                         <div className="best">
                             {stats?.highestCostProduct?

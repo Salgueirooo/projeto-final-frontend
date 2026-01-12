@@ -21,7 +21,7 @@ const FollowMyOrders: React.FC = () => {
 
     const [reload, setReload] = useState(false);
 
-    const refreshOrder = async () => {
+    const refreshOrder = () => {
         setReload(prev => !prev);
     };
 
