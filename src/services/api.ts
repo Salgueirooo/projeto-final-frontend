@@ -5,10 +5,7 @@ const BASE_URL = import.meta.env.VITE_API_BASE_URL;
 let isAlertShown = false;
 
 const api = axios.create({
-    baseURL: `${BASE_URL}/api`,
-    headers: {
-        "Content-Type": "application/json",
-    },
+    baseURL: `${BASE_URL}/api`
 });
 
 api.interceptors.request.use(
@@ -31,7 +28,7 @@ api.interceptors.response.use(
         const isPublicEndpoint =
             url?.includes("/auth/login") ||
             url?.includes("/auth/register-client") ||
-            url?.includes("/initialize");
+            url?.includes("/initialize/test-connection");
 
         if (status === 401 && !isAlertShown && !isPublicEndpoint) {
             isAlertShown = true;

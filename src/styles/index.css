@@ -18,12 +18,17 @@
     --white: #F2F4F3;
     --blue: #66c2c2;
     --sec-blue: rgb(81, 164, 164);
-
+    --red : #d50000;
+    --sec-red : #a70000;
     
 }
 
 input {
     font-family:'Segoe UI';
+}
+
+button {
+    transition: 0.2s;
 }
 
 *::-webkit-scrollbar {

@@ -141,12 +141,12 @@
     margin-bottom: 0.4rem;
 }
 
-.comments-container .inline {
+.comments-container .inline1 {
     display: flex;
     justify-content: space-between;
 }
 
-.inline button {
+.inline1 button {
     height: 1.5rem;
     width: 1.5rem;
 }

@@ -140,22 +140,6 @@ const RecipeActiveSelect: React.FC<Props> = ({selectedRecipeId, setTradeRecipe, 
 
     const finishRecipe = async () => {
         if (recipe?.ingredientsList.every(i => i.done === true) ?? false) {
-            // try {
-            //     await api.put(`/produced-recipe/complete-production/${recipe?.id}`);
-            //     navigate(`/home/${bakeryId}/${HomeTab.StartedRecipes}`);
-        
-            // } catch (err: any) {
-
-            //     if(err.response) {
-            //         console.error(err.response.data);
-            //         addNotification(err.response.data, true);
-            //     }
-            //     else {
-            //         console.error(err);
-            //         addNotification("Erro na comunicação com o Servidor.", true);
-
-            //     }
-            // }
 
             setModalFinish(true);
 

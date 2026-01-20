@@ -8,7 +8,7 @@ const CheckConn: React.FC = () => {
     useEffect(() => {
         const checkConnection = async () => {
             try {
-                const response = await api.get("/initialize");
+                const response = await api.get("/initialize/test-connection");
                 setMessage(response.data);
             } catch (err) {
                 console.error(err);

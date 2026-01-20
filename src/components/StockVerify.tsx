@@ -60,9 +60,16 @@ const StockVerify: React.FC = () => {
                     updateDateSearched();
                     setStocks(response.data);
                     
-                } catch (err) {
-                    console.error(err);
-                    addNotification("Erro na comunicação com o Servidor.", true);
+                } catch (err:any) {
+                    if(err.response) {
+                        console.error(err.response.data);
+                        addNotification(err.response.data, true);
+                    }
+                    else {
+                        console.error(err);
+                        addNotification("Erro na comunicação com o Servidor.", true);
+
+                    }
                 } finally {
                     setLoadingStock(false);
                 }

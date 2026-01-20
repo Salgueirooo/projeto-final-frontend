@@ -104,7 +104,7 @@ const ProductInfo: React.FC<ProductInfoInt> = ({product, onSwitch}) => {
                     <div className="lastLine">
                         
                         <h4><b>Categoria:</b>&nbsp;{product.categoryName}</h4>
-                        {product.description !== null && (
+                        {product.description?.length > 0 && (
                             <h4 className="description"><b>Descrição:</b>&nbsp;{product.description}</h4>
                         )}
 
@@ -133,7 +133,7 @@ const ProductInfo: React.FC<ProductInfoInt> = ({product, onSwitch}) => {
                                 ) : (
                                     comments.map((comment) => (
                                         <div key={comment.id} className="comments-container">
-                                            <div className="inline">
+                                            <div className="inline1">
                                                 <h4>{renderStars(comment.rating)}</h4>{isAdmin && <button onClick={() => deleteComment(comment.id)}><RxCross2 /></button>}
                                             </div>
                                             {comment.review !== null && (

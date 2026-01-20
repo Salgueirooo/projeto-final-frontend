@@ -56,7 +56,13 @@ const UpdateProductQuantityForm: React.FC<Props> = ({mode, stockType, refreshOrd
             
             if (ingredientId) {
                 try {
-                    await api.put(`/stock/update/${bakeryId}/${ingredientId}`, quantity);
+                    await api.put(`/stock/update/${bakeryId}/${ingredientId}`, quantity,
+                        {
+                            headers: {
+                                "Content-Type": "application/json",
+                            },
+                        }
+                    );
                     openForm(false);
 
                 } catch (err: any) {
@@ -75,7 +81,13 @@ const UpdateProductQuantityForm: React.FC<Props> = ({mode, stockType, refreshOrd
 
             if (productId) {
                 try {
-                    await api.put(`/product-stock/update/${bakeryId}/${productId}`, quantity);
+                    await api.put(`/product-stock/update/${bakeryId}/${productId}`, quantity,
+                        {
+                            headers: {
+                                "Content-Type": "application/json",
+                            },
+                        }
+                    );
                     openForm(false);
 
                 } catch (err: any) {
@@ -99,7 +111,13 @@ const UpdateProductQuantityForm: React.FC<Props> = ({mode, stockType, refreshOrd
         if (stockType === "ingredient") {
             if (ingredientId) {
                 try {
-                    await api.put(`/stock/add/${bakeryId}/${ingredientId}`, quantity);
+                    await api.put(`/stock/add/${bakeryId}/${ingredientId}`, quantity,
+                        {
+                            headers: {
+                                "Content-Type": "application/json",
+                            },
+                        }
+                    );
                     openForm(false);
 
                 } catch (err: any) {
@@ -118,7 +136,13 @@ const UpdateProductQuantityForm: React.FC<Props> = ({mode, stockType, refreshOrd
 
             if (productId) {
                 try {
-                    await api.put(`/product-stock/add-stock/${bakeryId}/${productId}`, quantity);
+                    await api.put(`/product-stock/add-stock/${bakeryId}/${productId}`, quantity,
+                        {
+                            headers: {
+                                "Content-Type": "application/json",
+                            },
+                        }
+                    );
                     openForm(false);
 
                 } catch (err: any) {
@@ -142,7 +166,7 @@ const UpdateProductQuantityForm: React.FC<Props> = ({mode, stockType, refreshOrd
             <div className="back-modal" onClick={() => openForm(false)}>
                 
                 <div className="quantity-form" onClick={(e) => e.stopPropagation()}>
-                    <button className="close-bot" onClick={() => openForm(false)}><RxCross2 /></button>
+                    <button type="button" className="close-bot" onClick={() => openForm(false)}><RxCross2 /></button>
 
                     {mode === "update-cart" && (<h3>Insira a quantidade pretendida</h3>)}
                     {mode === "add-stock" && (<h3>Insira a quantidade a adicionar</h3>)}

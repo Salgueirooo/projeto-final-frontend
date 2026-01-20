@@ -277,7 +277,7 @@
     font-size: 1.2rem;
     text-align: justify;
     /* font-weight: bold; */
-
+    white-space: pre-wrap;
     max-height: calc(100% - 3.4rem);
 
     overflow: auto;

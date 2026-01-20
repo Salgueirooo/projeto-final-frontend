@@ -1,4 +1,4 @@
-import { IoCog, IoSearch } from "react-icons/io5";
+import { IoSearch } from "react-icons/io5";
 import useDecodedToken from "../hooks/hookDecodedToken";
 import { useLogout } from "../services/logout";
 import { TbLogout } from "react-icons/tb";
@@ -71,9 +71,16 @@ const HomePage: React.FC = () => {
                 setBakeryName(response.data);
                 
                 
-            } catch (err) {
-                console.error(err);
-                addNotification("Erro na comunicação com o Servidor.", true);
+            } catch (err:any) {
+                if(err.response) {
+                    console.error(err.response.data);
+                    addNotification(err.response.data, true);
+                }
+                else {
+                    console.error(err);
+                    addNotification("Erro na comunicação com o Servidor.", true);
+
+                }
             }
         };
         getBakeryName();
@@ -98,9 +105,6 @@ const HomePage: React.FC = () => {
             <div className="top-bar">
                 <span className="top-short">BakeTec</span>
                 <span className="top-long">BakeTec - Sistema de Gestão de Pastelarias</span>
-                {isAdmin && (
-                   <button className="conf"><IoCog /></button> 
-                )}
                 <button className={openNotifications ? ("notifications-selected") : ("notifications")} onClick={() => setOpenNotifications(true)}><FaBell /></button>
                 {newNotification > 0 && (
                     <div className="new-notif">{newNotification}</div>

@@ -14,6 +14,7 @@ import NotificationWSList from "../components/NotificationWSList";
 import { useNotificationStore } from "../hooks/hookNotificationStore";
 import { BiLineChart } from "react-icons/bi";
 import { useNavigate } from "react-router-dom";
+import { SettingsTab } from "../hooks/SettingsTab";
 
 const SelectBakeryPage: React.FC = () => {
     
@@ -83,7 +84,7 @@ const SelectBakeryPage: React.FC = () => {
                 
                 {isAdmin && (
                     <>
-                        <button className="conf"><IoCog /></button> 
+                        <button className="conf" onClick={() => navigate(`/settings/${SettingsTab.Bakeries}`)}><IoCog /></button> 
                         <button className="stat" onClick={() => navigate("/statistics")}><BiLineChart /></button> 
                     </>
                 )}

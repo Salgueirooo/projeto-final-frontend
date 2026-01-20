@@ -24,8 +24,12 @@ const FinishRecipe: React.FC<Props> = ({recipeId, bakeryId, nResultingProducts: 
         event.preventDefault();
 
         try {
-            await api.put(`/produced-recipe/complete-production/${recipeId}`,
-                Number(nResultingProducts)
+            await api.put(`/produced-recipe/complete-production/${recipeId}`, Number(nResultingProducts),
+                {
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                }
             );
             onSwitch(false);
             navigate(`/home/${bakeryId}/${HomeTab.StartedRecipes}`);
