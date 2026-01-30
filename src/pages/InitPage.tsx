@@ -17,9 +17,9 @@ const InitPage: React.FC = () => {
             </div>
             <div className='init-container'>
                 {mode === "login" ? (
-                    <LoginForm onSwitch={(m) => setMode(m)} />
+                    <LoginForm onSwitch={(m: Mode) => setMode(m)} />
                 ) : (
-                    <RegisterForm onSwitch={(m) => setMode(m)} />
+                    <RegisterForm onSwitch={(m: Mode) => setMode(m)} />
                 )}
             </div>
       </>
