@@ -6,6 +6,7 @@ import AuthenticatedLayout from './context/AuthenticatedLayout';
 import Statistics from './pages/Statistics';
 import Settings from './pages/Settings';
 import AdminLayout from './context/AdminContext';
+import ProtectedTab from './context/Protected'
 
 const App: React.FC = () => {
 
@@ -16,7 +17,14 @@ const App: React.FC = () => {
           
             <Route element={<AuthenticatedLayout />}>
                 <Route path="/select-bakery" element={<SelectBakeryPage />} />
-                <Route path="/home/:bakeryId/:tab?" element={<HomePage />} />
+                <Route
+                    path="/home/:bakeryId/:tab?"
+                    element={
+                        <ProtectedTab>
+                            <HomePage />
+                        </ProtectedTab>
+                    }
+                />
                 
                 <Route element={<AdminLayout />}>
                     <Route path="/settings/:setting?" element={<Settings />} />

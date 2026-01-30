@@ -8,6 +8,7 @@ import { HomeTab } from "../hooks/HomeTab";
 import type { producedRecipeDTO } from "../dto/producedRecipeDTO";
 import RecipeActiveSelect from "./RecipeActiveDetails";
 import { useWebSocket } from "../context/WebSocketContext";
+import { IoMenu } from "react-icons/io5";
 
 
 const ShowActivatedRecipes: React.FC = () => {
@@ -17,6 +18,8 @@ const ShowActivatedRecipes: React.FC = () => {
     const [params] = useSearchParams();
 
     const [loadingRecipe, setLoadingRecipe] = useState<boolean>(false);
+
+    const [openMain, setOpenMain] = useState(true);
 
     const {addToastNotification: addNotification} = useToastNotification();
 
@@ -146,13 +149,56 @@ const ShowActivatedRecipes: React.FC = () => {
                 )}
 
             </div>
+
+            {openMain && (
+                <div className="back-side-bar-mobile" onClick={() => setOpenMain(false)}>
+                    <div className="side-bar-recipes-mobile">
+                        <div className="search-recipe">
+                            <input className="search-recipe-name"
+                                type="text"
+                                id="name"
+                                value={productName}
+                                placeholder="Pesquisar"
+                                onChange={(e) => setProductName(e.target.value)}
+                            />
+                        </div>
+
+                        {loadingRecipe ? (
+                            <div className="spinner"></div>
+                        ) : (
+                            filteredRecipes.length > 0 ? (
+                                filteredRecipes.map((recipe) => (
+                                    <button className={recipe.id === recipeSelected?.id ? "selected" : "no-selected"} key={recipe.id} onClick={() => setSelectedRecipe(recipe.id)}>
+                                        <div className="act-recipe-info">
+                                            <h3>{recipe.productName}</h3>
+                                            <h4>{recipe.initialDate.toString().replace("T", " ").slice(11, 16)} - {recipe.userName}</h4>
+                                        </div>
+                                        
+                                        
+                                        <FaArrowCircleRight />
+                                    </button>
+                                ))
+                            ) : (
+                                <span className="text">Sem receitas em produção.</span>
+                            )
+                            
+                        )}
+
+                    </div>
+                </div>
+            )}
+
             <div className="body-recipes">
                 <div className="recipe-details">
                     {recipeSelected == undefined ? (
-                        <h3>Selecione a receita que deseja seguir.</h3>
+                        <>
+                            <button className="main-recipes" onClick={() => setOpenMain(true)}><IoMenu />&nbsp;Receitas</button>
+                            <h3>Selecione a receita que deseja seguir.</h3>
+                        </>
+                        
                     ) : (
                         
-                        <RecipeActiveSelect selectedRecipeId={recipeSelected.id} setTradeRecipe={(m) => setTradeRecipe(m)} tradeRecipe={tradeRecipe}/>
+                        <RecipeActiveSelect selectedRecipeId={recipeSelected.id} setTradeRecipe={(m) => setTradeRecipe(m)} tradeRecipe={tradeRecipe} openMain={(m) => setOpenMain(m)}/>
                     )}
                 </div>
             </div>

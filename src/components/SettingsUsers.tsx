@@ -16,6 +16,7 @@ const UserSettings: React.FC = () => {
     const { addToastNotification: addNotification } = useToastNotification();
 
     const [loadingUsers, setLoadingUsers] = useState(true);
+    const [loadingBot, setLoadingBot] = useState(false);
     const [reload, setReload] = useState(false);
     const [users, setUsers] = useState<UserDTO[]>([]);
     const [showUsers, setShowUsers] = useState<UserDTO[]>([]);
@@ -58,6 +59,7 @@ const UserSettings: React.FC = () => {
         
         if (userSelected > 0) {
             try {
+                setLoadingBot(true);
                 await api.put(`/user/update-role/${userSelected}`, roleSelected,
                     {
                         headers: {
@@ -79,6 +81,8 @@ const UserSettings: React.FC = () => {
                     addNotification("Erro na comunicação com o Servidor.", true);
 
                 }
+            } finally {
+                setLoadingBot(false);
             }
         }
         
@@ -228,7 +232,7 @@ const UserSettings: React.FC = () => {
                             ))}
                         </select>
                         
-                        <button type="submit" className="submit">Alterar Cargo</button>
+                        <button type="submit" className="submit">{loadingBot ? (<div className="spinner"></div>) : (<>Alterar Cargo</>)}</button>
 
                     </form>
                 </div>

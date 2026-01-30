@@ -6,8 +6,6 @@ import BakeryInfo from "./BakeryInfo"
 import { useNavigate } from "react-router-dom"
 import { HomeTab } from "../hooks/HomeTab"
 
-const BASE_URL = import.meta.env.VITE_API_BASE_URL;
-
 interface BakeryInfoInterface {
     bakery: bakeryDTO
 }
@@ -21,7 +19,7 @@ const SelectBakery: React.FC<BakeryInfoInterface> = ({bakery}) => {
         <>
             <div className="show-bakery" >
                 
-                <img src={`${BASE_URL}${bakery.logo}`} alt="Logotipo" />
+                <img src={bakery.logo} alt="Logotipo" />
                 <h3 title={bakery.name}>{bakery.name}</h3>
                 
                 <div className="bots">

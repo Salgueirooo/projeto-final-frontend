@@ -18,12 +18,14 @@ const FinishRecipe: React.FC<Props> = ({recipeId, bakeryId, nResultingProducts: 
 
     const { addToastNotification: addNotification } = useToastNotification();
     const navigate = useNavigate();
+    const [loadingBot, setLoadingBot] = useState(false);
     const [nResultingProducts, setNResultingProducts] = useState(String(nResultingProductsInitial));
 
     const finishRecipe = async (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
 
         try {
+            setLoadingBot(true);
             await api.put(`/produced-recipe/complete-production/${recipeId}`, Number(nResultingProducts),
                 {
                     headers: {
@@ -45,6 +47,8 @@ const FinishRecipe: React.FC<Props> = ({recipeId, bakeryId, nResultingProducts: 
                 addNotification("Erro na comunicação com o Servidor.", true);
 
             }
+        } finally {
+            setLoadingBot(false);
         }
         
         
@@ -65,7 +69,7 @@ const FinishRecipe: React.FC<Props> = ({recipeId, bakeryId, nResultingProducts: 
                         onChange={(e) => setNResultingProducts(e.target.value)}
                         required
                     />
-                    <button type="submit">Terminar Receita</button>
+                    <button type="submit">{loadingBot ? (<div className="spinner"></div>) : (<>Terminar Receita</>)}</button>
                 </form>
                 
                 

@@ -149,7 +149,7 @@ const OrderInfo: React.FC<Props> = ({onSwitch, order, myOrder, refreshOrders}) =
                                 <h2><b>N.º Tel.:</b>&nbsp;{order.phoneNumber}</h2>
                             </div>
                             <div className="inline">
-                                <h2 className="username" title={order.userName}><b>N.º da Encomenda:</b>&nbsp;{order.id}</h2>
+                                <h2><b>N.º da Encomenda:</b>&nbsp;{order.id}</h2>
                                 {((order.orderState === "Pendente" && myOrder && isCancelable())  || (order.orderState === "Aceite" && myOrder && isCancelable())) && (
                                     <button className="cancel" onClick={() => cancelOrder(order.id)}>Cancelar encomenda</button>
                                 )}
@@ -163,12 +163,12 @@ const OrderInfo: React.FC<Props> = ({onSwitch, order, myOrder, refreshOrders}) =
                                     <tr>
                                         <th className="name">Produto</th>
                                         {order.orderState === "Entregue" && (
-                                            <th className="discount">Avaliar</th>
+                                            <th className="review-col">Avaliar</th>
                                         )}
-                                        <th className="price-unit">Preço Unit. (€)</th>
+                                        <th className="price-unit">Preço (€)</th>
                                         <th className="quantity">Quant.</th>
                                         <th className="discount">Desc. (%)</th>
-                                        <th className="price">Preço (€)</th>
+                                        <th className="price">Total (€)</th>
                                     </tr>
                                 </thead>                  
                             </table>
@@ -179,10 +179,10 @@ const OrderInfo: React.FC<Props> = ({onSwitch, order, myOrder, refreshOrders}) =
                                         {order.orderDetails.map(orderDetails => (
                                             <tr key={orderDetails.id}>
                                                 <td className="name" title={orderDetails.productName}>
-                                                    <span>{orderDetails.productName}</span>
+                                                        {orderDetails.productName}
                                                 </td>
                                                 {order.orderState === "Entregue" && myOrder && (
-                                                    <td className="discount">
+                                                    <td className="review-col">
                                                         {orderDetails.wasReviewed || !isReviewable() ? (
                                                             <button className="inactive"><FaStar /></button>
                                                         ) : (
@@ -229,7 +229,7 @@ const OrderInfo: React.FC<Props> = ({onSwitch, order, myOrder, refreshOrders}) =
                 </div>
             </div>
             {openModalForm && (
-                <ReviewForm onSwitch={(m) => setOpenModalForm(m)} orderDetailsId={orderDetailsIdSelected}/>
+                <ReviewForm onSwitch={(m) => setOpenModalForm(m)} orderDetailsId={orderDetailsIdSelected} refreshOrders={refreshOrders} />
             )}
         </>
     )

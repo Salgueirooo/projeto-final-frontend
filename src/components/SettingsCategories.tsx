@@ -10,14 +10,13 @@ import type { CategoryDTO } from "../dto/categoryDTO";
 
 type mode = "nameAsc" | "nameDesc"
 
-const BASE_URL = import.meta.env.VITE_API_BASE_URL;
-
 const CategorySettings: React.FC = () => {
 
     const [showMode, setShowMode] = useState<mode>("nameAsc");
     const { addToastNotification: addNotification } = useToastNotification();
 
     const [loadingCategories, setLoadingCategories] = useState(true);
+    const [loadingBot, setLoadingBot] = useState(false);
     const [reload, setReload] = useState(false);
     const [categories, setCategories] = useState<CategoryDTO[]>([]);
     const [showCategories, setShowCategories] = useState<CategoryDTO[]>([]);
@@ -61,7 +60,7 @@ const CategorySettings: React.FC = () => {
         
         setCategorySelected(category.id);
         setName(category.name);
-        setImageToShow(`${BASE_URL}${category.image}`);
+        setImageToShow(category.image);
     }
 
     const addCategory = async (event: React.FormEvent) => {
@@ -76,6 +75,7 @@ const CategorySettings: React.FC = () => {
         }
         
         try {
+            setLoadingBot(true);
             await api.post(`/category/add`, formData);
             refreshCategories();
             setAddModal(false);
@@ -91,6 +91,8 @@ const CategorySettings: React.FC = () => {
                 addNotification("Erro na comunicação com o Servidor.", true);
 
             }
+        } finally {
+            setLoadingBot(false);
         }
     }
 
@@ -104,6 +106,7 @@ const CategorySettings: React.FC = () => {
 
             if(categorySelected > 0) {
                 try {
+                    setLoadingBot(true);
                     await api.put(`/category/update/${categorySelected}`, formData);
                     refreshCategories();
                     setUpdateModal(false);
@@ -119,6 +122,8 @@ const CategorySettings: React.FC = () => {
                         addNotification("Erro na comunicação com o Servidor.", true);
 
                     }
+                } finally {
+                    setLoadingBot(false);
                 }
             }
         }
@@ -284,7 +289,7 @@ const CategorySettings: React.FC = () => {
                             </div>
                         </div>
                         
-                        <button type="submit" className="submit">Atualizar Categoria</button>
+                        <button type="submit" className="submit">{loadingBot ? (<div className="spinner"></div>) : (<>Atualizar Categoria</>)}</button>
  
                     </form>
                 </div>
@@ -332,7 +337,7 @@ const CategorySettings: React.FC = () => {
                             </div>
                         </div>
                         
-                        <button type="submit" className="submit">Adicionar Categoria</button>
+                        <button type="submit" className="submit">{loadingBot ? (<div className="spinner"></div>) : (<>Adicionar Categoria</>)}</button>
 
                     </form>
                 </div>

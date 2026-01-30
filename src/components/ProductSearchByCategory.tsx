@@ -70,7 +70,7 @@ const ProductSearchByCategory: React.FC<ProductSearchInt> = ({category, onSwitch
                     <input className="search-text"
                         type="text"
                         id="name"
-                        placeholder='O que procura nesta categoria?'
+                        placeholder='O que procura?'
                         value={productName}
                         onChange={(e) => setProductName(e.target.value)}
                         required

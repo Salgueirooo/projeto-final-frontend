@@ -16,6 +16,7 @@ const IngredientSettings: React.FC = () => {
     const { addToastNotification: addNotification } = useToastNotification();
 
     const [loadingIngredients, setLoadingIngredients] = useState(true);
+    const [loadingBot, setLoadingBot] = useState(false);
     const [reload, setReload] = useState(false);
     const [ingredients, setIngredients] = useState<IngredientDTO[]>([]);
     const [showIngredients, setShowIngredients] = useState<IngredientDTO[]>([]);
@@ -40,6 +41,7 @@ const IngredientSettings: React.FC = () => {
         event.preventDefault();   
         
         try {
+            setLoadingBot(true);
             await api.post(`/ingredient/add`, {name, unitDescription});
             refreshIngredients();
             setAddModal(false);
@@ -55,6 +57,8 @@ const IngredientSettings: React.FC = () => {
                 addNotification("Erro na comunicação com o Servidor.", true);
 
             }
+        } finally {
+            setLoadingBot(false);
         }
     }
 
@@ -206,7 +210,7 @@ const IngredientSettings: React.FC = () => {
                         <input
                             type="text"
                             id="name"
-                            placeholder='Insira o nome da categoria...'
+                            placeholder='Insira o nome do ingrediente...'
                             value={name}
                             onChange={(e) => setName(e.target.value)}
                             required
@@ -230,7 +234,7 @@ const IngredientSettings: React.FC = () => {
                             ))}
                         </select>
                         
-                        <button type="submit" className="submit">Adicionar Ingrediente</button>
+                        <button type="submit" className="submit">{loadingBot ? (<div className="spinner"></div>) : (<>Adicionar Ingrediente</>)}</button>
 
                     </form>
                 </div>

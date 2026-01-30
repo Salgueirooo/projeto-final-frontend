@@ -1,4 +1,4 @@
-import { IoSearch } from "react-icons/io5";
+import { IoMenu, IoSearch } from "react-icons/io5";
 import useDecodedToken from "../hooks/hookDecodedToken";
 import { useLogout } from "../services/logout";
 import { TbLogout } from "react-icons/tb";
@@ -37,6 +37,7 @@ import ProductStock from "../components/StockProduct";
 import RecipeTasksList from "../components/RecipeTasksList";
 import BakeryCostStats from "../components/StatisticsCostBakery";
 import BakeryUserStats from "../components/StatisticsUser";
+import { RxCross2 } from "react-icons/rx";
 
 const HomePage: React.FC = () => {
     
@@ -45,6 +46,7 @@ const HomePage: React.FC = () => {
     const { bakeryId, tab } = useParams<{ bakeryId: string; tab?: HomeTab }>();
 
     const selectedTab: HomeTab = (tab as HomeTab) || HomeTab.Products;
+    const [openBar, setOpenBar] = useState(true);
 
     const setSelectedTab = (newTab: HomeTab) => {
         navigate(`/home/${bakeryId}/${newTab}`);
@@ -57,7 +59,7 @@ const HomePage: React.FC = () => {
         navigate("/select-bakery");
     };
 
-    const { isAdmin } = useDecodedToken();
+    const { isCounterEmployee, isConfectioner, isAdmin } = useDecodedToken();
 
     const { addToastNotification: addNotification } = useToastNotification();
 
@@ -105,6 +107,12 @@ const HomePage: React.FC = () => {
             <div className="top-bar">
                 <span className="top-short">BakeTec</span>
                 <span className="top-long">BakeTec - Sistema de Gestão de Pastelarias</span>
+                {openBar ? (
+                    <button className="main" onClick={() => setOpenBar(false)}><RxCross2 /></button> 
+                ) : (
+                    <button className="main" onClick={() => setOpenBar(true)}><IoMenu /></button> 
+                )}
+                
                 <button className={openNotifications ? ("notifications-selected") : ("notifications")} onClick={() => setOpenNotifications(true)}><FaBell /></button>
                 {newNotification > 0 && (
                     <div className="new-notif">{newNotification}</div>
@@ -162,120 +170,136 @@ const HomePage: React.FC = () => {
                         <FaArrowCircleRight />
                     </button>
 
+                    {isCounterEmployee && (
+                        <>
+                            <div className="separators">Encomendas da Pastelaria</div>
 
-                    <div className="separators">Encomendas da Pastelaria</div>
+                            <button onClick={() => setSelectedTab(HomeTab.ReadyOrders)} className={selectedTab === HomeTab.ReadyOrders? "op-selected" : "op"}>
+                                <div className="op-left">
+                                    <FaCheck />
+                                    <span className="text">Prontas</span>
+                                </div>
+                                <FaArrowCircleRight />
+                            </button>
 
-                    <button onClick={() => setSelectedTab(HomeTab.ReadyOrders)} className={selectedTab === HomeTab.ReadyOrders? "op-selected" : "op"}>
-                        <div className="op-left">
-                            <FaCheck />
-                            <span className="text">Prontas</span>
-                        </div>
-                        <FaArrowCircleRight />
-                    </button>
+                            <button onClick={() => setSelectedTab(HomeTab.ConfirmedOrders)} className={selectedTab === HomeTab.ConfirmedOrders ? "op-selected" : "op"}>
+                                <div className="op-left">
+                                    <FaRegCalendarCheck />
+                                    <span className="text">Confirmadas</span>
+                                </div>
+                                <FaArrowCircleRight />
+                            </button>
 
-                    <button onClick={() => setSelectedTab(HomeTab.ConfirmedOrders)} className={selectedTab === HomeTab.ConfirmedOrders ? "op-selected" : "op"}>
-                        <div className="op-left">
-                            <FaRegCalendarCheck />
-                            <span className="text">Confirmadas</span>
-                        </div>
-                        <FaArrowCircleRight />
-                    </button>
+                            {isAdmin && (
+                                <button onClick={() => setSelectedTab(HomeTab.PendentOrders)} className={selectedTab === HomeTab.PendentOrders ? "op-selected" : "op"}>
+                                    <div className="op-left">
+                                        <LuHistory />
+                                        <span className="text">Pendentes</span>
+                                    </div>
+                                    <FaArrowCircleRight />
+                                </button>
+                            )}
+                            
 
-                    <button onClick={() => setSelectedTab(HomeTab.PendentOrders)} className={selectedTab === HomeTab.PendentOrders ? "op-selected" : "op"}>
-                        <div className="op-left">
-                            <LuHistory />
-                            <span className="text">Pendentes</span>
-                        </div>
-                        <FaArrowCircleRight />
-                    </button>
-
-                    <button onClick={() => setSelectedTab(HomeTab.SearchAllOrders)} className={selectedTab === HomeTab.SearchAllOrders ? "op-selected" : "op"}>
-                        <div className="op-left">
-                            <IoSearch />
-                            <span className="text">Pesquisar</span>
-                        </div>
-                        <FaArrowCircleRight />
-                    </button>
+                            <button onClick={() => setSelectedTab(HomeTab.SearchAllOrders)} className={selectedTab === HomeTab.SearchAllOrders ? "op-selected" : "op"}>
+                                <div className="op-left">
+                                    <IoSearch />
+                                    <span className="text">Pesquisar</span>
+                                </div>
+                                <FaArrowCircleRight />
+                            </button>
+                        </>
+                    )}
                     
+                    {isConfectioner && (
+                        <>
+                            <div className="separators">Receitas</div>
                     
-                    <div className="separators">Receitas</div>
-                    
-                    <button onClick={() => setSelectedTab(HomeTab.SearchRecipes)} className={selectedTab === HomeTab.SearchRecipes ? "op-selected" : "op"}>
-                        <div className="op-left">
-                            <IoSearch />
-                            <span className="text">Pesquisar</span>
-                        </div>
-                        <FaArrowCircleRight />
-                    </button>
-                    
-                    <button onClick={() => setSelectedTab(HomeTab.StartedRecipes)} className={selectedTab === HomeTab.StartedRecipes ? "op-selected" : "op"}>
-                        <div className="op-left">
-                            <MdIncompleteCircle />
-                            <span className="text">Iniciadas</span>
-                        </div>
-                        <FaArrowCircleRight />
-                    </button>
+                            <button onClick={() => setSelectedTab(HomeTab.SearchRecipes)} className={selectedTab === HomeTab.SearchRecipes ? "op-selected" : "op"}>
+                                <div className="op-left">
+                                    <IoSearch />
+                                    <span className="text">Pesquisar</span>
+                                </div>
+                                <FaArrowCircleRight />
+                            </button>
+                            
+                            <button onClick={() => setSelectedTab(HomeTab.StartedRecipes)} className={selectedTab === HomeTab.StartedRecipes ? "op-selected" : "op"}>
+                                <div className="op-left">
+                                    <MdIncompleteCircle />
+                                    <span className="text">Iniciadas</span>
+                                </div>
+                                <FaArrowCircleRight />
+                            </button>
 
-                    <button onClick={() => setSelectedTab(HomeTab.TaskListRecipes)} className={selectedTab === HomeTab.TaskListRecipes ? "op-selected" : "op"}>
-                        <div className="op-left">
-                            <FaTasks />
-                            <span className="text">Lista de Tarefas</span>
-                        </div>
-                        <FaArrowCircleRight />
-                    </button>
+                            <button onClick={() => setSelectedTab(HomeTab.TaskListRecipes)} className={selectedTab === HomeTab.TaskListRecipes ? "op-selected" : "op"}>
+                                <div className="op-left">
+                                    <FaTasks />
+                                    <span className="text">Lista de Tarefas</span>
+                                </div>
+                                <FaArrowCircleRight />
+                            </button>
 
-                    <button onClick={() => setSelectedTab(HomeTab.HistoryRecipes)} className={selectedTab === HomeTab.HistoryRecipes ? "op-selected" : "op"}>
-                        <div className="op-left">
-                            <BsArchiveFill />
-                            <span className="text">Histórico</span>
-                        </div>
-                        <FaArrowCircleRight />
-                    </button>
+                            <button onClick={() => setSelectedTab(HomeTab.HistoryRecipes)} className={selectedTab === HomeTab.HistoryRecipes ? "op-selected" : "op"}>
+                                <div className="op-left">
+                                    <BsArchiveFill />
+                                    <span className="text">Histórico</span>
+                                </div>
+                                <FaArrowCircleRight />
+                            </button>
 
 
-                    <div className="separators">Stock</div>
+                            <div className="separators">Stock</div>
 
-                    <button onClick={() => setSelectedTab(HomeTab.ManageProductStock)} className={selectedTab === HomeTab.ManageProductStock ? "op-selected" : "op"}>
-                        <div className="op-left">
-                            <BsDatabaseFill />
-                            <span className="text">Gerir Produtos</span>
-                        </div>
-                        <FaArrowCircleRight />
-                    </button>
+                            <button onClick={() => setSelectedTab(HomeTab.ManageProductStock)} className={selectedTab === HomeTab.ManageProductStock ? "op-selected" : "op"}>
+                                <div className="op-left">
+                                    <BsDatabaseFill />
+                                    <span className="text">Gerir Produtos</span>
+                                </div>
+                                <FaArrowCircleRight />
+                            </button>
 
-                    <button onClick={() => setSelectedTab(HomeTab.ManageIngredientStock)} className={selectedTab === HomeTab.ManageIngredientStock ? "op-selected" : "op"}>
-                        <div className="op-left">
-                            <BsDatabaseFill />
-                            <span className="text">Gerir Ingredientes</span>
-                        </div>
-                        <FaArrowCircleRight />
-                    </button>
+                            <button onClick={() => setSelectedTab(HomeTab.ManageIngredientStock)} className={selectedTab === HomeTab.ManageIngredientStock ? "op-selected" : "op"}>
+                                <div className="op-left">
+                                    <BsDatabaseFill />
+                                    <span className="text">Gerir Ingredientes</span>
+                                </div>
+                                <FaArrowCircleRight />
+                            </button>
 
-                    <button onClick={() => setSelectedTab(HomeTab.VerifyStock)} className={selectedTab === HomeTab.VerifyStock ? "op-selected" : "op"}>
-                        <div className="op-left">
-                            <BsDatabaseFillCheck />
-                            <span className="text">Controlo de Ingredientes</span>
-                        </div>
-                        <FaArrowCircleRight />
-                    </button>
+                            {isAdmin && (
+                                <button onClick={() => setSelectedTab(HomeTab.VerifyStock)} className={selectedTab === HomeTab.VerifyStock ? "op-selected" : "op"}>
+                                    <div className="op-left">
+                                        <BsDatabaseFillCheck />
+                                        <span className="text">Controlo de Ingredientes</span>
+                                    </div>
+                                    <FaArrowCircleRight />
+                                </button>
+                            )}
+                            
+                        </>
+                    )}
 
                     <div className="separators">Estatísticas</div>
 
-                    <button onClick={() => setSelectedTab(HomeTab.SalesStats)} className={selectedTab === HomeTab.SalesStats ? "op-selected" : "op"}>
-                        <div className="op-left">
-                            <IoIosStats />
-                            <span className="text">Venda de Produtos</span>
-                        </div>
-                        <FaArrowCircleRight />
-                    </button>
+                    {isAdmin && (
+                        <>
+                            <button onClick={() => setSelectedTab(HomeTab.SalesStats)} className={selectedTab === HomeTab.SalesStats ? "op-selected" : "op"}>
+                                <div className="op-left">
+                                    <IoIosStats />
+                                    <span className="text">Venda de Produtos</span>
+                                </div>
+                                <FaArrowCircleRight />
+                            </button>
 
-                    <button onClick={() => setSelectedTab(HomeTab.RevenueStats)} className={selectedTab === HomeTab.RevenueStats ? "op-selected" : "op"}>
-                        <div className="op-left">
-                            <MdOutlineEuroSymbol />
-                            <span className="text">Receitas Adquiridas</span>
-                        </div>
-                        <FaArrowCircleRight />
-                    </button>
+                            <button onClick={() => setSelectedTab(HomeTab.RevenueStats)} className={selectedTab === HomeTab.RevenueStats ? "op-selected" : "op"}>
+                                <div className="op-left">
+                                    <MdOutlineEuroSymbol />
+                                    <span className="text">Receitas Adquiridas</span>
+                                </div>
+                                <FaArrowCircleRight />
+                            </button>
+                        </>
+                    )}
 
                     <button onClick={() => setSelectedTab(HomeTab.UserStats)} className={selectedTab === HomeTab.UserStats ? "op-selected" : "op"}>
                         <div className="op-left">
@@ -285,6 +309,206 @@ const HomePage: React.FC = () => {
                         <FaArrowCircleRight />
                     </button>
                 </div>
+
+
+
+                {/*Barra para mobile*/}
+                {openBar && (
+                    <div className="background-home-bar" onClick={() => setOpenBar(false)}>
+                        <div className="home-bar-mobile" onClick={(e) => e.stopPropagation()}>
+                            <button className="home-go-back" onClick={goBack}>
+                                <FaArrowCircleLeft />
+                                <span className="text" title={bakeryName}>{bakeryName}</span>
+                            </button>
+
+                            <div className="separators">Produtos</div>
+                            
+                            <button onClick={() => {setSelectedTab(HomeTab.Products); setOpenBar(false)}} className={selectedTab === HomeTab.Products ? "op-selected" : "op"}>
+                                <div className="op-left">
+                                    <GiCupcake />
+                                    <span className="text">Por categoria</span>
+                                </div>
+                                <FaArrowCircleRight />
+                            </button>
+
+                            <button onClick={() => {setSelectedTab(HomeTab.SearchProducts); setOpenBar(false)}} className={selectedTab === HomeTab.SearchProducts ? "op-selected" : "op"}>
+                                <div className="op-left">
+                                    <IoSearch />
+                                    <span className="text">Pesquisar</span>
+                                </div>
+                                <FaArrowCircleRight />
+                            </button>
+
+                            <div className="separators">Minhas Encomendas</div>
+
+                            <button onClick={() => {setSelectedTab(HomeTab.InCart); setOpenBar(false)}} className={selectedTab === HomeTab.InCart ? "op-selected" : "op"}>
+                                <div className="op-left">
+                                    <IoIosCart />
+                                    <span className="text">Carrinho</span>
+                                </div>
+                                <FaArrowCircleRight />
+                            </button>
+
+                            <button onClick={() => {setSelectedTab(HomeTab.Accompany); setOpenBar(false)}} className={selectedTab === HomeTab.Accompany? "op-selected" : "op"}>
+                                <div className="op-left">
+                                    <FaRegCalendarCheck />
+                                    <span className="text">Acompanhar</span>
+                                </div>
+                                <FaArrowCircleRight />
+                            </button>
+
+                            <button onClick={() => {setSelectedTab(HomeTab.SearchMyOrders); setOpenBar(false)}} className={selectedTab === HomeTab.SearchMyOrders ? "op-selected" : "op"}>
+                                <div className="op-left">
+                                    <IoSearch />
+                                    <span className="text">Pesquisar</span>
+                                </div>
+                                <FaArrowCircleRight />
+                            </button>
+
+                            {isCounterEmployee && (
+                                <>
+                                    <div className="separators">Encomendas da Pastelaria</div>
+
+                                    <button onClick={() => {setSelectedTab(HomeTab.ReadyOrders); setOpenBar(false)}} className={selectedTab === HomeTab.ReadyOrders? "op-selected" : "op"}>
+                                        <div className="op-left">
+                                            <FaCheck />
+                                            <span className="text">Prontas</span>
+                                        </div>
+                                        <FaArrowCircleRight />
+                                    </button>
+
+                                    <button onClick={() => {setSelectedTab(HomeTab.ConfirmedOrders); setOpenBar(false)}} className={selectedTab === HomeTab.ConfirmedOrders ? "op-selected" : "op"}>
+                                        <div className="op-left">
+                                            <FaRegCalendarCheck />
+                                            <span className="text">Confirmadas</span>
+                                        </div>
+                                        <FaArrowCircleRight />
+                                    </button>
+
+                                    {isAdmin && (
+                                        <button onClick={() => {setSelectedTab(HomeTab.PendentOrders); setOpenBar(false)}} className={selectedTab === HomeTab.PendentOrders ? "op-selected" : "op"}>
+                                            <div className="op-left">
+                                                <LuHistory />
+                                                <span className="text">Pendentes</span>
+                                            </div>
+                                            <FaArrowCircleRight />
+                                        </button>
+                                    )}
+                                    
+
+                                    <button onClick={() => {setSelectedTab(HomeTab.SearchAllOrders); setOpenBar(false)}} className={selectedTab === HomeTab.SearchAllOrders ? "op-selected" : "op"}>
+                                        <div className="op-left">
+                                            <IoSearch />
+                                            <span className="text">Pesquisar</span>
+                                        </div>
+                                        <FaArrowCircleRight />
+                                    </button>
+                                </>
+                            )}
+                            
+                            {isConfectioner && (
+                                <>
+                                    <div className="separators">Receitas</div>
+                            
+                                    <button onClick={() => {setSelectedTab(HomeTab.SearchRecipes); setOpenBar(false)}} className={selectedTab === HomeTab.SearchRecipes ? "op-selected" : "op"}>
+                                        <div className="op-left">
+                                            <IoSearch />
+                                            <span className="text">Pesquisar</span>
+                                        </div>
+                                        <FaArrowCircleRight />
+                                    </button>
+                                    
+                                    <button onClick={() => {setSelectedTab(HomeTab.StartedRecipes); setOpenBar(false)}} className={selectedTab === HomeTab.StartedRecipes ? "op-selected" : "op"}>
+                                        <div className="op-left">
+                                            <MdIncompleteCircle />
+                                            <span className="text">Iniciadas</span>
+                                        </div>
+                                        <FaArrowCircleRight />
+                                    </button>
+
+                                    <button onClick={() => {setSelectedTab(HomeTab.TaskListRecipes); setOpenBar(false)}} className={selectedTab === HomeTab.TaskListRecipes ? "op-selected" : "op"}>
+                                        <div className="op-left">
+                                            <FaTasks />
+                                            <span className="text">Lista de Tarefas</span>
+                                        </div>
+                                        <FaArrowCircleRight />
+                                    </button>
+
+                                    <button onClick={() => {setSelectedTab(HomeTab.HistoryRecipes); setOpenBar(false)}} className={selectedTab === HomeTab.HistoryRecipes ? "op-selected" : "op"}>
+                                        <div className="op-left">
+                                            <BsArchiveFill />
+                                            <span className="text">Histórico</span>
+                                        </div>
+                                        <FaArrowCircleRight />
+                                    </button>
+
+
+                                    <div className="separators">Stock</div>
+
+                                    <button onClick={() => {setSelectedTab(HomeTab.ManageProductStock); setOpenBar(false)}} className={selectedTab === HomeTab.ManageProductStock ? "op-selected" : "op"}>
+                                        <div className="op-left">
+                                            <BsDatabaseFill />
+                                            <span className="text">Gerir Produtos</span>
+                                        </div>
+                                        <FaArrowCircleRight />
+                                    </button>
+
+                                    <button onClick={() => {setSelectedTab(HomeTab.ManageIngredientStock); setOpenBar(false)}} className={selectedTab === HomeTab.ManageIngredientStock ? "op-selected" : "op"}>
+                                        <div className="op-left">
+                                            <BsDatabaseFill />
+                                            <span className="text">Gerir Ingredientes</span>
+                                        </div>
+                                        <FaArrowCircleRight />
+                                    </button>
+
+                                    {isAdmin && (
+                                        <button onClick={() => {setSelectedTab(HomeTab.VerifyStock); setOpenBar(false)}} className={selectedTab === HomeTab.VerifyStock ? "op-selected" : "op"}>
+                                            <div className="op-left">
+                                                <BsDatabaseFillCheck />
+                                                <span className="text">Controlo de Ingredientes</span>
+                                            </div>
+                                            <FaArrowCircleRight />
+                                        </button>
+                                    )}
+                                    
+                                </>
+                            )}
+
+                            <div className="separators">Estatísticas</div>
+
+                            {isAdmin && (
+                                <>
+                                    <button onClick={() => {setSelectedTab(HomeTab.SalesStats); setOpenBar(false)}} className={selectedTab === HomeTab.SalesStats ? "op-selected" : "op"}>
+                                        <div className="op-left">
+                                            <IoIosStats />
+                                            <span className="text">Venda de Produtos</span>
+                                        </div>
+                                        <FaArrowCircleRight />
+                                    </button>
+
+                                    <button onClick={() => {setSelectedTab(HomeTab.RevenueStats); setOpenBar(false)}} className={selectedTab === HomeTab.RevenueStats ? "op-selected" : "op"}>
+                                        <div className="op-left">
+                                            <MdOutlineEuroSymbol />
+                                            <span className="text">Receitas Adquiridas</span>
+                                        </div>
+                                        <FaArrowCircleRight />
+                                    </button>
+                                </>
+                            )}
+
+                            <button onClick={() => {setSelectedTab(HomeTab.UserStats); setOpenBar(false)}} className={selectedTab === HomeTab.UserStats ? "op-selected" : "op"}>
+                                <div className="op-left">
+                                    <GrDocumentUser />
+                                    <span className="text">Minhas Encomendas</span>
+                                </div>
+                                <FaArrowCircleRight />
+                            </button>
+                        </div>
+                    </div>
+                )}
+                
+                
+
                 {openNotifications && (
                     <NotificationWSList mode={"bakery"} onSwitch={(m) => setOpenNotifications(m)} lastAccess={lastAccess} bakeryId={Number(bakeryId)}/>
                 )}

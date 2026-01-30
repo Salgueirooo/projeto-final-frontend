@@ -61,8 +61,35 @@
 
 }
 
-
-
 button:hover {
     background-color: var(--sec-yellow);
+}
+
+@media (max-width: 800px) {
+    .show-category {
+        width: 10rem;
+        height: 12rem;
+    }
+
+    .category-info {
+        width: 100%;
+        height: calc(100%);
+        justify-items: center;
+        align-content: center;
+
+    }
+
+    .category-info h3 {
+        margin-top: 0.4rem;
+        margin-bottom: 0.5rem;
+        font-size: 18px;
+        width: calc(100% - 2rem);
+    }
+
+    .category-info img {
+        margin-top: 0rem;
+        max-width: calc(100% - 1.4rem);
+        height: 50%;
+        
+    }
 }

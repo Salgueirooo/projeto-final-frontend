@@ -5,7 +5,6 @@ export interface productDTO {
     price: number,
     image: string,
     rating: number,
-    iva: number,
     discount: number,
     active: boolean,
     categoryName: string

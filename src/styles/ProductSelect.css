@@ -41,7 +41,7 @@
 .product-info-small {
     transform: translateY(1.6rem);
     width: 100%;
-    height: calc(100% - 1.4rem);
+    height: calc(100% - 1.9rem);
     justify-items: center;
 
 }
@@ -118,18 +118,94 @@ button:hover {
     background-color: var(--sec-yellow);
 }
 
-.bots .info {
+.bots .info1, .bots .info2 {
     background-color: var(--blue);
 
 }
 
-.bots .info:hover {
+.bots .info1:hover, .bots .info2:hover {
     background-color: var(--sec-blue);
 }
 
-.product-info .buy, .product-info-small .buy {
+.product-info .buy1, .product-info-small .buy1 {
     margin-top: 0.5rem;
     width: 80%;
     
     justify-content: center;
+}
+
+.product-info .buy2, .product-info-small .buy2 {
+    margin-top: 0.5rem;
+    width: 80%;
+    
+    justify-content: center;
+}
+
+.bots .info2 {
+    display: none;
+}
+
+.product-info .buy2, .product-info-small .buy2 {
+    display: none;
+}
+
+@media (max-width: 800px) {
+    .show-product {
+        height: 15.5rem;
+        width: 10rem;
+
+        background-color: var(--black);
+
+        border-radius: 10px;
+        
+        word-wrap: break-word;
+        overflow-wrap: break-word;
+        white-space: normal;
+        overflow: hidden;
+    }
+
+    .bots .info1 {
+        display: none;
+    }
+
+    .bots .info2 {
+        display: flex;
+        padding: 0.6rem;
+        height: 2.2rem;
+    }
+
+    .product-info .buy1, .product-info-small .buy1 {
+        display: none;
+    }
+
+    .product-info .buy2, .product-info-small .buy2 {
+        display: flex;
+        height: 2rem;
+    }
+
+    .product-info h3, .product-info-small h3 {
+        /* margin-top: 0.5rem;
+        margin-bottom: 0.8rem; */
+        font-size: 16px;
+
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        width: 90%;
+
+        text-align: center; 
+    }
+
+    .product-info img, .product-info-small img {
+        max-width: calc(100% - 2rem);
+        height: 42%;
+        object-fit: cover;     
+        object-position: center;
+        border-radius: 8px;
+        display: flex;
+    }
+
+    .prices h4 {
+        font-size: 14px;
+    }
 }

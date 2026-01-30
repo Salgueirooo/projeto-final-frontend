@@ -30,11 +30,8 @@ const OrderShow: React.FC<Props> = ({order, myOrders, refreshOrders, mode, seeSt
             try {
             
                 await api.put(`/order/set-acceptance-status/${order.id}`,{
-                    acceptance
+                    acceptance, staffNotes: ""
                 });
-                // addNotification("Encomenda aceite.", false);
-            
-                //refreshOrders();
         
             } catch (err: any) {
 
@@ -99,10 +96,28 @@ const OrderShow: React.FC<Props> = ({order, myOrders, refreshOrders, mode, seeSt
         }
     };
 
+    const isToDo = () => {
+        if (order.orderState === "Pronta" || order.orderState === "Aceite") {
+            return true;
+
+        } else {
+            return false;
+        }
+    }
+
+    const onTime = (): boolean => {
+        const now = new Date();
+        const orderDateTime = new Date(order.date);
+
+        return now <= orderDateTime;
+    };
+
+    const isOnTime = onTime();
+
     return (
         <>
             <div className="order-container">
-                <h4 className="hour"><b>{dateTime[1].slice(0,5)}</b></h4>
+                <h4 className={(isOnTime) ? ("hour") : (isToDo() ? "late-hour" : "hour")}><b>{dateTime[1].slice(0,5)}</b></h4>
                 
                 <div className="order-body">
                     <h4 className="title1"><b>Lista de Produtos</b></h4>

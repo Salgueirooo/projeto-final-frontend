@@ -59,7 +59,8 @@ button {
     width: 25px;
     height: 25px;
     animation: spin 0.8s linear infinite;
-    margin: 10px auto;
+    /* margin: 10px auto; */
+    justify-self: center;
 }
 
 .back-modal button {

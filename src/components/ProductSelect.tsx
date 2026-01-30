@@ -8,8 +8,6 @@ import { useState } from "react";
 import ProductInfo from "./ProductInfo";
 import { useParams } from "react-router-dom";
 
-const BASE_URL = import.meta.env.VITE_API_BASE_URL;
-
 interface ProductInfoInterface {
     product: productDTO
 }
@@ -17,9 +15,11 @@ interface ProductInfoInterface {
 const ProductSelect: React.FC<ProductInfoInterface> = ({product}) => {
 
     const { addToastNotification: addNotification } = useToastNotification();
+    const [loadingBot, setLoadingBot] = useState(false);
 
     const addCart = async (bakeryId: number, productId: number) => {
         try {
+            setLoadingBot(true);
             await api.post("/order/add-product", {
                 bakeryId: bakeryId,
                 productId: productId
@@ -37,6 +37,8 @@ const ProductSelect: React.FC<ProductInfoInterface> = ({product}) => {
                 addNotification("Erro na comunicação com o Servidor.", true);
 
             }
+        } finally {
+            setLoadingBot(false);
         }
     };
 
@@ -54,7 +56,7 @@ const ProductSelect: React.FC<ProductInfoInterface> = ({product}) => {
                 )}
                 
                 <div className={product.discount > 0 ? "product-info" : "product-info-small"}>
-                    <img src={`${BASE_URL}${product.image}`} alt="imagem" />
+                    <img src={product.image} alt="imagem" />
                     <h3 title={product.name}>{product.name}</h3>
                     <div className="bots">
                         <div className="prices">
@@ -68,15 +70,37 @@ const ProductSelect: React.FC<ProductInfoInterface> = ({product}) => {
                             )}
                             
                         </div>
-                        <button className="info" onClick={() => setModalInfo(true)}>
+                        <button className="info1" onClick={() => setModalInfo(true)}>
                             <FaInfoCircle />&nbsp;Informação
+                        </button>
+                        <button className="info2" onClick={() => setModalInfo(true)}>
+                            <FaInfoCircle />
                         </button>
                         
                         
                     </div>
-                    <button className="buy" onClick={() => addCart(Number(bakeryId), product.id)}>
-                        <FaCirclePlus />&nbsp;&nbsp;Adicionar ao Carrinho
-                    </button>
+                    {loadingBot ? (
+                        <>
+                            <button className="buy1">
+                                <div className="spinner"></div>
+                            </button>
+                            <button className="buy2">
+                                <div className="spinner"></div>
+                            </button>
+                        </>
+                        
+                    ) : (
+                        <>
+                            <button className="buy1" onClick={() => addCart(Number(bakeryId), product.id)}>
+                                <FaCirclePlus />&nbsp;&nbsp;Adicionar ao Carrinho
+                            </button>
+                            <button className="buy2" onClick={() => addCart(Number(bakeryId), product.id)}>
+                                <FaCirclePlus />&nbsp;&nbsp;Adicionar
+                            </button>
+                        </>
+                        
+                    )}
+                    
                 </div>
                 
                 

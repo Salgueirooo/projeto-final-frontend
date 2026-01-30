@@ -164,7 +164,7 @@ const Stock: React.FC = () => {
                                                 <td className="quantity-stock">
                                                     {isAdmin && <button className="edit" onClick={() => {setIngredientIdSelected(stock.ingredientId); setUpgradeFormOpen(true);}}><FaPencilAlt /></button>}
                                                     
-                                                    <span>{stock.quantity.toString().replace(".", ",")} {stock.unitSymbol}</span>
+                                                    <span>{Number(stock.quantity).toFixed(2).replace(/\.00$/, "").replace(/(\.\d)0$/, "$1").replace(".", ",")} {stock.unitSymbol}</span>
                                                     
                                                     {isAdmin && <button onClick={() => {setIngredientIdSelected(stock.ingredientId); setAddFormOpen(true);}}><FaPlus /></button>}
                                                 </td>

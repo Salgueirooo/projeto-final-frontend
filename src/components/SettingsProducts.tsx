@@ -11,13 +11,11 @@ import type { CategoryDTO } from "../dto/categoryDTO";
 
 type mode = "nameAsc" | "nameDesc"
 
-const BASE_URL = import.meta.env.VITE_API_BASE_URL;
-
 const ProductSettings: React.FC = () => {
 
     const [showMode, setShowMode] = useState<mode>("nameAsc");
     const { addToastNotification: addNotification } = useToastNotification();
-
+    const [loadingBot, setLoadingBot] = useState(false);
     const [loadingProducts, setLoadingProducts] = useState(true);
     const [reload, setReload] = useState(false);
     const [categories, setCategories] = useState<CategoryDTO[]>([]);
@@ -34,7 +32,6 @@ const ProductSettings: React.FC = () => {
     const [price, setPrice] = useState(0.0);
     const [image, setImage] = useState<File | null>(null);
     const [categoryId, setCategoryId] = useState(0);
-    const [iva, setIva] = useState(0);
     const [discount, setDiscount] = useState(0);
     const [active, setActive] = useState(true);
 
@@ -63,7 +60,6 @@ const ProductSettings: React.FC = () => {
         setPrice(0.0);
         setImage(null);
         setCategoryId(0);
-        setIva(0);
         setDiscount(0);
         setImageToShow("");
         setCategoryToShow("");
@@ -77,8 +73,7 @@ const ProductSettings: React.FC = () => {
         setProductSelected(product.id);
         setDescription(product.description);
         setPrice(product.price);
-        setImageToShow(`${BASE_URL}${product.image}`);
-        setIva(product.iva);
+        setImageToShow(product.image);
         setDiscount(product.discount);
         setCategoryToShow(product.categoryName);
     }
@@ -105,18 +100,21 @@ const ProductSettings: React.FC = () => {
         const formData = new FormData();
         
         formData.append("name", name);
-        formData.append("description", description);
         formData.append("price", price.toString());
         formData.append("categoryId", categoryId.toString());
-        formData.append("iva", iva.toString());
         formData.append("discount", discount.toString());
         formData.append("active", active.toString());
+
+        if(description) {
+            formData.append("description", description);
+        }
 
         if(image) {
             formData.append("image", image);
         }
         
         try {
+            setLoadingBot(true);
             await api.post(`/product/add`, formData);
             refreshProducts();
             setAddModal(false);
@@ -132,6 +130,8 @@ const ProductSettings: React.FC = () => {
                 addNotification("Erro na comunicação com o Servidor.", true);
 
             }
+        } finally {
+            setLoadingBot(false);
         }
     }
 
@@ -140,19 +140,21 @@ const ProductSettings: React.FC = () => {
 
         const formData = new FormData();
         
-        formData.append("description", description);
         formData.append("price", price.toString());
         formData.append("categoryId", categoryId.toString());
-        formData.append("iva", iva.toString());
         formData.append("discount", discount.toString());
-        // formData.append("active", active.toString());
         
         if(image) {
             formData.append("image", image);
         }
+
+        if(description) {
+            formData.append("description", description);
+        }
         
         if(productSelected > 0) {
             try {
+                setLoadingBot(true);
                 await api.put(`/product/update/${productSelected}`, formData);
                 refreshProducts();
                 setUpdateModal(false);
@@ -168,6 +170,8 @@ const ProductSettings: React.FC = () => {
                     addNotification("Erro na comunicação com o Servidor.", true);
 
                 }
+            } finally {
+                setLoadingBot(false);
             }
         }
         
@@ -363,17 +367,33 @@ const ProductSettings: React.FC = () => {
                             onChange={(e) => setDescription(e.target.value)}
                         />
 
-                        <h4>Preço(€) (*)</h4>
-                        <input
-                            type="number"
-                            id="price"
-                            min="0"
-                            step="0.01"
-                            placeholder='Insira o preço do produto...'
-                            value={price}
-                            onChange={(e) => setPrice(Number(e.target.value))}
-                            required
-                        />
+                        <div className="inline-normal">
+                            <div className="left-setting">
+                                <h4>Preço(€) (*)</h4>
+                                <input
+                                    type="number"
+                                    id="price"
+                                    min="0"
+                                    step="0.01"
+                                    placeholder='Insira o preço do produto...'
+                                    value={price}
+                                    onChange={(e) => setPrice(Number(e.target.value))}
+                                    required
+                                />
+                            </div>
+                            <div className="right-setting">
+                                <h4>Desconto(%) (*)</h4>
+                                <input
+                                    type="number"
+                                    id="discount"
+                                    min="0"
+                                    placeholder='Insira o desconto do produto...'
+                                    value={discount}
+                                    onChange={(e) => setDiscount(Number(e.target.value))}
+                                    required
+                                />
+                            </div>
+                        </div>
                         
                         <h4>Imagem</h4>       
                         <input
@@ -417,34 +437,7 @@ const ProductSettings: React.FC = () => {
                             ))}
                         </select>
 
-                        <div className="inline-normal">
-                            <div className="left-setting">
-                                <h4>Iva(%) (*)</h4>
-                                <input
-                                    type="number"
-                                    id="iva"
-                                    min="0"
-                                    placeholder='Insira o iva do produto...'
-                                    value={iva}
-                                    onChange={(e) => setIva(Number(e.target.value))}
-                                    required
-                                />
-                            </div>
-                            <div className="right-setting">
-                                <h4>Desconto(%) (*)</h4>
-                                <input
-                                    type="number"
-                                    id="discount"
-                                    min="0"
-                                    placeholder='Insira o desconto do produto...'
-                                    value={discount}
-                                    onChange={(e) => setDiscount(Number(e.target.value))}
-                                    required
-                                />
-                            </div>
-                        </div>
-
-                        <button type="submit" className="submit">Atualizar Produto</button>
+                        <button type="submit" className="submit">{loadingBot ? (<div className="spinner"></div>) : (<>Atualizar Produto</>)}</button>
                     </form>
                 </div>
             )}
@@ -487,15 +480,16 @@ const ProductSettings: React.FC = () => {
                                 /> 
                             </div>
                             <div className="right-setting">
-                                <h4>Ativo (*)</h4>
-                                <label className="switch">
-                                    <input
-                                        type="checkbox"
-                                        checked={active}
-                                        onChange={(e) => setActive(e.target.checked)}
-                                    />
-                                    <span className="slider" />
-                                </label>
+                                <h4>Desconto(%) (*)</h4>
+                                <input
+                                    type="number"
+                                    id="discount"
+                                    min="0"
+                                    placeholder='Insira o desconto do produto...'
+                                    value={discount}
+                                    onChange={(e) => setDiscount(Number(e.target.value))}
+                                    required
+                                />
                             </div>
                         </div>
 
@@ -545,36 +539,24 @@ const ProductSettings: React.FC = () => {
                         </select>
 
                         <div className="inline-normal">
+                            
                             <div className="left-setting">
-                                <h4>Iva(%) (*)</h4>
-                                <input
-                                    type="number"
-                                    id="iva"
-                                    min="0"
-                                    placeholder='Insira o iva do produto...'
-                                    value={iva}
-                                    onChange={(e) => setIva(Number(e.target.value))}
-                                    required
-                                />
+                                <h4>Ativo (*)</h4>
+                                <label className="switch">
+                                    <input
+                                        type="checkbox"
+                                        checked={active}
+                                        onChange={(e) => setActive(e.target.checked)}
+                                    />
+                                    <span className="slider" />
+                                </label>
                             </div>
                             
-                            <div className="right-setting">
-                                <h4>Desconto(%) (*)</h4>
-                                <input
-                                    type="number"
-                                    id="discount"
-                                    min="0"
-                                    placeholder='Insira o desconto do produto...'
-                                    value={discount}
-                                    onChange={(e) => setDiscount(Number(e.target.value))}
-                                    required
-                                />
-                            </div>
 
                             
                         </div>
                         
-                        <button type="submit" className="submit">Adicionar Produto</button>
+                        <button type="submit" className="submit">{loadingBot ? (<div className="spinner"></div>) : (<>Adicionar Produto</>)}</button>
                     </form>
                 </div>
             )}

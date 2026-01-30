@@ -8,7 +8,7 @@ import { NotificationStoreProvider } from './context/NotificationStoreContext';
 import { AuthProvider } from './context/AuthProvider';
 
 createRoot(document.getElementById('root')!).render(
-    <StrictMode>
+    // <StrictMode>
         <BrowserRouter>
             <AuthProvider>
                 <NotificationStoreProvider>
@@ -19,5 +19,5 @@ createRoot(document.getElementById('root')!).render(
             </AuthProvider>
         </BrowserRouter>
     
-    </StrictMode>,
+    /* </StrictMode> */
 )

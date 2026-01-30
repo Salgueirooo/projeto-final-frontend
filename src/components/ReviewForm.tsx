@@ -9,9 +9,10 @@ import { useToastNotification } from "../context/NotificationContext";
 interface Props {
     onSwitch: (modalOpen: boolean) => void;
     orderDetailsId: number | null;
+    refreshOrders: () => void;
 }
 
-const ReviewForm: React.FC<Props> = ({onSwitch, orderDetailsId}) => {
+const ReviewForm: React.FC<Props> = ({onSwitch, orderDetailsId, refreshOrders}) => {
 
     const { addToastNotification: addNotification } = useToastNotification();
 
@@ -23,6 +24,7 @@ const ReviewForm: React.FC<Props> = ({onSwitch, orderDetailsId}) => {
                     rating,
                     review: commentary
                 });
+                refreshOrders();
                 addNotification("Comentário submetido.", false);
                 onSwitch(false);
             

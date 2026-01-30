@@ -7,15 +7,15 @@ import { useToastNotification } from "../context/NotificationContext";
 import { useLogout } from "../services/logout";
 import { TbLogout } from "react-icons/tb";
 import { FaBell } from "react-icons/fa";
-import { IoCog, IoSearch } from "react-icons/io5";
+import { IoSearch } from "react-icons/io5";
 import useDecodedToken from "../hooks/hookDecodedToken";
 import NotificationWSList from "../components/NotificationWSList";
 import { useNotificationStore } from "../hooks/hookNotificationStore";
-import { RxCross2 } from "react-icons/rx";
 import { useNavigate } from "react-router-dom";
 import type { STAllBakery } from "../dto/STAllBakeryDTO";
 import { Bar, BarChart, CartesianGrid, ResponsiveContainer, Tooltip, XAxis, YAxis } from "recharts";
 import type { ValueType } from "recharts/types/component/DefaultTooltipContent";
+import { IoIosArrowBack } from "react-icons/io";
 
 const Statistics: React.FC = () => {
     const initialDate = new Date().toISOString().slice(0, 10);
@@ -138,8 +138,7 @@ const Statistics: React.FC = () => {
                 
                 {isAdmin && (
                     <>
-                        <button className="conf" onClick={() => navigate("/settings")}><IoCog /></button> 
-                        <button className="stat" onClick={() => navigate("/select-bakery")}><RxCross2 /></button> 
+                        <button className="conf" onClick={() => navigate("/select-bakery")}><IoIosArrowBack /></button> 
                     </>
                 )}
                 
@@ -150,21 +149,6 @@ const Statistics: React.FC = () => {
                 <button className="logout" onClick={haddleLogout}><TbLogout /></button>
             </div>
             <div className="back-select">
-                {/* <div className="select-header"><h2>Bem-vindo! Selecione uma Pastelaria.</h2></div>
-                <div className="bakery-container">
-                    {loadingBakeries ? (
-                        <div className="spinner"></div>
-                    ) : (
-                        bakeries.length === 0 ? (
-                            <h3>Nenhuma Pastelaria encontrada.</h3>
-                        ) : (
-                            bakeries.map((bakery) => (
-                            <SelectBakery key={bakery.id} bakery={bakery} />
-                        )))
-                        
-                    )}
-                    
-                </div> */}
 
                 <div className="search-bar">
                     <div className="bakery-bar">

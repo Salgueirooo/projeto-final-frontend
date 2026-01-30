@@ -19,7 +19,7 @@
 }
 
 .order {
-
+    max-width: calc(100% - 1rem);
     width: 50rem;
     background-color: var(--black);
     border-radius: 8px;
@@ -65,7 +65,7 @@
 
 .inline .username {
     overflow: hidden;
-    width: 25rem;
+    width: calc(100% - 12rem);
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -103,7 +103,8 @@
 }
 
 .order-container .t-body {
-    max-height: 10rem;
+    min-height: 2.6rem;
+    max-height: calc(100dvh - 35rem);
     overflow-y: auto;
 }
 
@@ -112,21 +113,19 @@
     height: 2rem;
 }
 
-
-
 .order-container .price {
     width: 6rem;
     text-align: center;
 
 }
 
-.order-container .discount {
+.order-container .discount, .order-container .review-col {
     width: 6rem;
     text-align: center;
 
 }
 
-.discount button {
+.review-col button {
     height: 1.6rem;
     aspect-ratio: 2/1;
     justify-content: center;
@@ -135,13 +134,13 @@
     font-size: 1rem;
 }
 
-.discount .inactive {
+.review-col .inactive {
     background-color: var(--gray);
     color: var(--black);
     border: 1px solid var(--black);
 }
 
-.discount .inactive:hover {
+.review-col .inactive:hover {
     background-color: var(--gray);
     color: var(--black);
     border: 1px solid var(--black);
@@ -160,15 +159,17 @@
 }
 
 .order-container .price-unit {
-    width: 8rem;
+    width: 6rem;
     text-align: center;
 
 }
 
-.order-container th.name {
+.order-container .name {
 
     text-align: left;
     padding-left: 0.5rem;
+    /* min-width: 6rem; */
+    /* width: 8rem; */
 }
 
 .order-container .total-line {
@@ -179,19 +180,106 @@
     padding-left: 0.5rem;
 }
 
-.order-container td.name span {
-    display: inline-block;
-    max-width: 12rem;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    padding-left: 0.5rem;
-
-}
-
 .order-container h2 {
     font-size: 1.2rem;
     color: var(--white);
 
     margin-bottom: 0.3rem;
+}
+
+td, th {
+    word-break: break-word;
+    overflow-wrap: break-word;
+    white-space: normal;
+}
+
+@media (max-width: 800px) {
+    .order .order-container {
+        padding: 0.2rem 1rem 1rem 1rem;
+        
+    }
+
+    .order-container h2 {
+        font-size: 18px !important;
+        color: var(--white);
+
+        margin-bottom: 0.3rem;
+    }
+
+    .order .cancel {
+        padding: 0rem 0.8rem 0rem 0.8rem;
+        font-size: 16px;
+        background-color: var(--gray);
+        color: var(--white);
+    }
+
+    .order-container table {
+        width: 100%;
+        font-size: 17px;
+
+        border-collapse: separate;
+        border-spacing: 0 0.3rem;
+    }
+
+    .order-container thead {
+    
+        height: 2.4rem;
+        
+        background-color: var(--yellow);
+        color: var(--black);
+    }
+
+    .order-container td {
+        background-color: var(--gray);
+        height: 2rem;
+    }
+
+    td, th {
+        word-break: break-word;
+        overflow-wrap: break-word;
+        white-space: normal;
+    }
+
+    .order-container .price-unit {
+        display: none;
+    }
+
+    .review-col button {
+        height: 1.5rem;
+        aspect-ratio: 5/3;
+        justify-content: center;
+        align-content: center;
+        justify-self: center;
+        font-size: 1rem;
+    }
+
+    .order-container .review-col {
+        width: 4.4rem;
+    }
+
+    .order-container .discount {
+        display: none;
+    }
+}
+
+@media (max-width: 480px) {
+    .order .inline {
+        display: flex;
+        flex-direction: column;
+        /* justify-content: space-between;     */
+    }
+
+    .inline .username {
+        width: 100%;
+    }
+
+    .order .cancel {
+        padding: 0.4rem 0.8rem 0.4rem 0.8rem;
+        width: fit-content;
+        font-size: 16px;
+        background-color: var(--gray);
+        color: var(--white);
+    }
+
+    
 }

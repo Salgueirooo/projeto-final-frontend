@@ -7,16 +7,17 @@ import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { useWebSocket } from "../context/WebSocketContext";
 import { HomeTab } from "../hooks/HomeTab";
 import FinishRecipe from "./RecipeFinish";
-
-const BASE_URL = import.meta.env.VITE_API_BASE_URL;
+import { IoMenu } from "react-icons/io5";
+import "../styles/RecipesShow.css"
 
 interface Props {
     selectedRecipeId: number,
     setTradeRecipe: (trade: boolean) => void,
-    tradeRecipe: boolean
+    tradeRecipe: boolean,
+    openMain: (open: boolean) => void
 }
 
-const RecipeActiveSelect: React.FC<Props> = ({selectedRecipeId, setTradeRecipe, tradeRecipe}) => {
+const RecipeActiveSelect: React.FC<Props> = ({selectedRecipeId, setTradeRecipe, tradeRecipe, openMain}) => {
 
     const navigate = useNavigate();
     const { bakeryId } = useParams<{ bakeryId: string}>();
@@ -156,7 +157,9 @@ const RecipeActiveSelect: React.FC<Props> = ({selectedRecipeId, setTradeRecipe, 
             ) : (
                 <>
                     <div className="inline-header">
+                        <button className="main-recipes" onClick={() => openMain(true)}><IoMenu /></button>
                         <h3 className="title-recipe-short">Receita de {recipe?.dose.toString().replace(".", ",")} dose(s) de {recipe?.productName} (~{recipe?.nResultingProducts} un.)</h3>
+                        <h3 className="title-recipe-short2">{recipe?.productName} - {recipe?.dose.toString().replace(".", ",")} dose(s) </h3>
                         <div className="button-box-recipe">
                             <button className="cancel" onClick={() => cancelRecipe()}>Cancelar</button>
                             <button onClick={() => finishRecipe()}>Terminar</button>
@@ -166,7 +169,7 @@ const RecipeActiveSelect: React.FC<Props> = ({selectedRecipeId, setTradeRecipe, 
                     
                     <div className="inline">
                         <div className="image">
-                            <img src={`${BASE_URL}${recipe?.productImage}`} alt="imagem" />
+                            <img src={recipe?.productImage} alt="imagem" />
                         </div>
                         <div className="ingredients">
                             <h3 className="title-ingred">Ingredientes</h3>

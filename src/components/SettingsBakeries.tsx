@@ -10,14 +10,13 @@ import { FaPlus } from "react-icons/fa6";
 
 type mode = "nameAsc" | "nameDesc"
 
-const BASE_URL = import.meta.env.VITE_API_BASE_URL;
-
 const BakerySettings: React.FC = () => {
 
     const [showMode, setShowMode] = useState<mode>("nameAsc");
     const { addToastNotification: addNotification } = useToastNotification();
 
     const [loadingBakeries, setLoadingBakeries] = useState(true);
+    const [loadingBot, setLoadingBot] = useState(false);
     const [reload, setReload] = useState(false);
     const [bakeries, setBakeries] = useState<bakeryDTO[]>([]);
     const [showBakeries, setShowBakeries] = useState<bakeryDTO[]>([]);
@@ -70,7 +69,7 @@ const BakerySettings: React.FC = () => {
         setPhoneNumber(bakery.phone_number);
         setEmail(bakery.email);
         setAddress(bakery.address);
-        setImageToShow(`${BASE_URL}${bakery.logo}`);
+        setImageToShow(bakery.logo);
     }
 
     const addBakery = async (event: React.FormEvent) => {
@@ -88,6 +87,7 @@ const BakerySettings: React.FC = () => {
         }
         
         try {
+            setLoadingBot(true);
             await api.post(`/bakery/add`, formData);
             refreshBakeries();
             setAddModal(false);
@@ -103,6 +103,8 @@ const BakerySettings: React.FC = () => {
                 addNotification("Erro na comunicação com o Servidor.", true);
 
             }
+        } finally {
+            setLoadingBot(false);
         }
     }
 
@@ -120,6 +122,7 @@ const BakerySettings: React.FC = () => {
         
         if(bakerySelected > 0) {
             try {
+                setLoadingBot(true);
                 await api.put(`/bakery/update/${bakerySelected}`, formData);
                 refreshBakeries();
                 setUpdateModal(false);
@@ -135,6 +138,8 @@ const BakerySettings: React.FC = () => {
                     addNotification("Erro na comunicação com o Servidor.", true);
 
                 }
+            } finally {
+                setLoadingBot(false);
             }
         }
         
@@ -321,7 +326,7 @@ const BakerySettings: React.FC = () => {
                             required
                         />
                         
-                        <button type="submit" className="submit">Atualizar Pastelaria</button>
+                        <button type="submit" className="submit">{loadingBot ? (<div className="spinner"></div>) : (<>Atualizar Pastelaria</>)}</button>
 
                     </form>
                 </div>
@@ -399,8 +404,7 @@ const BakerySettings: React.FC = () => {
                             onChange={(e) => setAddress(e.target.value)}
                         />
                         
-                        <button type="submit" className="submit">Adicionar Pastelaria</button>
-
+                        <button type="submit" className="submit">{loadingBot ? (<div className="spinner"></div>) : (<>Adicionar Pastelaria</>)}</button>
                         
                         
                     </form>

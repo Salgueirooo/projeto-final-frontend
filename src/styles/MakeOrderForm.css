@@ -9,6 +9,7 @@
     justify-items: center;
     align-content: center;
     
+    
 }
 
 .order-form {
@@ -17,7 +18,8 @@
     border-radius: 8px;
     align-content:center;
     justify-items: center;
-
+    text-align: center;
+    overflow-y: auto;
 }
 
 .order-form button {
@@ -69,8 +71,8 @@
 }
 
 .order-form .notes-box {
-
-    width: 18rem;
+    /* width: 18rem; */
+    width: 100%;
     height: calc(2.8rem);
     padding: 0.5rem;
     border-radius: 8px;
@@ -87,5 +89,25 @@
 .order-form .notes-box:focus {
     outline: none;
     border-color: var(--yellow);
+
+}
+
+@media (max-width: 800px) {
+    .order-form {
+        max-width: calc(100% - 1rem);
+    }
+
+    .order-form .submit {
+        height: 2.6rem;
+        
+    }
+
+    .order-form .submit, .order-form input, .order-form h3  {
+        max-width: calc(100% - 1rem);
+    }
+
+    .order-form .notes-box {
+        max-width: calc(100% - 2rem);
+    }
 
 }

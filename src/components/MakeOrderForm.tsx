@@ -20,6 +20,7 @@ const MakeOrderForm: React.FC<Props> = ({orderId, onSwitch}) => {
     const [selectedDate, setSelectedDate] = useState("");
     const [selectedTime, setSelectedTime] = useState("");
 
+    const [loadingBot, setLoadingBot] = useState(false);
     const [loading, setLoading] = useState(false);
     const [orderVars, setOrderVars] = useState<VarsMakeOrderDTO>({minOrderHours: 1, openingTime: "08:00", closingTime: "20:00"});
 
@@ -88,6 +89,7 @@ const MakeOrderForm: React.FC<Props> = ({orderId, onSwitch}) => {
         event.preventDefault();
 
         try {
+            setLoadingBot(true);
             await api.put("/order/make", {id: orderId, date: `${selectedDate}T${selectedTime}`, clientNotes: notes });
 
             addNotification("A sua Encomenda foi efetuada.", false);
@@ -104,6 +106,8 @@ const MakeOrderForm: React.FC<Props> = ({orderId, onSwitch}) => {
                 console.error(err);
                 addNotification("Erro ao efetuar a Encomenda.", true);
             }
+        } finally {
+            setLoadingBot(false);
         }
     };
 
@@ -145,13 +149,14 @@ const MakeOrderForm: React.FC<Props> = ({orderId, onSwitch}) => {
                             
                             <h3><b>Notas da Encomenda</b> (Opcional)</h3>
                             <textarea
+                                id="notes"
                                 placeholder="Escreva aqui as notas da sua encomenda..."
                                 className="notes-box"
                                 value={notes}
                                 onChange={(e) => setNotes(e.target.value)}>
                             </textarea>
 
-                            <button type="submit" className="submit">Finalizar encomenda</button>
+                            <button type="submit" className="submit">{loadingBot ? (<div className="spinner"></div>) : (<>Finalizar encomenda</>)}</button>
                         </form>
                     </>
                 )}

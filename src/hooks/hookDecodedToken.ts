@@ -9,6 +9,7 @@ interface DecodedToken {
 
 const useDecodedToken = () => {
     const [decodedToken, setDecodedToken] = useState<DecodedToken | null>(null);
+    const [loading, setLoading] = useState(true);
 
     useEffect(() => {
         const storedToken = localStorage.getItem('token');
@@ -22,21 +23,17 @@ const useDecodedToken = () => {
         } else {
             console.error("Token não encontrado.");
         }
+
+        setLoading(false);
     }, []);
 
     const hasRole = (role: string) => decodedToken?.roles?.includes(role) ?? false;
 
     const isAdmin = useMemo(() => hasRole("ROLE_ADMIN"), [decodedToken]);
-    const isCounterEmployee = useMemo(
-        () => hasRole("ROLE_COUNTER_EMPLOYEE"),
-        [decodedToken]
-    );
-    const isConfectioner = useMemo(
-        () => hasRole("ROLE_CONFECTIONER"),
-        [decodedToken]
-    );
+    const isCounterEmployee = useMemo(() => hasRole("ROLE_COUNTER_EMPLOYEE"),[decodedToken]);
+    const isConfectioner = useMemo(() => hasRole("ROLE_CONFECTIONER"),[decodedToken]);
 
-  return { decodedToken, isAdmin, isConfectioner, isCounterEmployee };
+  return { decodedToken,loading, isAdmin, isConfectioner, isCounterEmployee };
 };
 
 export default useDecodedToken;

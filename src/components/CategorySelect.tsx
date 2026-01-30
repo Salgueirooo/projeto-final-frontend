@@ -2,8 +2,6 @@ import { FaArrowCircleRight } from "react-icons/fa";
 import type { CategoryDTO } from "../dto/categoryDTO";
 import "../styles/CategorySelect.css"
 
-const BASE_URL = import.meta.env.VITE_API_BASE_URL;
-
 type opMode = "selectCategory" | "selectProduct";
 
 interface CategorySelectInt {
@@ -19,7 +17,7 @@ const CategorySelect: React.FC<CategorySelectInt> = ({category, onSwitchMode, on
         <div className="show-category" >
                             
             <div className="category-info" >
-                <img src={`${BASE_URL}${category.image}`} alt="Imagem" />
+                <img src={category.image} alt="Imagem" />
                 <h3 title={category.name}>{category.name}</h3>
                 
                 <button className="select" onClick={() => {

@@ -35,6 +35,7 @@
     border: 0;
     font-size: 1.1rem;
     font-weight: bold;
+    margin-bottom: 0.1rem;
 }
 
 .bakery-bar .selected {
@@ -150,3 +151,81 @@
     color: var(--yellow);
 }
 
+@media (max-width: 800px) {
+    .back-select .search-bar {
+        height: 2.8rem;
+    }
+
+    .search-bar .bakery-bar {
+        width: calc(100% - 8rem);
+        height: 2.8rem;
+        margin: 0rem 0.5rem 0 0.5rem;
+        align-items: start;
+        gap: 0.2rem;
+    }
+
+    .bakery-bar button {
+        margin-top: 0.5rem;
+        padding: 0.35rem 0.5rem 0.35rem 0.5rem;
+        margin-bottom: 0.1rem;
+        font-size: 14px;
+    }
+
+    .search-bar .search-container {
+        /* background-color: brown; */
+        height: 2.8rem;
+        width: 6.4rem;
+    }
+
+    .search-bar .op-right {
+        margin-top: 0.5rem;
+        margin-right: 0.5rem;
+        height: 1.8rem;
+    }
+
+    .search-container button {
+        width: 1.8rem;
+        font-size: 16px;
+    }
+
+    .search-container input {
+        /* width: 2.5rem; */
+        padding: 0rem 0.4rem 0rem 0.4rem;
+    }
+
+    .back-select .stats-body {
+
+        width: calc(100% - 1rem);
+        height: calc(100% - 4rem);
+        margin-top: 0.5rem;
+
+        gap: 0.5rem;
+        
+    }
+
+    .stats-body h3 {
+        /* margin: 0; */
+        margin-left: 0.5rem;
+        margin-right: 0.5rem;
+        /* text-align: center; */
+        font-size: 16px;
+        padding-top: 0rem;
+    }
+
+    .all-stats-container .stats-sub-container-botton {
+        margin-top: 0.5rem;
+    }
+
+    .all-stats-container .graphic {
+        /* background-color: aqua; */
+        width: 100%;
+        height: calc(100% - 1.8rem);
+    }
+
+    .all-stats-container h2 {
+        padding-top: 0.4rem;
+        height: fit-content;
+
+        font-size: 18px;
+    }
+}

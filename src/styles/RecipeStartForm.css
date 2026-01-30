@@ -1,6 +1,7 @@
 /*Recipe Start*/
 .recipe-start {
     width: 45rem;
+    max-width: calc(100% - 1rem);
     max-height: 30rem;
     background-color: var(--black);
     border-radius: 8px;
@@ -77,11 +78,12 @@
 /*Recipe Start Form*/
 .recipe-start-form {
     width: 26rem;
-    
+    max-width: calc(100% - 1rem);
     background-color: var(--black);
     border-radius: 8px;
     align-content:center;
     justify-items: center;
+    text-align: center;
 }
 
 .recipe-start-form button, .recipe-start button {
@@ -145,4 +147,59 @@
     padding: 0.5rem 1rem 0.5rem 1rem;
     margin-bottom: 1.5rem;
     justify-self: center;
+}
+
+@media (max-width: 800px) {
+    .recipe-start table {
+        max-width: 100%;
+        width: calc(100% - 4rem);
+        font-size: 16px;
+        border-collapse: separate;
+        border-spacing: 0 0.2rem;
+        justify-self: center;
+
+        table-layout: fixed; 
+    }
+
+    .recipe-start thead {
+        
+        height: 2.8rem;
+        
+        background-color: var(--yellow);
+        color: var(--black);
+
+    }
+
+    .recipe-start .sufficient {
+        width: 4.6rem;
+        text-align: center;
+    }
+
+    .recipe-start .insufficient {
+        width: 4.6rem;
+    }
+
+    .recipe-start .quantity-stock {
+        width: 8rem;
+        /* min-width: 14rem; */
+        text-align: center;
+        /* background-color: aquamarine; */
+        
+    }
+
+    .recipe-start .name {
+        width: 8rem;
+        text-align: left;
+        padding-left: 1rem;
+        /* background-color: aqua; */
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+    }
+}
+
+@media (max-width: 480px) {
+    .recipe-start .quantity-stock {
+        display: none;
+    }
 }

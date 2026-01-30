@@ -206,7 +206,7 @@ const RecipeTasksList: React.FC = () => {
                             <th className="dose" onClick={() => changeShowMode("required")}>
                                 Produtos Necessários
                             </th>
-                            <th className="dose">
+                            <th className="dose2">
                                 Progresso
                             </th>
                         </tr>
@@ -238,7 +238,7 @@ const RecipeTasksList: React.FC = () => {
 
                                                 </td>
                                                 <td className="dose">{task.totalProducts}</td>
-                                                <td className="dose">
+                                                <td className="dose2">
                                                     <div className="progress-container">
                                                         <div
                                                             className="progress-bar"

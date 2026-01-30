@@ -29,7 +29,6 @@ const ShoppingCart: React.FC = () => {
     useEffect (() => {
         const getOrder = async () => {
             try {
-                setLoadingOrder(true);
                 const response = await api.get(`/order/order-in-cart/${bakeryId}`);
                 setOrder(response.data);
                 
@@ -53,6 +52,7 @@ const ShoppingCart: React.FC = () => {
 
     const addOne = async (bakeryId: number, productId: number) => {
         try {
+            setLoadingOrder(true);
             await api.post("/order/add-product", {
                 bakeryId: bakeryId,
                 productId: productId
@@ -76,6 +76,7 @@ const ShoppingCart: React.FC = () => {
 
     const removeOne = async (bakeryId: number, productId: number) => {
         try {
+            setLoadingOrder(true);
             await api.delete("/order/remove-product", {
                 data: {
                     bakeryId: bakeryId,
@@ -117,10 +118,10 @@ const ShoppingCart: React.FC = () => {
                     <thead>
                         <tr>
                             <th className="name">Produto</th>
-                            <th className="price-unit">Preço Unit. (€)</th>
+                            <th className="price-unit">Preço (€)</th>
                             <th className="quantity">Quantidade</th>
-                            <th className="discount">Desconto (%)</th>
-                            <th className="price">Preço (€)</th>
+                            <th className="discount">Desc (%)</th>
+                            <th className="price">Total (€)</th>
                         </tr>
                     </thead>                  
                 </table>
@@ -146,7 +147,7 @@ const ShoppingCart: React.FC = () => {
                                                 <td className="name" title={orderDetails.productName}>{orderDetails.productName}</td>
                                                 <td className="price-unit">{orderDetails.price.toFixed(2).replace(".", ",")}</td>
                                                 <td className="quantity">
-                                                    <button onClick={() => removeOne(Number(bakeryId), orderDetails.productId)}>
+                                                    <button className="minus" onClick={() => removeOne(Number(bakeryId), orderDetails.productId)}>
                                                         {orderDetails.quantity === 1 ? (<FaTrashAlt />) : (<FaMinus />)}
                                                         
                                                         
@@ -156,7 +157,7 @@ const ShoppingCart: React.FC = () => {
                                                         setUpgradeQuantityFormOpen(true);
                                                         setOrderDetailsId(orderDetails.id);
                                                         }}><FaPencilAlt /></button>
-                                                    <button onClick={() => addOne(Number(bakeryId), orderDetails.productId)}><FaPlus /></button>
+                                                    <button className="plus" onClick={() => addOne(Number(bakeryId), orderDetails.productId)}><FaPlus /></button>
                                                 </td>
                                                 <td className="discount">{orderDetails.discount}</td>
                                                 <td className="price">

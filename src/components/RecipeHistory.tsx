@@ -96,7 +96,7 @@ const RecipeHistory: React.FC = () => {
     return (
         <>
             <div className="order-container-header">
-                <h2>{getStringDay(dateSearched, todayDate)}</h2>
+                <h2 className="day-ready">{getStringDay(dateSearched, todayDate)}</h2>
                 <form className="space-search-order-bar" onSubmit={refreshOrder}>
                     <div className="search-order-box">
                         <input className="search-order-text"
@@ -110,6 +110,7 @@ const RecipeHistory: React.FC = () => {
                     
                     <button type="submit" onClick={() => setSearched(true)} disabled={date.length !== 10}><IoSearch /></button>
                 </form>
+                <h2 className="day-ready2">{getStringDay(dateSearched, todayDate)}</h2>
             </div>
             
             <div className="orders-container">

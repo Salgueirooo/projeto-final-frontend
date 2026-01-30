@@ -20,6 +20,7 @@ const RecipeStatus: React.FC<Props> = ({recipeId, onSwitch}) => {
 
     const [mode, setMode] = useState<mode>("chooseDose");
     const [loadingStock, setLoadingStock] = useState<boolean>(false);
+    const [loadingBot, setLoadingBot] = useState(false);
     const [recipeStocks, setRecipeStocks] = useState<IngredientStockCheckDTO[]>([]);
     const {addToastNotification: addNotification} = useToastNotification();
 
@@ -59,12 +60,13 @@ const RecipeStatus: React.FC<Props> = ({recipeId, onSwitch}) => {
           
         if (dose > 0) {
             try {
-            
+                setLoadingBot(true);
                 await api.post("/produced-recipe/add", {
                     recipeId,
                     bakeryId,
                     dose
                 });
+                onSwitch(false);
 
             } catch (err: any) {
 
@@ -75,6 +77,8 @@ const RecipeStatus: React.FC<Props> = ({recipeId, onSwitch}) => {
                     console.error(err);
                     addNotification("Erro na comunicação com o Servidor.", true);
                 }
+            } finally {
+                setLoadingBot(false);
             }
         }
     };
@@ -110,7 +114,7 @@ const RecipeStatus: React.FC<Props> = ({recipeId, onSwitch}) => {
                                             {recipeStocks.map(recipeStock => (
                                                     <tr key={recipeStock.ingredient.id}>
                                                         <td className="name" title={recipeStock.ingredient.name}>{recipeStock.ingredient.name}</td>
-                                                        <td className="quantity-stock">{recipeStock.quantityNeeded.toString().replace(".", ",")} / {recipeStock.availableQuantity.toString().replace(".", ",")} {recipeStock.ingredient.unitSymbol}</td>
+                                                        <td className="quantity-stock">{Number(recipeStock.quantityNeeded).toFixed(2).replace(/\.00$/, "").replace(/(\.\d)0$/, "$1").replace(".", ",")} / {Number(recipeStock.availableQuantity).toFixed(2).replace(/\.00$/, "").replace(/(\.\d)0$/, "$1").replace(".", ",")} {recipeStock.ingredient.unitSymbol}</td>
                                                         <td className={recipeStock.sufficient ? "sufficient" : "insufficient"}>{recipeStock.sufficient ? (<FaCheck />) : (<ImCross />)}</td>
                                                     </tr>
                                             ))} 
@@ -120,11 +124,14 @@ const RecipeStatus: React.FC<Props> = ({recipeId, onSwitch}) => {
                             </table>
                         </div>
                         
-                        {recipeStocks.every(recipeStock => recipeStock.sufficient !== false) ? (
-                            <button className="start-recipe" onClick={() => {addProducedRecipe(); onSwitch(false);}}>Iniciar Receita</button>
-                        ) : (
-                            <button className="start-recipe" onClick={() => onSwitch(false)}>Cancelar</button>
+                        {!loadingStock && (
+                            recipeStocks.every(recipeStock => recipeStock.sufficient !== false) ? (
+                                <button className="start-recipe" onClick={() => {addProducedRecipe()}}>{loadingBot ? (<div className="spinner"></div>) : (<>Iniciar Receita</>)}</button>
+                            ) : (
+                                <button className="start-recipe" onClick={() => onSwitch(false)}>Cancelar</button>
+                            )
                         )}
+                        
                         
                     </div>
                 </div>  

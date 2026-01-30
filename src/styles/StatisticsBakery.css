@@ -7,7 +7,7 @@
     overflow: auto;
 }
 
-.stats-panel .search-container {
+.stats-panel .search-container, .stats-panel .search-container2 {
     height: 2.2rem;
     width: 100%;
     /* background-color: aquamarine; */
@@ -16,13 +16,13 @@
     flex-wrap: wrap;
 }
 
-.search-container .op-left, .search-container .op-right {
+.search-container .op-left, .search-container .op-right, .search-container2 .op-left, .search-container2 .op-right {
     align-content: center;
     display: flex;
     gap: 0.4rem;
 }
 
-.search-container button {
+.search-container button, .search-container2 button {
     /* padding: 0.3rem 1rem 0.3rem 1rem; */
     height: 2.2rem;
     width: 5rem;
@@ -52,7 +52,7 @@
 
 .op-right input {
     /* width: 12rem; */
-    height: calc(100% - 0.1rem);
+    height: 100%;
     padding: 0 1rem 0 1rem;
     margin: 0;
     background-color: var(--black);
@@ -128,12 +128,12 @@
 
 .stats-container .stats1, .stats-container .stats2 {
     height: 100%;
-    /* max-width: calc(50% - 0.5rem); */
     flex: 1 1 50rem; 
     /* width: calc(50% - 4rem); */
     
     background-color: var(--black);
     border-radius: 8px;
+    max-width: calc(100%);
 }
 
 .stats-container .stats1-user {
@@ -157,11 +157,11 @@
 }
 
 .stats1-user .graphic-container {
-    width: calc(100% - 1rem);
+    width: calc(100%);
     height: calc(100% - 5rem);
-    min-width: 300px;
+    /* min-width: 300px; */
     background-color: var(--black);
-    padding-right: 1rem;
+    padding-right: 0rem;
     padding-bottom: 1rem;
     border-radius: 8px;
 }
@@ -169,7 +169,7 @@
 .stats-container .bar-graphic {
     width: calc(100% - 1rem);
     height: calc(100% - 7.2rem);
-    min-width: 300px;
+    /* min-width: 300px; */
     /* background-color: rgb(35, 5, 63); */
 }
 
@@ -200,5 +200,130 @@
     margin-top: 1rem;
 }
 
+.stats-panel h4 {
+    margin-top: 1rem;
+    text-align: center;
+    font-size: 20px;
+}
 
 
+@media (max-width: 800px) {
+
+    .op-right input {
+        
+        height: 100%;
+        padding: 0 1rem 0 1rem;
+        margin: 0;
+        background-color: var(--black);
+        font-size: 16px;
+    }
+
+    .search-container .selected, .search-container .no-selected  {
+        /* padding: 0.3rem 1rem 0.3rem 1rem; */
+        height: 1.8rem;
+        width: 3.8rem;
+        /* background-color: var(--yellow); */
+        border: none;
+        border-radius: 8px;
+        font-weight: bold;
+        /* col: var(--black); */
+        font-size: 16px;
+        cursor: pointer;
+
+    }
+
+    .stats-panel .search-container {
+        height: auto;
+        width: 100%;
+        /* background-color: aquamarine; */
+        display: flex;
+        justify-content: space-between;
+        flex-wrap: wrap;
+        /* max-height: ; */
+    }
+
+    .op-right .month {
+        width: 11rem;
+    }
+
+    .op-right .date {
+        width: 8rem;
+    }
+
+    .op-right .year {
+        width: 3rem;
+    }
+
+    .search-container .op-left, .search-container .op-right {
+        align-content: center;
+        display: flex;
+        gap: 0.2rem;
+    }
+
+    .stats-container h2 {
+        font-size: 22px;
+
+    }
+
+    .stats-container .best {
+        justify-self: center;
+        justify-items: center;
+        align-content: center;
+        width: calc(100% - 4rem);
+        height: 3rem;
+        padding: 0 1rem 0 1rem;
+        background-color: var(--gray);
+        border-radius: 8px;
+    }
+
+    .best h3, .best2 h3 {
+        font-size: 16px;
+        text-align: center;
+        margin: 0;
+        overflow:hidden;
+        text-overflow:ellipsis;
+        white-space:initial;
+        width: 100%;
+        /* max-height: 100%; */
+
+        display: -webkit-box;
+        -webkit-box-orient: vertical;
+        -webkit-line-clamp: 2;
+    }
+}
+
+@media (max-width: 480px) {
+    .stats-panel .search-container {
+        height: 3.8rem;
+        width: 100%;
+        display: flex;
+        justify-content: center;
+        /* justify-items: center; */
+        align-items: center;  
+        flex-direction: column;
+        flex-wrap: nowrap;
+        gap: 0.3rem;
+
+    }
+
+    .search-container .op-left, .search-container .op-right {
+        align-content: center;
+        display: flex;
+        gap: 0.2rem;
+        
+    }
+
+    .search-container .op-right {
+        height: 1.8rem;
+    }
+
+    .stats-panel .stats-container {
+        height: calc(100% - 4.6rem);
+    }
+
+    .best h3, .best2 h3 {
+        font-size: 14px;
+    }
+
+    
+}

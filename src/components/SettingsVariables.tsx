@@ -16,6 +16,7 @@ const VariableSettings: React.FC = () => {
     const { addToastNotification: addNotification } = useToastNotification();
 
     const [loadingVariables, setLoadingVariables] = useState(true);
+    const [loadingBot, setLoadingBot] = useState(false);
     const [reload, setReload] = useState(false);
     const [variables, setVariables] = useState<SystemConfigDTO[]>([]);
     const [showVariables, setShowVariables] = useState<SystemConfigDTO[]>([]);
@@ -56,6 +57,7 @@ const VariableSettings: React.FC = () => {
         
         if (variableSelected > 0) {
             try {
+                setLoadingBot(true);
                 await api.put(`/system-config/update/${variableSelected}`, configValue,
                     {
                         headers: {
@@ -77,6 +79,8 @@ const VariableSettings: React.FC = () => {
                     addNotification("Erro na comunicação com o Servidor.", true);
 
                 }
+            } finally {
+                setLoadingBot(false);
             }
         }
         
@@ -215,7 +219,7 @@ const VariableSettings: React.FC = () => {
                                 onChange={(e) => setConfigValue(e.target.value)}
                             />
                         )}
-                        <button type="submit" className="submit">Atualizar Variável</button>
+                        <button type="submit" className="submit">{loadingBot ? (<div className="spinner"></div>) : (<>Atualizar Variável</>)}</button>
 
                     </form>
                 </div>

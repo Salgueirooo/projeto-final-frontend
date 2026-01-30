@@ -16,6 +16,12 @@
     border-spacing: 0 0.3rem;
 }
 
+td, th {
+    word-break: break-word;
+    overflow-wrap: break-word;
+    white-space: normal;
+}
+
 .show-cart thead {
 
     height: 3rem;
@@ -38,17 +44,16 @@
 .show-cart .price {
     width: 8rem;
     text-align: center;
-
+    
 }
 
 .show-cart .discount {
-    width: 10rem;
+    width: 6rem;
     text-align: center;
-  
 }
 
 .show-cart .quantity {
-    width: 15rem;
+    width: 10rem;
     text-align: center;
 
 }
@@ -78,13 +83,13 @@
 }
 
 .show-cart .price-unit {
-    width: 10rem;
+    width: 7rem;
     text-align: center;
 
 }
 
 .show-cart .name {
-    width: 24rem;
+    width: 10rem;
     text-align: left;
     padding-left: 1rem;
 
@@ -137,4 +142,93 @@
 
 .total-price b {
     color: var(--yellow);
+}
+
+@media (max-width: 800px) {
+    .show-cart {
+        width: calc(100% - 2rem);
+        height: calc(100% - 1rem);
+        margin-top: 0.5rem;
+    }
+
+    .quantity .minus, .quantity .plus {
+        display: none;
+    }
+
+    .show-cart table {
+        font-size: 16px;
+        border-spacing: 0 0.2rem;
+    }
+
+    .show-cart thead {
+        height: 2.4rem;
+    }
+
+    .table-body {
+        height: calc(100% - 7rem);
+        overflow-y: auto;
+    }
+
+    .show-cart td {
+        height: 2.2rem;
+    }
+
+    .show-cart .bot-table {
+        margin-top: 1rem;
+        
+    }
+
+    .bot-table button {
+
+        font-size: 18px;
+
+        width: 10rem;
+        height: 2.8rem;
+
+    }
+
+    .bot-table .total-price {
+        height: 2.8rem;
+
+        padding-bottom: 0rem;
+
+        width: 14rem;
+        font-size: 18px;
+    }
+}
+
+@media (max-width: 480px) {
+    .show-cart table {
+
+        font-size: 13px;
+    }
+
+    .quantity span {
+        background-color: var(--gray);
+        padding: 0.3rem 0.6rem 0.1rem 0.6rem !important;
+        margin: 0 0.5rem 0 0.5rem;
+        border-radius: 8px;
+    }
+
+    .table-body {
+        height: calc(100% - 7rem);
+        overflow-y: auto;
+
+    }
+
+    .bot-table button {
+        font-size: 15px;
+        width: 7rem;
+        height: 2.8rem;
+
+    }
+
+    .bot-table .total-price {
+        height: 2.8rem;
+
+        width: calc(100% - 8rem);
+        font-size: 15px;
+        overflow-x: auto;
+        overflow-y: hidden;
+    }
 }

@@ -1,5 +1,6 @@
 :root {
     --search-bar-height: 4rem;
+    --search-bar-height-mobile: 3.2rem;
 }
 
 .space-search-bar {
@@ -45,15 +46,26 @@
 
 }
 
-.search-box {
+.space-search-bar-category .search-box {
     height: 2.5rem;
     background-color: var(--black);
-    width: 16rem;
+    width: 12rem;
     display: flex;
     justify-content:space-between;
     align-items: center;
     gap: 0.2rem;
-    border-radius: 22px;
+    border-radius: 8px;
+}
+
+.space-search-bar .search-box {
+    height: 2.5rem;
+    background-color: var(--black);
+    width: 14rem;
+    display: flex;
+    justify-content:space-between;
+    align-items: center;
+    gap: 0.2rem;
+    border-radius: 18px;
 }
 
 .search-text {
@@ -61,7 +73,7 @@
     padding: 0.3rem 0 0.3rem 0;
     height: 1rem;
     border-radius: 0px;
-    width: 14rem;
+    width: 10rem;
     background-color: var(--black);
 }
 
@@ -76,7 +88,7 @@
     font-size: 1rem;
     align-items: center;
     padding: 0.6rem;
-    margin-right: 0.2rem;
+    margin-right: 0.15rem;
     border: none;
     border-radius: 50%;
     
@@ -95,7 +107,7 @@
 
     overflow-y: auto;
     justify-self: center;
-
+    text-align: center;
     gap: 0.6rem;
     flex-wrap: wrap;
     justify-content: center;
@@ -104,4 +116,54 @@
 }
     
     
-    
+@media (max-width: 800px) {
+    .space-search-bar-category {
+        width: calc(100% - 1rem);
+        height: var(--search-bar-height-mobile);
+    }
+
+    .space-search-bar-category .go-back {
+        padding-left: 0.5rem;
+        padding-right: 0.5rem;
+        height: 2.2rem;
+        
+    }
+
+    .space-search-bar {
+        width: 100%;
+        height: var(--search-bar-height-mobile);
+        justify-content: center;
+        align-items: center;
+        display: flex;
+        /* background-color: aqua; */
+    }
+
+    .go-back span {
+        max-width: 6rem;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+    }
+
+    .space-search-bar-category .search-box {
+        height: 2.2rem;
+        max-width: calc(100% - 2rem - 7rem);
+    }
+
+    .search-text {
+        margin-left: 0.6rem;
+        padding: 0.3rem 0 0.3rem 0;
+        width: calc(100% - 1.2rem);
+    }
+
+    .product-container {
+        height: calc(100% - var(--search-bar-height-mobile) - 0.5rem);
+        width: calc(100% - 1rem);
+        gap: 0.5rem;
+    }
+
+    .space-search-bar .search-box {
+        height: 2.2rem;
+        max-width: calc(100% - 1rem);
+    }
+}

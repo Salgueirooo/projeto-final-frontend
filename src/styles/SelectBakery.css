@@ -70,3 +70,10 @@ button:hover {
 .bots .info:hover {
     background-color: var(--sec-blue);
 }
+
+@media (max-width: 360px) {
+
+    .show-bakery button {
+        padding: 0.5rem 0.6rem 0.5rem 0.6rem;
+    }
+}

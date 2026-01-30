@@ -8,7 +8,7 @@
     /* overflow: auto; */
 }
 
-.show-verify-stock .inline {
+.show-verify-stock .inline, .show-verify-stock .inline2 {
     display: flex;
     justify-content: space-between;
 }
@@ -46,8 +46,9 @@
     background-color: var(--sec-yellow);
 }
 
-.header h2 {
+.header .dash {
     font-size: 1.1rem;
+    width: fit-content;
 }
 
 .show-verify-stock table {
@@ -127,4 +128,92 @@
 
 .name svg, .quantity-stock-verify svg {
     font-size: 1.2rem;
+}
+
+.inline2 .date-searched2 {
+    display: none;
+}
+
+@media (max-width: 800px) {
+    .show-verify-stock {
+        /* background-color: aqua !important; */
+        width: calc(100% - 1rem);
+        height: calc(100% - 2rem);
+        margin-top: 1rem;
+    }
+
+    .show-verify-stock table {
+        font-size: 16px;
+    }
+
+    .inline2 .date-searched {
+        display: none;
+    }
+
+    .inline2 .date-searched2 {
+        display: initial;
+    }
+
+    .show-verify-stock .inline2 {
+        display: flex;
+        /* justify-content: center; */
+        text-align: center;
+        flex-direction: column;
+    }
+
+    .show-verify-stock .sufficient, .show-verify-stock .insufficient {
+        text-align: center;
+        min-width:fit-content;
+        width: 3rem;
+    }
+
+    .show-verify-stock .quantity-stock-verify {
+        width: 4rem;
+        min-width: fit-content;
+        text-align: center;
+    }
+
+    .show-verify-stock .name {
+        width: 5rem;
+        text-align: left;
+        padding-left: 1rem;
+        /* background-color:blue; */
+    }
+
+    .inline h2, .inline2 h2 {
+        margin-top: 0.4rem;
+        font-size: 20px;
+    }
+
+    .header input {
+        font-size: 14px;
+        width: 7rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .show-verify-stock .header {
+        display: flex;
+        height: 2.4rem;
+        padding-left: 0.1rem;
+        padding-right: 0.2rem;
+        margin-bottom: 0.4rem;
+        gap: 0.4rem;
+        align-items: center;
+        width: min-content;
+        border-radius: 20px;
+        /* justify-content: center; */
+        background-color: var(--black);
+    }
+    
+    .show-verify-stock table {
+        font-size: 14px;
+    }
+
+    .inline h2, .inline2 h2 {
+        margin-top: 0.4rem;
+        font-size: 18px;
+    }
+
+    
 }

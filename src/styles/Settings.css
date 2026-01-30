@@ -41,7 +41,7 @@
     font-size: 1.4rem;
     /* background-color: aqua; */
     padding-bottom: 0.2rem;
-    width: calc(100% - 6rem);
+    width: calc(100% - 3rem);
 }
 
 .show-setting table {
@@ -431,4 +431,165 @@
     height: 1.8rem;
     width: 1.8rem;
     border-radius: 50%;
+}
+
+@media (max-width: 800px) {
+    .show-setting {
+        /* background-color: aqua; */
+        width: calc(100% - 2rem);
+        height: calc(100% - 2rem);
+        margin-top: 1rem;
+    }
+
+    .show-setting .header {
+        width: calc(100% - 2rem);
+        height: 2.6rem;
+    }
+
+    .header button {
+        width: 1.8rem;
+        height: 1.8rem;
+        font-size: 1.1rem;
+    }
+
+    .header h2 {
+        font-size: 18px;
+    }
+
+    .show-setting table {
+        font-size: 16px;
+    }
+
+    .show-setting thead {
+        height: 2.8rem;
+    }
+
+    .table-body-settings {
+        height: calc(100% - 2.6rem - 4rem);
+        overflow-y: auto;
+    }
+
+    .show-setting td {
+        height: 2.4rem;
+    }
+
+    .show-setting .button-container {
+        width: 3.5rem;
+    }
+
+    .show-setting .name {
+        width: 6rem;
+    }
+
+    .button-container button {
+        padding: 0.4rem 0.8rem 0.1rem 0.8rem;
+        font-size: 14px;
+    }
+
+    .back-modal .settings-form {
+        max-width: calc(100% - 1rem);
+        max-height: calc(100vh - 4rem);
+        /* height: 20rem; */
+        padding-bottom: 2rem;
+        background-color: var(--black);
+        border-radius: 8px;
+        overflow: auto;
+    }
+
+    .settings-form h4 {
+        /* margin: 0.6rem 0 0.4rem 0; */
+        /* background-color: aqua; */
+        width: calc(100% - 2rem);
+    }
+
+    .inline-normal h4 {
+        width: calc(100% - 0rem);
+        font-size: 18px;
+    }
+
+    .settings-form input:not([type="file"], [type="checkbox"]) {
+        width: calc(100% - 4rem);
+    }
+
+    .settings-form .file-input {
+        width: calc(100% - 3.4rem);
+    }
+
+    .upload-btn {
+        font-size: 1rem;
+    }
+
+    .settings-form .notes-box {
+        width: calc(100% - 4rem);
+    }
+
+    .settings-form .submit {
+        width: calc(100% - 4rem);
+        font-size: 1.1rem;
+    }
+
+    .settings-form .inline-normal {
+        padding: 0 1rem 0 1rem;
+    }
+
+    .settings-form .inline-title-button {
+        padding: 0 1rem 0 1rem;
+    }
+
+    .settings-form .image-div {
+        width: calc(50% - 0.4rem); 
+    }
+
+    .image-div span {
+        margin-left: 0rem;
+        margin-right: 0rem;
+    }
+
+    .settings-form .right-setting, .settings-form .left-setting  {
+        width: calc(50% - 0.4rem);
+        justify-items: left;
+    }
+
+    .left-setting input, .right-setting input {
+        width: calc(100% - 2rem) !important;
+        background-color: darkslategrey;
+    }
+
+    .right-setting .switch {
+        margin-bottom: 0.4rem;
+        margin-top: 0.45rem;
+        justify-self: center;
+        /* display: flex; */
+        margin-left: calc(100% - 52px);
+    }
+
+    .switch {
+        width: 48px;
+        height: 24px;
+    }
+
+    .slider::before {
+        height: 20px;
+        width: 20px;
+        left: 3px;
+        bottom: 2px;
+    }
+
+    .switch input:checked + .slider::before {
+        transform: translateX(22px);
+    }
+
+    .settings-form select {
+        width: calc(100% - 2rem);
+        font-size: 1rem;
+    }
+
+    .settings-form .ingredients-container {
+        background-color: var(--gray);
+        width: calc(100% - 2.5rem);
+    }
+
+    .ingredient-box h5 {
+        font-size: 1rem;
+    }
 }

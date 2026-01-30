@@ -1,6 +1,6 @@
 .review-form {
-    width: 24rem;
-    
+    width: 22rem;
+    max-width: calc(100% - 1rem);
     background-color: var(--black);
     border-radius: 8px;
 }
@@ -41,6 +41,8 @@
     gap: 0.5rem;
     align-items: center;
     align-content: center;
+    width: calc(100% - 1rem);
+    justify-content: center;
 }
 
 .body-review h2 {
@@ -69,8 +71,7 @@
 }
 
 .inline-review .notes-box {
-
-    width: 15rem;
+    width: calc(100% - 1rem);
     height: calc(2.8rem);
     padding: 0.5rem;
     border-radius: 8px;
@@ -91,9 +92,25 @@
 }
 
 .body-review .submit {
-    width: 8rem;
+    width: 10rem;
     justify-content: center;
     justify-self: center;
-    margin-top: 2rem;
-    height: 2.4rem;
+    margin-top: 1.4rem;
+    height: 2.2rem;
+}
+
+@media (max-width: 800px) {
+    .review-form .body-review {
+        padding: 0 1rem 1.5rem 1rem;
+        justify-items: center;
+    }
+
+    .body-review .submit {
+        width: 10rem;
+        justify-content: center;
+        justify-self: center;
+        margin-top: 1.4rem;
+        height: 2.2rem;
+        max-width: 100%;
+    }
 }

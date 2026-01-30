@@ -19,10 +19,13 @@ const RegisterForm: React.FC<Props> = ({ onSwitch }) => {
 
     const { addToastNotification: addNotification } = useToastNotification();
 
+    const [loading, setLoading] = useState(false);
+
     const handleRegister = async (event: React.FormEvent) => {
         event.preventDefault();
 
         try {
+            setLoading(true)
             await api.post("/auth/register-client", { name, email, password, phone_number });
 
             addNotification("Conta criada.", false);
@@ -37,6 +40,8 @@ const RegisterForm: React.FC<Props> = ({ onSwitch }) => {
                 console.error(err);
                 addNotification("Erro ao criar a conta.", true);
             }
+        } finally {
+            setLoading(false);
         }
     };
 
@@ -86,7 +91,10 @@ const RegisterForm: React.FC<Props> = ({ onSwitch }) => {
                             onChange={(e) => setPassword(e.target.value)}
                             required
                         />
-                        <button type="submit">Criar Conta</button>
+                        <button type="submit">
+                            {loading ? (<div className="spinner"></div>) : (<>Criar Conta</>)}
+                            
+                            </button>
                     </form>
 
                     <div className='separator'>

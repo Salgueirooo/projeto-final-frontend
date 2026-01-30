@@ -5,7 +5,7 @@
 
     align-content:center;
     justify-items: center;
-
+    text-align: center;
 }
 
 .quantity-form .form-body {
@@ -52,4 +52,11 @@
     justify-self: center;
     display: block;
     width: 6rem;
+}
+
+@media (max-width: 800px) {
+    .quantity-form {
+        max-width: calc(100% - 1rem);
+
+    }
 }

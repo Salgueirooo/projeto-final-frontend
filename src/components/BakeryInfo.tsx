@@ -2,8 +2,6 @@ import { RxCross2 } from "react-icons/rx"
 import type { bakeryDTO } from "../dto/bakeryDTO"
 import "../styles/BakeryInfo.css"
 
-const BASE_URL = import.meta.env.VITE_API_BASE_URL;
-
 interface BakeryInfo {
     bakery: bakeryDTO,
     onSwitch: (modalInfo: boolean) => void;
@@ -17,15 +15,13 @@ const BakeryInfo: React.FC<BakeryInfo> = ({bakery, onSwitch}) => {
                 <div className="bakery" onClick={(e) => e.stopPropagation()}>
                     <button onClick={() => onSwitch(false)}><RxCross2 /></button>
                     
-                    <div className="firstLine">
-                        <img src={`${BASE_URL}${bakery.logo}`} alt="Logotipo" />
+                    <div className="firstLineBakery">
+                        <img src={bakery.logo} alt="Logotipo" />
                         
-                        <div className="container">
-                            <h3>{bakery.name}</h3>
-                        </div>
+                        <h3>{bakery.name}</h3>
                     </div>
 
-                    <div className="lastLine">
+                    <div className="lastLineBakery">
                         <h4><b>Tel.:</b>&nbsp;{bakery.phone_number}</h4>
                         <h4><b>Email:</b>&nbsp;{bakery.email}</h4>
                         <h4><b>Morada:</b>&nbsp;{bakery.address}</h4>  

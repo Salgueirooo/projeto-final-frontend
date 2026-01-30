@@ -72,7 +72,7 @@ const BakeryUserStats: React.FC = () => {
 
     return (
         <div className="stats-panel">
-            <div className="search-container">
+            <div className="search-container2">
                 <h2>{searchedDate}</h2>
                 <form className="op-right" onSubmit={handleSubmit}>
                     <input 
@@ -95,7 +95,7 @@ const BakeryUserStats: React.FC = () => {
                 <div className="stats-container">
                     <div className="stats1-user">
                         <div className="graphic-container">
-                            <h2>Número de Encomendas</h2>
+                            <h2>N.º de Encomendas</h2>
                             <div className="bar-graphic-user">
                                 
                                 <ResponsiveContainer width="100%" height="100%" initialDimension={ { width: 320, height: 200 } }>

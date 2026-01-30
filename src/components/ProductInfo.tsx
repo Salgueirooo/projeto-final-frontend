@@ -8,8 +8,6 @@ import { useToastNotification } from "../context/NotificationContext";
 import { FaRegStar, FaStar, FaStarHalfAlt } from "react-icons/fa";
 import useDecodedToken from "../hooks/hookDecodedToken";
 
-const BASE_URL = import.meta.env.VITE_API_BASE_URL;
-
 interface ProductInfoInt {
     product: productDTO,
     onSwitch: (modalInfo: boolean) => void;
@@ -88,7 +86,7 @@ const ProductInfo: React.FC<ProductInfoInt> = ({product, onSwitch}) => {
                     <button onClick={() => onSwitch(false)}><RxCross2 /></button>
 
                     <div className="firstLine">
-                        <img src={`${BASE_URL}${product.image}`} alt="Logotipo" />
+                        <img src={product.image} alt="Logotipo" />
                         <div className="container">
                             <h3 className="name" title={product.name}>{product.name}</h3>
                             
@@ -111,6 +109,24 @@ const ProductInfo: React.FC<ProductInfoInt> = ({product, onSwitch}) => {
                         <h4 className="rating">
                             <b>Classificação:</b>{product.rating.toFixed(1)}
                             <div className="stars">{renderStars(product.rating)}</div>
+                            {product.rating === 0 ? "Sem comentários" : (
+                                <button onClick={() => {
+                                        const next = !commentsTab;
+                                        setCommentsTab(next);
+                                        if (next) {
+                                            getComments();    
+                                        }
+                                    }}>
+                                    {commentsTab ? "fechar comentários" : "abrir comentários"}
+                                </button>
+                            )}
+                        </h4>
+
+                        {/* <h4 className="rating2">
+                            <b>Classificação:</b>&nbsp;{product.rating.toFixed(1)}
+                        </h4> */}
+                        <h4 className="rating2"><b>Classificação:</b>&nbsp;{product.rating.toFixed(1)}&nbsp;<div className="stars">{renderStars(product.rating)}</div></h4>
+                        <h4 className="rating2">
                             {product.rating === 0 ? "Sem comentários" : (
                                 <button onClick={() => {
                                         const next = !commentsTab;

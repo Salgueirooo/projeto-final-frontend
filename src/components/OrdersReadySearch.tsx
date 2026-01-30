@@ -106,8 +106,8 @@ const SearchOrdersReady: React.FC = () => {
     return (
         <>
             <div className="order-container-header">
-                <h2>{getStringDay(dateSearched, todayDate)}</h2> 
-                <form className="space-search-order-bar" onSubmit={refreshOrder}>
+                <h2 className="day-ready">{getStringDay(dateSearched, todayDate)}</h2> 
+                <form className="space-search-order-bar-2" onSubmit={refreshOrder}>
                     <div className="search-order-box-ready">
                         <input className="search-order-text"
                             type="date"
@@ -127,6 +127,7 @@ const SearchOrdersReady: React.FC = () => {
                     </div>
                     <button type="submit" disabled={date.length !== 10}><IoSearch /></button>
                 </form>
+                <h2 className="day-ready2">{getStringDay(dateSearched, todayDate)}</h2> 
             </div>
             
             <div className="orders-container">

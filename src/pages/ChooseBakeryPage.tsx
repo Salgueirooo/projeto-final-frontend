@@ -84,7 +84,7 @@ const SelectBakeryPage: React.FC = () => {
                 
                 {isAdmin && (
                     <>
-                        <button className="conf" onClick={() => navigate(`/settings/${SettingsTab.Bakeries}`)}><IoCog /></button> 
+                        <button className="conf" onClick={() => navigate(`/settings/${SettingsTab.Bakeries}`)}><IoCog /></button>
                         <button className="stat" onClick={() => navigate("/statistics")}><BiLineChart /></button> 
                     </>
                 )}

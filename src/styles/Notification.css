@@ -6,7 +6,7 @@
     flex-direction: column;
     align-items: flex-start;
     gap: 0.1rem;
-    z-index: 999;
+    z-index: 900;
 
     /* max-height: calc((100vh - var(--bar-height) - 2.2rem) / 3); */
     max-height: calc(100% - var(--bar-height) - 1.1rem);
@@ -58,4 +58,32 @@
     word-wrap: break-word;
     overflow-wrap: break-word;
     white-space: normal;
+}
+
+@media (min-width: 481px) and (max-width: 800px) {
+    .notification-sidebar {
+        right: 0.15rem;
+        bottom: 0.5rem;
+        
+        max-height: calc(100% - var(--mobile-bar-height) - 1.1rem);
+    }
+}
+
+@media (max-width: 480px) {
+    .notification-sidebar {
+        right: 0.15rem;
+        bottom: 0.5rem;
+        
+        max-height: calc(100% - var(--mobile-bar-height) - 1.1rem);
+        width: calc(100% - 1rem);
+        /* background-color: aqua; */
+    }
+    
+    .notification-info {
+        width: calc(100% - 2.1rem);
+    }
+
+    .notification-error {
+        width: calc(100% - 2.1rem);   
+    }
 }

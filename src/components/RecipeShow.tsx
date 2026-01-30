@@ -7,6 +7,8 @@ import type { recipeDTO } from "../dto/recipeDTO";
 import RecipeSelect from "./RecipeSelect";
 import { useNavigate, useParams, useSearchParams } from "react-router-dom";
 import { HomeTab } from "../hooks/HomeTab";
+import { IoMenu } from "react-icons/io5";
+import { RxCross2 } from "react-icons/rx";
 
 
 const ShowRecipes: React.FC = () => {
@@ -14,6 +16,8 @@ const ShowRecipes: React.FC = () => {
     const navigate = useNavigate();
     const { bakeryId } = useParams<{ bakeryId: string}>();
     const [params] = useSearchParams();
+
+    const [openMain, setOpenMain] = useState(true);
 
     const [loadingRecipe, setLoadingRecipe] = useState<boolean>(false);
 
@@ -111,12 +115,56 @@ const ShowRecipes: React.FC = () => {
                 )}
 
             </div>
+            
+            {openMain && (
+                <div className="back-side-bar-mobile" onClick={() => setOpenMain(false)}>
+                    <div className="side-bar-recipes-mobile" onClick={(e) => e.stopPropagation()}>
+                        <div className="search-recipe">
+                            <button className="main-recipes" onClick={() => setOpenMain(false)}><RxCross2 /></button>
+                            
+                            <input className="search-recipe-name"
+                                type="text"
+                                id="name"
+                                value={productName}
+                                placeholder="Pesquisar"
+                                onChange={(e) => setProductName(e.target.value)}
+                            />
+                            
+                            
+                        </div>
+
+                        {loadingRecipe ? (
+                            <div className="spinner"></div>
+                        ) : (
+                            filteredRecipes.length > 0 ? (
+                                filteredRecipes.map((recipe) => (
+                                    <button className={recipe.id === recipeSelected?.id ? "selected" : "no-selected"} key={recipe.id} onClick={() => {setSelectedRecipe(recipe.id); setOpenMain(false)}}>
+                                        <span className="text">{recipe.productName}</span>
+                                        <FaArrowCircleRight />
+                                    </button>
+                                ))
+                            ) : (
+                                <span className="text">Nenhuma receita encontrada.</span>
+                            )
+                            
+                        )}
+
+                    </div>
+                </div>
+                
+            )}
+             
+
             <div className="body-recipes">
                 <div className="recipe-details">
                     {recipeSelected == undefined ? (
-                        <h3>Selecione um produto para consultar a sua receita.</h3>
+                        <>
+                            <button className="main-recipes" onClick={() => setOpenMain(true)}><IoMenu />&nbsp;Receitas</button>
+                            <h3>Selecione um produto para consultar a sua receita.</h3>
+                        </>
+                        
                     ) : (
-                        <RecipeSelect recipeSelected={recipeSelected}/>
+                        <RecipeSelect recipeSelected={recipeSelected} openMain={(m) => setOpenMain(m)}/>
                         
                     )}
                 </div>

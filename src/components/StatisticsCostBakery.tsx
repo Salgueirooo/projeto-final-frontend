@@ -5,7 +5,6 @@ import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContaine
 import { useParams } from "react-router-dom";
 import api from "../services/api";
 import { useToastNotification } from "../context/NotificationContext";
-import getMonthName from "../hooks/GetMonthName";
 import type { STAllCostDTO } from "../dto/STAllCostDTO";
 import type { ValueType } from "recharts/types/component/DefaultTooltipContent";
 
@@ -18,7 +17,7 @@ const BakeryCostStats: React.FC = () => {
     const initialYear = initialDate.slice(0, 4);
     const initialMonth = initialDate.slice(0, 7);
 
-    const [searchedDate, setSearchedDate] = useState("");
+    const [searched, setSearched] = useState(false);
 
     const [year, setYear] = useState(initialYear);
     const [month, setMonth] = useState(initialMonth);
@@ -33,6 +32,7 @@ const BakeryCostStats: React.FC = () => {
 
     const getStats = async (startDate: string, endDate: string) => {
         try {
+            setSearched(true);
             setLoadingStats(true);
             const response = await api.get(`/statistics/cost/${bakeryId}`,{
                 params: {startDate, endDate}
@@ -59,18 +59,11 @@ const BakeryCostStats: React.FC = () => {
         return new Date(year, month, 0).getDate();
     };
 
-    const getDateSearched = (date: string) => {
-        const dateParts = date.split("-"); 
-        setSearchedDate(`${getMonthName(Number(dateParts[1]))} de ${dateParts[0]}`)
-        
-    }
-
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
 
         if (opSelected === "day") {
             getStats(day, day);
-            setSearchedDate(day);
 
         } else if (opSelected === "month") {
             const [y, m] = month.split("-").map(Number);
@@ -80,13 +73,11 @@ const BakeryCostStats: React.FC = () => {
             const lastDay = getLastDayOfMonth(y, m);
             const endDate = `${month}-${lastDay.toString().padStart(2, "0")}`;
             getStats(startDate, String(endDate));
-            getDateSearched(month);
 
         } else if (opSelected === "year") {
             const startDate = `${year}-01-01`;
             const endDate = `${year}-12-31`;
             getStats(startDate, endDate);
-            setSearchedDate(year);
         }
     };
 
@@ -119,7 +110,6 @@ const BakeryCostStats: React.FC = () => {
                         Ano
                     </button>
                 </div>
-                <h2>{searchedDate}</h2>
                 <form className="op-right" onSubmit={handleSubmit}>
                     {opSelected === "day" && (
                         <input 
@@ -163,88 +153,92 @@ const BakeryCostStats: React.FC = () => {
                     }><IoSearch /></button>
                 </form>
             </div>
-            {loadingStats ? (<div className="spinner"></div>) : (
-                <div className="stats-container">
-                    <div className="stats1">
-                        <h2>Receitas por Produto</h2>
-                        <div className="bar-graphic">
-                            
-                            <ResponsiveContainer width="100%" height="100%" initialDimension={ { width: 320, height: 200 } }>
-                                <BarChart data={stats?.productCostDTO}>
-                                    <CartesianGrid strokeWidth={0.5} vertical={false} />
-                                    <XAxis 
-                                        dataKey="productName" 
-                                        stroke="#F2F4F3"
-                                        
-                                    />
-                                    <YAxis
-                                        stroke="#F2F4F3"
-                                        tickFormatter={(value) => formatCurrency(value)}
-                                    />
-                                    <Tooltip 
-                                        formatter={(value) => formatCurrency(value)}
-                                        cursor={{ fill: "#3b3b3b" }}
-                                        contentStyle={{
-                                            backgroundColor: "#232323",
-                                            border: "1px solid #3b3b3b",
-                                            borderRadius: "5px",
-                                            color: "#fff"
-                                        }}
-                                    />
-                                    <Bar dataKey="totalRevenue" name={"Receita"} fill="#ecac23" radius={[8, 8, 0, 0]}/>
-                                </BarChart>
-                            </ResponsiveContainer>
-                            
-                        </div>
-                        <div className="best">
-                            {stats?.highestCostProduct?
-                                (<h3><b>Produto mais vendido:</b>&nbsp;&nbsp;{stats?.highestCostProduct.productName}</h3>)
+            {searched ? (
+                loadingStats ? (<div className="spinner"></div>) : (
+                    <div className="stats-container">
+                        <div className="stats1">
+                            <h2>Receitas por Produto</h2>
+                            <div className="bar-graphic">
                                 
-                                : <h3>Não existem dados sobre este intervalo.</h3>}
-                            
+                                <ResponsiveContainer width="100%" height="100%" initialDimension={ { width: 320, height: 200 } }>
+                                    <BarChart data={stats?.productCostDTO}>
+                                        <CartesianGrid strokeWidth={0.5} vertical={false} />
+                                        <XAxis 
+                                            dataKey="productName" 
+                                            stroke="#F2F4F3"
+                                            
+                                        />
+                                        <YAxis
+                                            stroke="#F2F4F3"
+                                            tickFormatter={(value) => formatCurrency(value)}
+                                        />
+                                        <Tooltip 
+                                            formatter={(value) => formatCurrency(value)}
+                                            cursor={{ fill: "#3b3b3b" }}
+                                            contentStyle={{
+                                                backgroundColor: "#232323",
+                                                border: "1px solid #3b3b3b",
+                                                borderRadius: "5px",
+                                                color: "#fff"
+                                            }}
+                                        />
+                                        <Bar dataKey="totalRevenue" name={"Receita"} fill="#ecac23" radius={[8, 8, 0, 0]}/>
+                                    </BarChart>
+                                </ResponsiveContainer>
+                                
+                            </div>
+                            <div className="best">
+                                {stats?.highestCostProduct?
+                                    (<h3><b>Produto mais vendido:</b>&nbsp;&nbsp;{stats?.highestCostProduct.productName}</h3>)
+                                    
+                                    : <h3>Não existem dados sobre este intervalo.</h3>}
+                                
+                            </div>
+                        </div>
+                        <div className="stats2">
+                            <h2>N.º de Produtos Comprados</h2>
+                            <div className="bar-graphic">
+                                
+                                <ResponsiveContainer width="100%" height="100%" initialDimension={ { width: 320, height: 200 } }>
+                                    <BarChart data={stats?.clientSpendingDTO}>
+                                        <CartesianGrid strokeWidth={0.5} vertical={false}/>
+                                        <XAxis 
+                                            dataKey="clientName" 
+                                            stroke="#F2F4F3"
+                                            
+                                        />
+                                        <YAxis
+                                            stroke="#F2F4F3"
+                                            tickFormatter={(value) => formatCurrency(value)}
+                                        />
+                                        <Tooltip
+                                            formatter={(value) => formatCurrency(value)}
+                                            cursor={{ fill: "#3b3b3b" }}
+                                            contentStyle={{
+                                                backgroundColor: "#232323",
+                                                border: "1px solid #3b3b3b",
+                                                borderRadius: "5px",
+                                                color: "#fff"
+                                            }}
+                                        />
+                                        <Bar dataKey="totalSpent" name={"Gasto total"} fill="#ecac23" radius={[8, 8, 0, 0]}/>
+                                    </BarChart>
+                                </ResponsiveContainer>
+                                
+                                    
+                                
+                            </div>
+                            <div className="best">
+                                {stats?.highestClientSpending?
+                                    (<h3><b>Melhor Cliente:</b>&nbsp;&nbsp;{stats?.highestClientSpending.clientName}</h3>)
+                                    
+                                    : <h3>Não existem dados sobre este intervalo.</h3>}
+                            </div>
                         </div>
                     </div>
-                    <div className="stats2">
-                        <h2>N.º de Produtos Comprados</h2>
-                        <div className="bar-graphic">
-                            
-                            <ResponsiveContainer width="100%" height="100%" initialDimension={ { width: 320, height: 200 } }>
-                                <BarChart data={stats?.clientSpendingDTO}>
-                                    <CartesianGrid strokeWidth={0.5} vertical={false}/>
-                                    <XAxis 
-                                        dataKey="clientName" 
-                                        stroke="#F2F4F3"
-                                        
-                                    />
-                                    <YAxis
-                                        stroke="#F2F4F3"
-                                        tickFormatter={(value) => formatCurrency(value)}
-                                    />
-                                    <Tooltip
-                                        formatter={(value) => formatCurrency(value)}
-                                        cursor={{ fill: "#3b3b3b" }}
-                                        contentStyle={{
-                                            backgroundColor: "#232323",
-                                            border: "1px solid #3b3b3b",
-                                            borderRadius: "5px",
-                                            color: "#fff"
-                                        }}
-                                    />
-                                    <Bar dataKey="totalSpent" name={"Gasto total"} fill="#ecac23" radius={[8, 8, 0, 0]}/>
-                                </BarChart>
-                            </ResponsiveContainer>
-                            
-                                
-                            
-                        </div>
-                        <div className="best">
-                            {stats?.highestClientSpending?
-                                (<h3><b>Melhor Cliente:</b>&nbsp;&nbsp;{stats?.highestClientSpending.clientName}</h3>)
-                                
-                                : <h3>Não existem dados sobre este intervalo.</h3>}
-                        </div>
-                    </div>
-                </div>
+                )
+            ) : (
+                <h4>Indique o período que deseja pesquisar</h4>
             )}
             
         </div>

@@ -21,6 +21,8 @@ const RecipeSettings: React.FC = () => {
 
     const [loadingRecipes, setLoadingRecipes] = useState(true);
     const [loadingRecipeIngredients, setLoadingRecipeIngredients] = useState(true);
+    const [loadingBot, setLoadingBot] = useState(false);
+    const [loadingBot2, setLoadingBot2] = useState(false);
 
     const [reload, setReload] = useState(false);
     const [reloadIngredients, setReloadIngredients] = useState(false);
@@ -89,6 +91,7 @@ const RecipeSettings: React.FC = () => {
         setRecipeIngredientSelected(0);
         setQuantity(0);
         setUnitToUse("");
+        setIngredientToShow("");
     }
 
     useEffect (() => {
@@ -124,6 +127,7 @@ const RecipeSettings: React.FC = () => {
         event.preventDefault();
 
         try {
+            setLoadingBot(true);
             await api.post(`/recipe/add`, 
                 {productId, preparation, nResultingProducts}
             );
@@ -141,6 +145,8 @@ const RecipeSettings: React.FC = () => {
                 addNotification("Erro na comunicação com o Servidor.", true);
 
             }
+        } finally {
+            setLoadingBot(false);
         }
     }
 
@@ -149,6 +155,7 @@ const RecipeSettings: React.FC = () => {
         
         if(recipeSelected > 0) {
             try {
+                setLoadingBot(true);
                 await api.put(`/recipe/update/${recipeSelected}`, {preparation, nResultingProducts});
                 refreshRecipes();
                 setUpdateModal(false);
@@ -164,6 +171,8 @@ const RecipeSettings: React.FC = () => {
                     addNotification("Erro na comunicação com o Servidor.", true);
 
                 }
+            } finally {
+                setLoadingBot(false);
             }
         }
         
@@ -195,6 +204,7 @@ const RecipeSettings: React.FC = () => {
 
         if (recipeSelected > 0) {
             try {
+                setLoadingBot2(true);
                 await api.post(`/recipe/add-ingredient`, 
                     {recipeId: recipeSelected, ingredientId, quantity}
                 );
@@ -212,6 +222,8 @@ const RecipeSettings: React.FC = () => {
                     addNotification("Erro na comunicação com o Servidor.", true);
 
                 }
+            } finally {
+                setLoadingBot2(false);
             }
         }
         
@@ -222,6 +234,7 @@ const RecipeSettings: React.FC = () => {
 
         if (recipeIngredientSelected > 0) {
             try {
+                setLoadingBot2(true);
                 await api.put(`/recipe/update-ingredient/${recipeIngredientSelected}`, quantity,
                     {
                         headers: {
@@ -243,6 +256,8 @@ const RecipeSettings: React.FC = () => {
                     addNotification("Erro na comunicação com o Servidor.", true);
 
                 }
+            } finally {
+                setLoadingBot2(false);
             }
         }
         
@@ -458,7 +473,7 @@ const RecipeSettings: React.FC = () => {
             
             {confIngredientModal && (
                 <div onClick={() => setConfIngredientModal(false)} className="back-modal">
-                    <div onClick={(e) => e.stopPropagation()} className="settings-form" /*onSubmit={updateProduct}*/>
+                    <div onClick={(e) => e.stopPropagation()} className="settings-form">
                         <button onClick={() => setConfIngredientModal(false)}><RxCross2 /></button>
 
                         <div className="inline-title-button">
@@ -526,7 +541,7 @@ const RecipeSettings: React.FC = () => {
                                     required
                                 />
 
-                                <button type="submit" className="submit">Adicionar Ingrediente</button>
+                                <button type="submit" className="submit">{loadingBot2 ? (<div className="spinner"></div>) : (<>Adicionar Ingrediente</>)}</button>
                             </form>
                         )}
 
@@ -543,8 +558,8 @@ const RecipeSettings: React.FC = () => {
                                     onChange={(e) => setQuantity(Number(e.target.value))}
                                     required
                                 />
-
-                                <button type="submit" className="submit">Atualizar Ingrediente</button>
+                                
+                                <button type="submit" className="submit">{loadingBot2 ? (<div className="spinner"></div>) : (<>Atualizar Ingrediente</>)}</button>
                             </form>
                         )}
                     </div>
@@ -576,7 +591,7 @@ const RecipeSettings: React.FC = () => {
                             required
                         />                            
 
-                        <button type="submit" className="submit">Atualizar Produto</button>
+                        <button type="submit" className="submit">{loadingBot ? (<div className="spinner"></div>) : (<>Atualizar Produto</>)}</button>
                     </form>
                 </div>
             )}
@@ -624,7 +639,7 @@ const RecipeSettings: React.FC = () => {
                             required
                         />
                         
-                        <button className="submit">Adicionar Receita</button>
+                        <button className="submit">{loadingBot ? (<div className="spinner"></div>) : (<>Adicionar Receita</>)}</button>
                     </form>
                 </div>
             )}

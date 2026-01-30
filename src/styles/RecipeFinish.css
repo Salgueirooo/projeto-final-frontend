@@ -4,7 +4,7 @@
     background-color: var(--black);
     border-radius: 8px;
     /* align-content:center; */
-    
+    max-width: calc(100% - 1rem);
 }
 
 .finish {
@@ -12,7 +12,6 @@
     width: calc(100% - 4rem);
     /* background-color: aqua; */
     justify-self: center;
-    
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -36,4 +35,8 @@
 .finish button {
     padding: 0.5rem 1rem 0.5rem 1rem;
     font-size: 1.1rem;
+}
+
+@media (max-width: 800px) {
+    
 }

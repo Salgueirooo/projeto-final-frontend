@@ -155,8 +155,8 @@ const StockVerify: React.FC = () => {
         <>
 
             <div className="show-verify-stock">
-                <div className="inline">
-                    <h2>{dateSearched}</h2>
+                <div className="inline2">
+                    <h2 className="date-searched">{dateSearched}</h2>
                     <form className="header" onSubmit={refreshOrder}>
                         <input className="search-order-text"
                             type="date"
@@ -166,7 +166,7 @@ const StockVerify: React.FC = () => {
                             min={todayDate}
                             required
                         />
-                        <h2>-</h2>
+                        <h2 className="dash">-</h2>
                         <input className="search-order-text"
                             type="date"
                             id="date2"
@@ -177,6 +177,7 @@ const StockVerify: React.FC = () => {
                         />
                         <button type="submit" className="search"><IoSearch /></button>
                     </form>
+                    <h2 className="date-searched2">{dateSearched}</h2>
                 </div>
 
                 <table>
@@ -216,7 +217,7 @@ const StockVerify: React.FC = () => {
                                                 <td className="name" title={stock.ingredient.name}>{stock.ingredient.name}</td>
                                                 <td className="quantity-stock-verify">
                                                     
-                                                    <span>{stock.quantityNeeded.toString().replace(".", ",")} / {stock.availableQuantity.toString().replace(".", ",")} {stock.ingredient.unitSymbol}</span>
+                                                    <span>{Number(stock.quantityNeeded).toFixed(2).replace(/\.00$/, "").replace(/(\.\d)0$/, "$1").replace(".", ",")} / {Number(stock.availableQuantity).toFixed(2).replace(/\.00$/, "").replace(/(\.\d)0$/, "$1").replace(".", ",")} {stock.ingredient.unitSymbol}</span>
 
                                                 </td>
                                                 <td className={stock.sufficient ? "sufficient" : "insufficient"}>{stock.sufficient ? (<FaCheck />) : (<ImCross />)}</td>
