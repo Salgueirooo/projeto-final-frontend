@@ -200,6 +200,10 @@
     .home-bar-mobile button {
         margin-left: 0.5rem;
     }
+
+    .main {
+        display: flex !important;
+    }
 }
 
 @media (max-width: 800px) {
@@ -232,6 +236,7 @@
     }
 
     .main {
+
         left: 0.5rem !important;
         font-size: 1.6rem !important;
     }
