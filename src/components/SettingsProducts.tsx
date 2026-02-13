@@ -59,7 +59,7 @@ const ProductSettings: React.FC = () => {
         setDescription("");
         setPrice(0.0);
         setImage(null);
-        setCategoryId(0);
+        // setCategoryId(0);
         setDiscount(0);
         setImageToShow("");
         setCategoryToShow("");
@@ -71,16 +71,16 @@ const ProductSettings: React.FC = () => {
         resetInputValues();
 
         setProductSelected(product.id);
-        setDescription(product.description);
+        product.description ? setDescription(product.description) : setDescription("");
         setPrice(product.price);
         setImageToShow(product.image);
         setDiscount(product.discount);
-        setCategoryToShow(product.categoryName);
+        product.categoryName ? setCategoryToShow(product.categoryName) : setCategoryToShow("");
     }
 
     useEffect (() => {
         const setCategoryInfo = () => {
-            if (categoryToShow.length > 0) {
+            if (categoryToShow) {
                 const categorySelected = categories.find(c => c.name === categoryToShow);
 
                 if (!categorySelected) return;
@@ -296,7 +296,7 @@ const ProductSettings: React.FC = () => {
                     <thead>
                         <tr>
                             <th className="name" onClick={() => changeShowMode()}>
-                                Pastelaria {showMode === "nameAsc" && <IoMdArrowDropupCircle />}{showMode === "nameDesc" && <IoMdArrowDropdownCircle />}
+                                Produto {showMode === "nameAsc" && <IoMdArrowDropupCircle />}{showMode === "nameDesc" && <IoMdArrowDropdownCircle />}
                             </th>
                             <th className="button-container">
                                 Ativar
