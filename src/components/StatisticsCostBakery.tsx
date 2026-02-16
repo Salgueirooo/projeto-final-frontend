@@ -196,7 +196,7 @@ const BakeryCostStats: React.FC = () => {
                             </div>
                         </div>
                         <div className="stats2">
-                            <h2>N.º de Produtos Comprados</h2>
+                            <h2>Receitas por Cliente</h2>
                             <div className="bar-graphic">
                                 
                                 <ResponsiveContainer width="100%" height="100%" initialDimension={ { width: 320, height: 200 } }>

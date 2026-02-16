@@ -103,7 +103,7 @@ const OrderStatus: React.FC<Props> = ({orderId, onSwitch}) => {
                 </div>
                 
                 {orderStocks.every(orderStock => orderStock.sufficient !== false) ? (
-                    <button className="start-recipe" onClick={() => {setReady(); onSwitch(false)}}>Definir como Pronta</button>
+                    orderStocks.length > 0 && <button className="start-recipe" onClick={() => {setReady(); onSwitch(false)}}>Definir como Pronta</button>
                 ) : (
                     <button className="start-recipe" onClick={() => onSwitch(false)}>Cancelar</button>
                 )}

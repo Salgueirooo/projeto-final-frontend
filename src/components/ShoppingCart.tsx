@@ -11,7 +11,7 @@ import { useParams } from "react-router-dom"
 
 const ShoppingCart: React.FC = () => {
 
-    const [loadingOrder, setLoadingOrder] = useState<boolean>(false);
+    const [loadingOrder, setLoadingOrder] = useState<boolean>(true);
     const [order, setOrder] = useState<OrderInCartDTO>({
         id: 0,
         orderDetailsList: []
@@ -52,7 +52,7 @@ const ShoppingCart: React.FC = () => {
 
     const addOne = async (bakeryId: number, productId: number) => {
         try {
-            setLoadingOrder(true);
+            // setLoadingOrder(true);
             await api.post("/order/add-product", {
                 bakeryId: bakeryId,
                 productId: productId
@@ -76,7 +76,7 @@ const ShoppingCart: React.FC = () => {
 
     const removeOne = async (bakeryId: number, productId: number) => {
         try {
-            setLoadingOrder(true);
+            // setLoadingOrder(true);
             await api.delete("/order/remove-product", {
                 data: {
                     bakeryId: bakeryId,

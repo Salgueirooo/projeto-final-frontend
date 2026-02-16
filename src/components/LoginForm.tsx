@@ -17,6 +17,7 @@ const LoginForm: React.FC<Props> = ({ onSwitch }) => {
 
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+    const [loading, setLoading] = useState(false);
 
 
     const { addToastNotification: addNotification } = useToastNotification();
@@ -27,6 +28,7 @@ const LoginForm: React.FC<Props> = ({ onSwitch }) => {
         event.preventDefault();
 
         try {
+            setLoading(true);
             const response = await api.post("/auth/login", { email, password });
 
             const token = response.data.token;
@@ -42,6 +44,8 @@ const LoginForm: React.FC<Props> = ({ onSwitch }) => {
         } catch (err) {
             console.error(err);
             addNotification("Utilizador ou palavra-passe incorretos.", true);
+        } finally {
+            setLoading(false);
         }
     };
 
@@ -73,7 +77,7 @@ const LoginForm: React.FC<Props> = ({ onSwitch }) => {
                             required
                         />
                         
-                        <button type="submit">Iniciar Sessão</button>
+                        <button type="submit">{loading ? <div className="spinner"></div> : <>Iniciar Sessão</>}</button>
                     </form>
 
                     <div className='separator'>

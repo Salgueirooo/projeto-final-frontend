@@ -28,7 +28,7 @@ const SearchAllOrders: React.FC = () => {
     const [email, setEmail] = useState<string>(initialEmail);
     const [loadingOrder, setLoadingOrder] = useState<boolean>(false);
     const [dateSearched, setDateSearched] = useState<string>("");
-    const [searched, setSearched] = useState(true);
+    const [searched, setSearched] = useState(false);
 
     const {addToastNotification: addNotification} = useToastNotification();
 
@@ -89,7 +89,7 @@ const SearchAllOrders: React.FC = () => {
                 }
             } finally {
                 searched && setLoadingOrder(false);
-                setSearched(false);
+                // setSearched(false);
             }
         };
 
@@ -143,8 +143,8 @@ const SearchAllOrders: React.FC = () => {
                     <div className="spinner"></div>
                 ) : (
                     orders.length === 0 ? (
-                        dateSearched.length === 10 ? (
-                            <h3>Não foram encontradas encomendas para essa data.</h3>
+                        searched ? (
+                            <h3>Não foram encontradas encomendas.</h3>
                         ) : (
                             <h3>Indique o email do cliente e, opcionalmente, a data da encomenda.</h3>
                         )
