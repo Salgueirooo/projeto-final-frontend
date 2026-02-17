@@ -200,7 +200,7 @@
 
 .settings-form .notes-box {
     width: calc(100% - 2rem - 4rem);
-    height: calc(3rem);
+    height: calc(6rem);
     padding: 0.2rem 1rem 0.6rem 1rem;
     border-radius: 8px;
     border: 1px solid var(--gray);
