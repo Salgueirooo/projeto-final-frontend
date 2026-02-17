@@ -85,7 +85,6 @@ const RegisterForm: React.FC<Props> = ({ onSwitch }) => {
                             type="password"
                             id="password"
                             minLength={8}
-                            maxLength={12}
                             placeholder='Password'
                             value={password}
                             onChange={(e) => setPassword(e.target.value)}
